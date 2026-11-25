@@ -352,14 +352,15 @@ function renderReferenceList(){
  const hit=(g,x,y,fn)=>bind(g.querySelector('rect[x="'+x+'"][y="'+y+'"]'),fn);
  let filter='all', offset=0;
  const match=x=>filter==='all'||(k==='bookings'?(filter==='today'?active(x)&&x.arrival===day:x.status===filter):k==='guests'?(filter==='present'?present.has(x.id):filter==='repeat'?visits(x.id)>1:filter==='Firma'?x.kind==='Firma':x.kind!=='Firma'):roomState(x)===filter);
- const selected=()=>all.filter(x=>match(x)&&JSON.stringify(x).toLowerCase().includes(query.toLowerCase()));
+ const selected=()=>all.filter(x=>match(x)&&(JSON.stringify(x)+' '+label(k,x)+' '+(x.room?get('rooms',x.room).number||'':'')).toLowerCase().includes(query.toLowerCase())&&Object.keys(listFilters).every(key=>!listFilters[key]||String(x[key]??'')===listFilters[key]));
  const summary=x=>k==='bookings'?x.arrival+' · '+(get('rooms',x.room).number||'')+' · '+x.status:k==='guests'?(x.address||'')+' · '+visits(x.id)+' Aufenthalte':roomState(x)+' · '+money(x.rate);
  const title=x=>k==='rooms'?x.number+' · '+x.category:label(k,x);
  const controls=work.querySelectorAll('g[tabindex]'), details=main.querySelectorAll('g[tabindex]');
  let shown=[];
  function refresh(){const rows=selected();shown=rows.slice(offset,offset+3);for(let i=0;i<3;i++){const x=shown[i];set(main,71,530+i*69,x?title(x).slice(0,34):'Keine weiteren Einträge');set(main,71,548+i*69,x?summary(x).slice(0,48):'');set(work,29,503+i*68,x?title(x).slice(0,34):'Keine weiteren Einträge');set(work,29,522+i*68,x?summary(x).slice(0,48):'')}set(work,30,726,rows.length+' Einträge · Seite '+(Math.floor(offset/3)+1)+' von '+Math.max(1,Math.ceil(rows.length/3)));set(main,59,448,query||'Suchen und filtern …');set(work,55,410,query||'Einträge suchen …')}
  function choose(v){filter=v;offset=0;refresh()}
- function search(){dialog('<h2>Einträge suchen</h2><input id="reference-query" value="'+esc(query)+'">'+btn('Schliessen','close'));$('reference-query').oninput=e=>{query=e.target.value;offset=0;refresh()}}
+ function search(){dialog('<h2>Einträge suchen und filtern</h2><div class="list-filters"><input id="reference-query" aria-label="Suchen" placeholder="Suchen" value="'+esc(query)+'">'+listFilterControls(k)+'</div><div class="actions">'+btn('Filter zurücksetzen','close')+btn('Schliessen','close')+'</div>');$('reference-query').oninput=e=>{query=e.target.value;offset=0;refresh()};const root=$('reference-query').parentElement;root.querySelectorAll('[data-list-filter]').forEach(el=>el.onchange=()=>{listFilters[el.dataset.listFilter]=el.value;offset=0;refresh()});const reset=root.nextElementSibling.querySelector('button');reset.removeAttribute('data-action');reset.onclick=()=>{query='';listFilters={};filter='all';offset=0;refresh();search()}}
+
  function allRows(){dialog('<h2>'+schemas[k][0]+'</h2>'+selected().map(x=>entry(title(x),summary(x),'edit',k+':'+x.id)).join('')+btn('Schliessen','close'))}
  function show(){main.setAttribute('display',tab==='work'?'none':'inline');work.setAttribute('display',tab==='work'?'inline':'none')}
  const routes={'01-dashboard.svg':'dashboard','06-kalender.svg':'calendar','03-buchungen.svg':'bookings','09-rechnungen.svg':'invoices','19-menu.svg':'more'};
