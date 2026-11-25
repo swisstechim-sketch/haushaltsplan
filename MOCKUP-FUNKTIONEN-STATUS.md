@@ -180,6 +180,16 @@ Auch jedes entsprechende `tablet/hochformat/*.svg` sowie die Smartphone-Mockups 
 - [ ] Kommunale Kurtaxenabrechnung und Übermittlung an die lokale Stelle fehlen noch
 - [ ] Live-Abnahme in LDPlayer und fachliche Überprüfung der korrekten MWST-/Abgabebehandlung
 
+## Kurtaxenübersicht – Monatswechsel und CSV
+
+- [x] Kurtaxen-Nächte für Aufenthalte über zwei Kalendermonate dem jeweiligen Monat zuordnen
+- [x] Automatisierte Tests: 29. November bis 3. Dezember ergibt zwei Nächte je Monat, keine Doppelzählung
+- [x] Monatsübersicht nach gespeichertem Reservationspreis statt nach heute konfigurierten Tarifen
+- [x] CSV-Aufbereitung mit Spalten für Gäste, Zimmer, Nächte, Erwachsene/Kinder und getrennte Beträge
+- [x] Android-Schaltfläche «CSV teilen» über vorhandene Textweitergabe, Browser mit CSV-Dateidownload
+- [ ] Für Android fehlt noch ein echter CSV-Dateianhang statt Textweitergabe
+- [ ] Amtliche Kurtaxenabrechnung bleibt gesondert offen; derzeit nur Planungsübersicht
+
 ## Weitere Lücken
 - [ ] Exakte Zuordnung sämtlicher SVG-Buttonaktionen inkl. Dialoge, Filter, Tabellen, Pagination
 - [ ] PDF-Renderer je Berichtstyp mit realen Datensätzen, Druckvorschau und Export
