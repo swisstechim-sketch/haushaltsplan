@@ -87,6 +87,15 @@ Auch jedes entsprechende `tablet/hochformat/*.svg` sowie die Smartphone-Mockups 
 - [ ] `monatsbelegungsplan.svg`
 - [ ] `jahresbelegungsubersicht.svg`
 
+## PDF-Berichtszentrum – neuer Zwischenstand
+
+- [x] Alle 43 PDF-Mockup-Typen als Dokumentkatalog mit klarer Statusanzeige sichtbar
+- [x] 12 datengesteuerte Listen-/Übersichtsberichte (Tagesliste Check-in/Check-out, In-house Gäste, Gästemeldeformular als Listenansicht, freie Zimmer, Zimmerstatus, Reinigungsplan, offene Posten, Zahlungen nach Zahlungsarten, Quittungsübersicht, Tagesübersicht, MWST-Übersicht, Reservationsübersicht)
+- [x] Datumsauswahl, Schliessen, A4-Druckvorschau, CSV-Weitergabe für diese Übersichten
+- [x] Berichtsregressionstests in Android CI
+- [ ] Diese Listenberichte sind noch **keine** 1:1-Umsetzung der individuellen SVG-Dokumente. Einzelbelege wie Gästemeldeformular und Reservationsbestätigung brauchen jeweils eine dokumentbezogene Auswahl, Unterschrifts-/Adressfelder und Original-Layout
+- [ ] 31 weitere individuelle Dokumentausgaben bleiben nicht verfügbar, werden im Katalog jedoch sichtbar als offen markiert
+
 ## Weitere Lücken
 - [ ] Exakte Zuordnung sämtlicher SVG-Buttonaktionen inkl. Dialoge, Filter, Tabellen, Pagination
 - [ ] PDF-Renderer je Berichtstyp mit realen Datensätzen, Druckvorschau und Export
