@@ -15,7 +15,7 @@ const sample={
  tasks:[{id:'t1',room:'r2',name:'Reinigung',status:'Offen'}]
 };
 const ctx=vm.createContext({
- db:sample, today:()=>today, get:(name,id)=>sample[name].find(x=>x.id===id)||{},
+ db:sample, today:()=>today, nights:b=>Math.round((Date.parse(b.departure)-Date.parse(b.arrival))/86400000), get:(name,id)=>sample[name].find(x=>x.id===id)||{},
  formattedAddress:x=>[x.street,x.houseNumber,x.postalCode,x.city].filter(Boolean).join(' '),
  active:x=>!['Storniert','Anfrage','Ausgecheckt'].includes(x.status),
  paid:id=>sample.payments.filter(x=>x.invoice===id).reduce((n,x)=>n+x.amount,0),
