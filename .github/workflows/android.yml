@@ -55,7 +55,17 @@ jobs:
       - name: Storage regression tests
         run: node tests/storage.test.cjs
       - name: Build and unit tests
-        run: gradle --no-daemon --stacktrace :app:assembleDebug :app:testDebugUnitTest
+        run: |
+          set -o pipefail
+          for attempt in 1 2 3; do
+            if gradle --no-daemon --stacktrace :app:assembleDebug :app:testDebugUnitTest 2>&1 | tee "$RUNNER_TEMP/gradle-build.log"; then
+              exit 0
+            fi
+            if [ "$attempt" -eq 3 ] || ! grep -Eq '429|Too Many Requests' "$RUNNER_TEMP/gradle-build.log"; then
+              exit 1
+            fi
+            sleep "$((attempt * 60))"
+          done
       - name: Compile native Android tests
         run: gradle --no-daemon --stacktrace :app:assembleDebugAndroidTest
       - name: Verify APK
