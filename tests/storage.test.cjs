@@ -5,7 +5,7 @@ const code=src.slice(src.indexOf('const empty='),src.indexOf('function log('));
 for(const fail of [true,false]){
  let writes=0;
  const ctx=vm.createContext({Stay:{load(){if(fail)throw Error('read');return ''},save(){writes++;return true}},alert(){}});
- vm.runInContext(code,ctx);
+ vm.runInContext(code+src.slice(src.indexOf('function validateBackup('),src.indexOf('function list(k)')),ctx);
  if(fail){assert.throws(()=>ctx.save());assert.equal(writes,0)}else{ctx.save();assert.equal(writes,1)}
 }
 console.log('Storage startup checks passed');
