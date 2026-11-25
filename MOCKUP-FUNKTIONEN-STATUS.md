@@ -104,6 +104,17 @@ Auch jedes entsprechende `tablet/hochformat/*.svg` sowie die Smartphone-Mockups 
 - [x] Vollständige Android-ISO-Länderauswahl über Native Bridge; Browser-Fallback mit begrenzter Länderliste
 - [ ] Weitere 23 Berichtstypen mit Original-Layout, vollständiger Fachlogik und Datenvalidierung umsetzen
 
+## Weiterentwicklung – Belegung und Belege
+
+- [x] Monatsbelegungsplan: Zimmernächte je Zimmer und Auslastungsquote aus gespeicherten Reservationen
+- [x] Jahresbelegungsübersicht: zwölf Monatswerte und Jahresauslastung aus gespeicherten Zimmerdaten
+- [x] Rechnung im Berichtszentrum: individuelle Rechnungsauswahl, Positionen, MWST, Zahlungen, Gutschriften und offener Betrag
+- [x] Gutschrift im Berichtszentrum: individuelle gespeicherte Gutschrift mit Grund und Steueraufteilung
+- [x] Direkte PDF-Aktionen aus Gästen, Reservationen, Zimmern, Housekeeping und Zahlungen
+- [x] **24** datengesteuerte PDF-Berichtstypen von 43 Mockup-Dokumenten als Vorschau/Druck-Ausgabe
+- [ ] **19** verbleibende Dokumenttypen und genaue visuelle Originalgestaltung
+- [ ] Belegung berücksichtigt bei Zeitreihen nicht historisch wechselnde Zimmer-Sperr- und Reinigungsstatus; Auslastung als Planungswert deklarieren
+
 ## Weitere Lücken
 - [ ] Exakte Zuordnung sämtlicher SVG-Buttonaktionen inkl. Dialoge, Filter, Tabellen, Pagination
 - [ ] PDF-Renderer je Berichtstyp mit realen Datensätzen, Druckvorschau und Export
