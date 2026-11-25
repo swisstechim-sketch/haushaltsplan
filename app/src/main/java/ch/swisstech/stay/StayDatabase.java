@@ -7,7 +7,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import org.json.*;
 public final class StayDatabase extends SQLiteOpenHelper {
  private static final String[] TABLES={"guests","rooms","bookings","invoices","payments","services","tasks","logs","templates"};
- public StayDatabase(Context c){super(c,"stay_swiss.db",null,1);}
+ public StayDatabase(Context c){this(c,"stay_swiss.db");}
+ StayDatabase(Context c,String name){super(c,name,null,1);}
  @Override public void onConfigure(SQLiteDatabase db){db.setForeignKeyConstraintsEnabled(true);}
  @Override public void onCreate(SQLiteDatabase db){
  db.execSQL("CREATE TABLE hotel (id INTEGER PRIMARY KEY CHECK(id=1), payload TEXT NOT NULL)");
