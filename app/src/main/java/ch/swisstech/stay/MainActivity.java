@@ -35,5 +35,21 @@ public class MainActivity extends Activity {
  @JavascriptInterface public boolean save(String data){return database.save(data);}
  @JavascriptInterface public void print(){runOnUiThread(()->((PrintManager)getSystemService(PRINT_SERVICE)).print("STAY Swiss",web.createPrintDocumentAdapter("STAY Swiss"),null));}
  @JavascriptInterface public void share(String data){runOnUiThread(()->{Intent i=new Intent(Intent.ACTION_SEND);i.setType("text/plain");i.putExtra(Intent.EXTRA_TEXT,data);startActivity(Intent.createChooser(i,"STAY Swiss"));});}
+ @JavascriptInterface public void email(String recipient, String subject, String body){
+  final String to=recipient==null?"":recipient.trim();
+  final String sub=subject==null?"":subject;
+  final String message=body==null?"":body;
+  runOnUiThread(()->{
+   Intent intent=new Intent(Intent.ACTION_SENDTO);
+   intent.setData(android.net.Uri.parse("mailto:"));
+   if(!to.isEmpty())intent.putExtra(Intent.EXTRA_EMAIL,new String[]{to});
+   intent.putExtra(Intent.EXTRA_SUBJECT,sub);
+   intent.putExtra(Intent.EXTRA_TEXT,message);
+   try{startActivity(Intent.createChooser(intent,"E-Mail vorbereiten"));}
+   catch(android.content.ActivityNotFoundException ex){
+    android.widget.Toast.makeText(MainActivity.this,"Keine E-Mail-App installiert",android.widget.Toast.LENGTH_LONG).show();
+   }
+  });
+ }
  }
 }
