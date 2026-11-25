@@ -26,9 +26,17 @@ const ctx=vm.createContext({
 vm.runInContext(js.slice(first,last),ctx);
 const names=vm.runInContext('DOCUMENT_TYPES',ctx);
 assert.equal(names.length,43,'all 43 PDF mockups are listed');
-assert.equal(names.filter(x=>x.available).length,12,'12 reports have data-driven renderers');
+assert.equal(names.filter(x=>x.available).length,20,'20 reports have data-driven renderers');
 assert.equal(ctx.reportBuild('checkin-checkout-tagesliste',today).rows.length,1);
 assert.equal(ctx.reportBuild('freie-zimmer',today).rows.length,1);
+assert.equal(ctx.reportBuild('aufenthaltsplan',today).rows.length,1);
+assert.equal(ctx.reportBuild('gasteherkunft',today).rows[0][0],'CH');
+assert.equal(ctx.reportBuild('wochenverpflegung',today).rows.length,7);
+assert.equal(ctx.reportBuild('wochenbelegungsplan',today).rows.length,2);
+assert.equal(ctx.reportBuild('verpflegungsplan',today).rows.length,1);
+assert.equal(ctx.reportBuild('housekeeping-kontrollbericht',today).rows.length,1);
+assert.equal(ctx.reportBuild('kassenbericht',today).rows[0][2],'40.00');
+assert.equal(ctx.reportBuild('umsatz-nach-zimmerkategorien',today).rows.length,1);
 assert.equal(ctx.reportBuild('offene-posten',today).rows[0][3],'200.00');
 assert.equal(ctx.reportBuild('gastemeldeformular',today,'g1').rows[0][1],'Anna');
 assert.equal(ctx.reportBuild('buchungsbestaetigung',today,'b1').rows[0][1],'Anna');
