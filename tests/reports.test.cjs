@@ -26,7 +26,7 @@ const ctx=vm.createContext({
 vm.runInContext(js.slice(first,last),ctx);
 const names=vm.runInContext('DOCUMENT_TYPES',ctx);
 assert.equal(names.length,43,'all 43 PDF mockups are listed');
-assert.equal(names.filter(x=>x.available).length,41,'41 reports have data-driven renderers');
+assert.equal(names.filter(x=>x.available).length,42,'42 reports have data-driven renderers');
 sample.bookings[0].priceSnapshot={touristTax:15.2,touristTaxDetails:{enabled:true,adults:2,children:0,adultRate:3.8,childRate:0,amount:15.2}};
 assert.equal(ctx.touristTaxMonthRows('2026-11').length,1,'monthly tourist tax includes saved room nights');
 assert.equal(ctx.touristTaxMonthRows('2026-11')[0].total,15.2,'monthly tax uses saved nightly rates');
@@ -64,6 +64,14 @@ assert.equal(ctx.reportBuild('reservationsofferte',today,'b1').rows.find(x=>x[0]
 sample.bookings[0].priceSnapshot={nights:2,adults:2,children:1,lodging:300,breakfast:60,other:80,total:440};
 assert.equal(ctx.reportBuild('buchungsbestaetigung',today,'b1').rows.find(x=>x[0]==='Gesamtbetrag CHF')[1],'440.00');
 assert.equal(ctx.reportBuild('reservationsofferte',today,'b1').rows.find(x=>x[0]==='Zusätzliche Mahlzeiten inkl. MWST CHF')[1],'80.00');
+sample.bookings[0].groupRef='GR-1';
+sample.bookings.push({...sample.bookings[0],id:'b2',room:'r2',priceSnapshot:{total:200}});
+sample.bookings.push({...sample.bookings[0],id:'b3',status:'Storniert'});
+assert.equal(ctx.reportBuild('gruppenreservation',today,'GR-1').rows.length,3);
+assert.equal(ctx.reportBuild('gruppenreservation',today,'GR-1').rows[2][7],'640.00');
+assert.throws(()=>ctx.reportBuild('gruppenreservation',today,'missing'),/Gruppenreferenz/);
+sample.bookings.splice(1);
+delete sample.bookings[0].groupRef;
 assert.throws(()=>ctx.reportBuild('anzahlungsrechnung',today,'b1'),/Anzahlungsforderung/);
 sample.bookings[0].depositAmount='100';
 sample.bookings[0].depositDue='2026-11-26';
