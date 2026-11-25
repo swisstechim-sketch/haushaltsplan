@@ -111,9 +111,9 @@ button[data-action]>span{line-height:1.25}
 @media(max-width:680px){.document-grid{grid-template-columns:1fr}.report-a4{padding:12mm 8mm;min-height:auto}.report-a4>h1{font-size:19pt}.pdf-preview-toolbar{flex-wrap:wrap}.pdf-preview-toolbar>.actions{width:100%}.pdf-preview-toolbar>.actions button{flex:1 1 auto}}
 @media print{
  @page{size:A4;margin:0}
- body:has(.report-a4){display:block!important;background:white!important}
- body:has(.report-a4) header,body:has(.report-a4) nav,body:has(.report-a4) aside,body:has(.report-a4) #overlay{display:none!important}
- body:has(.report-a4) main{display:block!important;width:210mm!important;max-width:none!important;min-width:0!important;padding:0!important;margin:0!important}
+ body.document-preview{display:block!important;background:white!important}
+ body.document-preview header,body.document-preview nav,body.document-preview aside,body.document-preview #overlay{display:none!important}
+ body.document-preview main{display:block!important;width:210mm!important;max-width:none!important;min-width:0!important;padding:0!important;margin:0!important}
  .report-a4{border:none!important;box-shadow:none!important;margin:0!important;min-height:297mm!important;width:210mm!important;max-width:210mm!important;padding:15mm 13mm 18mm!important;box-sizing:border-box}
  .report-topline{margin:-15mm -13mm 11mm}
  .report-table-wrap{overflow:visible!important}
