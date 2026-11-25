@@ -70,4 +70,7 @@ assert.match(src,/function showRoomTariff\(id\)/,'room-specific tariff preview e
 assert.match(src,/btn\('Tarif prüfen','roomTariff'/,'room list opens its tariff preview');
 assert.match(src,/Gespeicherter Preis/,'booking preview marks saved quote');
 assert.match(css,/\.room-row-actions/,'room tariff actions are compact');
+assert.match(src,/function touristTaxSettings\(h\)/,'hotel tourist tax configuration exists');
+assert.match(src,/taxExemptAdults','Kurtaxenbefreite Erwachsene/,'adult visitor tax exemptions are configurable');
+assert.match(src,/Kurtaxe \/ Gästetaxe/,'tourist tax appears on the invoice');
 console.log('Tablet UI, guest fields, SVG buttons, email templates and preview controls: OK');
