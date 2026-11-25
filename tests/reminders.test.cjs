@@ -61,3 +61,9 @@ invoice.reminders=[{level:1,amount:100}];
 archiveCtx.reminderArchive(invoice.id);
 assert.match(archiveHtml,/\[PDF\]/);
 assert.match(archiveHtml,/Versandstatus: nicht nachgewiesen/);
+
+invoice.reminders[0].dispatchHistory=[{date:'2026-11-25',channel:'Post',note:'Referenz 123'}];
+archiveCtx.reminderArchive(invoice.id);
+assert.match(archiveHtml,/Versand manuell dokumentiert/);
+assert.match(archiveHtml,/kein Zustellnachweis/);
+assert.match(archiveHtml,/2026-11-25 · Post · Referenz 123/);
