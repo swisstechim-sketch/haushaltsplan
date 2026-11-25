@@ -11,7 +11,7 @@ assert.match(java,/FileProvider\.getUriForFile/);
 assert.match(java,/Intent\.EXTRA_STREAM/);
 assert.match(java,/FLAG_GRANT_READ_URI_PERMISSION/);
 assert.match(java,/getCacheDir\(\),"exports"/);
-assert.match(java,/replaceAll\("\[\^a-zA-Z0-9\._-\]"/);
+assert.ok(java.includes('replaceAll("[^a-zA-Z0-9._-]","_")'));
 assert.match(manifest,/android:exported="false" android:grantUriPermissions="true"/);
 assert.match(manifest,/\$\{applicationId\}\.fileprovider/);
 assert.match(paths,/<cache-path name="csv_exports" path="exports\/"/);
