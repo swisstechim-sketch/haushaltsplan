@@ -15,7 +15,7 @@ const sample={
  tasks:[{id:'t1',room:'r2',name:'Reinigung',status:'Offen'}]
 };
 const ctx=vm.createContext({
- db:sample, today:()=>today, nights:b=>Math.round((Date.parse(b.departure)-Date.parse(b.arrival))/86400000), get:(name,id)=>sample[name].find(x=>x.id===id)||{},
+ db:sample, today:()=>today, cents:v=>Math.round(Number(v)*100), chf:v=>Math.round(v)/100, nights:b=>Math.round((Date.parse(b.departure)-Date.parse(b.arrival))/86400000), get:(name,id)=>sample[name].find(x=>x.id===id)||{},
  formattedAddress:x=>[x.street,x.houseNumber,x.postalCode,x.city].filter(Boolean).join(' '),
  active:x=>!['Storniert','Anfrage','Ausgecheckt'].includes(x.status),
  paid:id=>sample.payments.filter(x=>x.invoice===id).reduce((n,x)=>n+x.amount,0),
@@ -32,6 +32,7 @@ assert.equal(ctx.touristTaxMonthRows('2026-11').length,1,'monthly tourist tax in
 assert.equal(ctx.touristTaxMonthRows('2026-11')[0].total,15.2,'monthly tax uses saved nightly rates');
 assert.equal(ctx.touristTaxMonthRows('2026-12').length,0,'other months are excluded');
 assert.throws(()=>ctx.touristTaxMonthRows('2026-13'),/Ungültiger Berichtsmonat/);
+delete sample.bookings[0].priceSnapshot;
 assert.equal(ctx.reportBuild('checkin-checkout-tagesliste',today).rows.length,1);
 assert.equal(ctx.reportBuild('freie-zimmer',today).rows.length,1);
 assert.equal(ctx.reportBuild('aufenthaltsplan',today).rows.length,1);
