@@ -32,6 +32,17 @@ assert.equal(ctx.touristTaxMonthRows('2026-11').length,1,'monthly tourist tax in
 assert.equal(ctx.touristTaxMonthRows('2026-11')[0].total,15.2,'monthly tax uses saved nightly rates');
 assert.equal(ctx.touristTaxMonthRows('2026-12').length,0,'other months are excluded');
 assert.throws(()=>ctx.touristTaxMonthRows('2026-13'),/Ungültiger Berichtsmonat/);
+sample.bookings[0].arrival='2026-11-29';
+sample.bookings[0].departure='2026-12-03';
+sample.bookings[0].priceSnapshot.touristTax=30.40;
+sample.bookings[0].priceSnapshot.touristTaxDetails.amount=30.40;
+assert.equal(ctx.touristTaxMonthRows('2026-11')[0].nights,2,'Nov 29-30 attributed to November');
+assert.equal(ctx.touristTaxMonthRows('2026-11')[0].total,15.20,'November subtotal correct');
+assert.equal(ctx.touristTaxMonthRows('2026-12')[0].nights,2,'Dec 1-2 attributed to December');
+assert.equal(ctx.touristTaxMonthRows('2026-12')[0].total,15.20,'December subtotal correct');
+sample.bookings[0].arrival=today;
+sample.bookings[0].departure='2026-11-27';
+
 delete sample.bookings[0].priceSnapshot;
 assert.equal(ctx.reportBuild('checkin-checkout-tagesliste',today).rows.length,1);
 assert.equal(ctx.reportBuild('freie-zimmer',today).rows.length,1);
