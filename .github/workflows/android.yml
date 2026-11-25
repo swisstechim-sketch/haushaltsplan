@@ -48,6 +48,8 @@ jobs:
         run: node tests/ui-regression.test.cjs
       - name: PDF report regression tests
         run: node tests/reports.test.cjs
+      - name: Reservation pricing regression tests
+        run: node tests/pricing.test.cjs
       - name: Backup regression tests
         run: node tests/backup.test.cjs
       - name: Storage regression tests
