@@ -32,16 +32,20 @@ public final class StayDatabase extends SQLiteOpenHelper {
  return out.toString();
  }
  public synchronized boolean save(String raw){
+ if(raw==null)return false;
+ try{
+ JSONObject data=new JSONObject(raw);
  SQLiteDatabase db=getWritableDatabase();
  db.beginTransaction();
  try{
- JSONObject data=new JSONObject(raw);
  for(int i=TABLES.length-1;i>=0;i--)db.delete(TABLES[i],null,null);
  for(String t:TABLES){JSONArray a=data.getJSONArray(t);for(int i=0;i<a.length();i++){JSONObject row=a.getJSONObject(i);ContentValues v=new ContentValues();v.put("id",row.getString("id"));v.put("position",i);v.put("payload",row.toString());
  switch(t){case "bookings":v.put("guest",row.getString("guest"));v.put("room",row.getString("room"));break;case "invoices":case "services":v.put("booking",row.getString("booking"));break;case "payments":v.put("invoice",row.getString("invoice"));break;case "tasks":v.put("room",row.getString("room"));break;}
  db.insertOrThrow(t,null,v);}}
- ContentValues h=new ContentValues();h.put("id",1);h.put("payload",data.getJSONObject("hotel").toString());db.insertWithOnConflict("hotel",null,h,SQLiteDatabase.CONFLICT_REPLACE);
- db.setTransactionSuccessful();return true;
- }catch(Exception e){android.util.Log.e("StayDatabase","Database write rejected",e);return false;}finally{db.endTransaction();}
+ ContentValues h=new ContentValues();h.put("id",1);h.put("payload",data.getJSONObject("hotel").toString());if(db.insertWithOnConflict("hotel",null,h,SQLiteDatabase.CONFLICT_REPLACE)<0)throw new IllegalStateException("Hotel write failed");
+ db.setTransactionSuccessful();
+ }finally{db.endTransaction();}
+ return true;
+ }catch(Exception e){android.util.Log.e("StayDatabase","Database write rejected",e);return false;}
  }
 }
