@@ -35,4 +35,8 @@ assert.match(src,/buymeacoffee\.com\/swisstech/,'support button targets requeste
 assert.match(css,/\.help-grid/,'help layouts are styled');
 assert.match(css,/\.about-hero/,'about layouts are styled');
 assert.match(src,/swisstech-logo\.svg/,'About uses attached logo asset');
+assert.match(src,/else if\(page==='reception'\)\{const day=today\(\)/,'tablet reception uses dedicated live view');
+assert.match(src,/receptionFilter/,'tablet reception filter actions');
+assert.match(src,/checkin-checkout-tagesliste/,'reception has document link');
+assert.match(css,/\.reception-entry/,'responsive reception entries are styled');
 console.log('Tablet UI, guest fields, SVG buttons, email templates and preview controls: OK');
