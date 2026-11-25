@@ -102,7 +102,7 @@ assert.equal(ctx.reportBuild('gutschrift',today,'i1:0').rows[0][1],'GS-RE-1-1');
 assert.equal(ctx.reportBuild('gastemeldeformular',today,'g1').rows[0][1],'Anna');
 assert.equal(ctx.reportBuild('buchungsbestaetigung',today,'b1').rows[0][1],'Anna');
 assert.equal(ctx.reportBuild('zahlungsquittung',today,'p1').rows[4][1],'40.00');
-assert.throws(()=>ctx.reportBuild('qr-rechnung',today),/noch nicht implementiert/);
+assert.throws(()=>ctx.reportBuild('qr-rechnung',today),/Rechnung auswählen/);
 assert.match(css,/body\.document-preview/);
 assert.doesNotMatch(css,/:has\(\.report-a4\)/);
 assert.match(js,/function documentClose\(\)/);
