@@ -420,3 +420,6 @@ button[data-action]>span{line-height:1.25}
 
 /* Keep table header actions separated from table content. */
 .table-section-heading,.dashboard-heading:has(+ .dashboard-table-wrap){margin-bottom:12px;gap:12px;align-items:center}.table-section-heading h2{margin:0}.table-section-heading button{margin:0;flex-shrink:0}.dashboard-table-wrap{margin-top:0}
+
+/* Global button icon convention: icon first, label second, 8px spacing. */
+button:has(>svg),button:has(>img),button[data-action]{display:inline-flex;flex-direction:row;align-items:center;justify-content:center;gap:8px;direction:ltr}button>svg,button>img,button>.action-svg{order:-1;flex-shrink:0;margin:0}button>span{order:0}button[data-action]{flex-direction:row;gap:8px}button[data-action]>.action-svg{order:-1;margin:0;flex-shrink:0}
