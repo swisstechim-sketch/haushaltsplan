@@ -67,7 +67,7 @@ assert.match(src,/const tariffUnchanged=Boolean/,'unchanged reservation uses sto
 assert.match(css,/\.tariff-section>summary/,'tariff accordion has compact tablet styling');
 assert.match(css,/\.meal-price-settings \.price-fields/,'board supplements are grouped in settings');
 assert.match(src,/function showRoomTariff\(id\)/,'room-specific tariff preview exists');
-assert.match(src,/roomTariff','/,'room list opens its tariff preview');
+assert.match(src,/btn\('Tarif prüfen','roomTariff'/,'room list opens its tariff preview');
 assert.match(src,/Gespeicherter Preis/,'booking preview marks saved quote');
 assert.match(css,/\.room-row-actions/,'room tariff actions are compact');
 console.log('Tablet UI, guest fields, SVG buttons, email templates and preview controls: OK');
