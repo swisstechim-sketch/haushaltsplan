@@ -414,3 +414,6 @@ button[data-action]>span{line-height:1.25}
 .calendar-table td.calendar-completed{background:#e5e9ee;color:#526477}.calendar-legend span{white-space:nowrap}.calendar-legend span:nth-child(4){background:#e5e9ee;color:#526477}
 
 .qr-code .qr-payment-image{display:block;width:100%;height:100%;object-fit:contain;image-rendering:pixelated}.qr-invoice-report .qr-code{width:46mm;height:46mm;position:relative;flex-shrink:0;background:#fff}@media print{.qr-payment-image{display:block!important;visibility:visible!important}.qr-code{break-inside:avoid;print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+
+/* Shared metric typography and responsive finance summary */
+.metric-content{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;min-width:0}.metric-label{min-width:0;overflow-wrap:anywhere}.metric-content .metric-value{margin:0;white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums}.metrics .metric-content{display:flex;flex-direction:column;align-items:flex-start;gap:6px}.metrics .metric-content .metric-value{text-align:left}.finance-summary-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}.finance-summary-grid>.card{margin:0}.finance-summary-grid .metric-value{margin-left:auto}@media(max-width:640px){.finance-summary-grid{grid-template-columns:1fr}}
