@@ -322,3 +322,16 @@ button[data-action]>span{line-height:1.25}
 #tariff-preview-result{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.6 Arial,sans-serif;margin-top:16px;max-height:300px;overflow-y:auto}
 @media(max-width:799px){.room-row-actions{width:auto;gap:6px}.room-row-actions button{font-size:12px}}
 @media(min-width:800px) and (orientation:landscape){.room-row-actions button{min-height:34px;font-size:11px;padding:7px}}
+
+/* Kurtaxe / Gästetaxe stays visually separate from room and meal tariffs. */
+.tourist-tax-settings{border-top:1px solid #e0e9f1;margin-top:18px;padding-top:16px}
+.tourist-tax-settings>h2{font-size:16px;margin:0 0 7px}
+.tourist-tax-settings>p{font-size:12px;line-height:1.55;color:#60758a;max-width:740px}
+.tourist-tax-settings>select{max-width:420px}
+.tourist-tax-settings .price-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+.tourist-tax-settings .price-fields>div{min-width:0;border:1px solid #e1eaf4;background:#f9fbfe;padding:11px;border-radius:10px}
+.tourist-tax-settings .price-fields label{display:block;margin:0 0 6px}
+.tourist-tax-settings .price-fields input{width:100%}
+.tourist-tax-notice{font-size:11px!important;color:#697c8f!important}
+@media(max-width:620px){.tourist-tax-settings .price-fields{grid-template-columns:1fr}}
+@media(min-width:800px) and (orientation:landscape){.tourist-tax-settings>h2{font-size:14px}.tourist-tax-settings .price-fields{gap:9px}.tourist-tax-settings .price-fields>div{padding:9px}}
