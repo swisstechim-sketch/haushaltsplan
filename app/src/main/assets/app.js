@@ -212,4 +212,4 @@ function renderMealReference(){
  w.querySelectorAll('g[tabindex]').forEach((g,i)=>bind(g,()=>{if(i<3)choose(keys[i]);else search()}));bind(w.querySelector('text[x="42"][y="411"]'),search);bind(w.querySelector('text[x="240"][y="705"]'),print);bind(w.querySelector('text[x="311"][y="705"]'),csv);bind(m.querySelector('text[x="195"][y="755"]'),print);bind(w.querySelector('text[x="30"][y="708"]'),next);bind(m.querySelector('text[x="16"][y="702"]'),next);m.setAttribute('display',tab==='work'?'none':'inline');w.setAttribute('display',tab==='work'?'inline':'none')
 }
 
-render();window.addEventListener('resize',()=>{if(page==='dashboard'&&$('overlay').hidden)render()});
+render();let compactLayout=window.innerWidth<800;window.addEventListener('resize',()=>{const next=window.innerWidth<800;if(next===compactLayout)return;if(!$('overlay').hidden||page==='bookingDraft')return;compactLayout=next;render()});
