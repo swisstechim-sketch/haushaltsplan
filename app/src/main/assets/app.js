@@ -97,7 +97,7 @@ function renderReferenceList(){
  const bind=bindSvgAction;
  const hit=(g,x,y,fn)=>bind(g.querySelector('rect[x="'+x+'"][y="'+y+'"]'),fn);
  let filter='all', offset=0;
- const match=x=>filter==='all'||(k==='bookings'?(filter==='today'?x.arrival===day:x.status===filter):k==='guests'?(filter==='present'?present.has(x.id):filter==='repeat'?visits(x.id)>1:filter==='Firma'?x.kind==='Firma':x.kind!=='Firma'):roomState(x)===filter);
+ const match=x=>filter==='all'||(k==='bookings'?(filter==='today'?active(x)&&x.arrival===day:x.status===filter):k==='guests'?(filter==='present'?present.has(x.id):filter==='repeat'?visits(x.id)>1:filter==='Firma'?x.kind==='Firma':x.kind!=='Firma'):roomState(x)===filter);
  const selected=()=>all.filter(x=>match(x)&&JSON.stringify(x).toLowerCase().includes(query.toLowerCase()));
  const summary=x=>k==='bookings'?x.arrival+' · '+(get('rooms',x.room).number||'')+' · '+x.status:k==='guests'?(x.address||'')+' · '+visits(x.id)+' Aufenthalte':roomState(x)+' · '+money(x.rate);
  const title=x=>k==='rooms'?x.number+' · '+x.category:label(k,x);
@@ -111,7 +111,7 @@ function renderReferenceList(){
  const routes={'01-dashboard.svg':'dashboard','06-kalender.svg':'calendar','03-buchungen.svg':'bookings','09-rechnungen.svg':'invoices','19-menu.svg':'more'};
  const filters=k==='bookings'?['Bestätigt','Anfrage','today']:k==='guests'?['present','repeat','Firma']:['Belegt','Frei','Reinigung'];
  let quick=0;
- svg.querySelectorAll('a').forEach(a=>{const href=a.getAttribute('href'),t=(a.querySelector('title')||{}).textContent||'';const q=t.indexOf('Schnellzugriff')===0?quick++:-1;bind(a,()=>{if(q>=0)choose(filters[q]);else if(/hinzufügen|Zimmer verwalten/.test(t))edit(k);else if(href==='#main-view'||href==='#workspace-view'){tab=href==='#main-view'?'overview':'work';show()}else if(t==='Erweiterte Filter')search();else if(href==='08-suche.svg')$('search').click();else if(href==='22-systemmeldungen.svg')navigate('logs');else if(href==='20-pdf-vollbild.svg'){if(typeof Stay!=='undefined')Stay.print();else window.print()}else if(routes[href])navigate(routes[href]);else alert('Diese Funktion ist noch nicht verknüpft.')})});
+ svg.querySelectorAll('a').forEach(a=>{const href=a.getAttribute('href'),t=(a.querySelector('title')||{}).textContent||'';const q=t.indexOf('Schnellzugriff')===0?quick++:-1;bind(a,()=>{if(q>=0){choose(filters[q]);tab='work';show()}else if(t==='Zimmer verwalten'){tab='work';show()}else if(/hinzufügen/.test(t))edit(k);else if(href==='#main-view'||href==='#workspace-view'){tab=href==='#main-view'?'overview':'work';show()}else if(t==='Erweiterte Filter')search();else if(href==='08-suche.svg')$('search').click();else if(href==='22-systemmeldungen.svg')navigate('logs');else if(href==='20-pdf-vollbild.svg'){if(typeof Stay!=='undefined')Stay.print();else window.print()}else if(routes[href])navigate(routes[href]);else alert('Diese Funktion ist noch nicht verknüpft.')})});
  [[29,264],[215,264],[29,348],[215,348]].forEach((p,i)=>set(main,p[0],p[1],stats[i]));[128,240,352].forEach((x,i)=>set(work,x,284,stats[i]));
  for(const g of [main,work])set(g,16,132,all.length+' Einträge · '+db.hotel.name);
  for(let i=0;i<3;i++){bind(details[i],()=>{if(shown[i])edit(k,shown[i].id)});bind(controls[2+i*2],()=>{if(shown[i])edit(k,shown[i].id)});bind(controls[3+i*2],()=>{if(shown[i])edit(k,shown[i].id)})}
