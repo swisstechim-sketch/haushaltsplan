@@ -1,7 +1,7 @@
 'use strict';
 const $=id=>document.getElementById(id), esc=v=>String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const today=()=>{const d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)}, money=n=>'CHF '+Number(n||0).toFixed(2), uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
-const empty=()=>({guests:[],rooms:[],bookings:[],invoices:[],payments:[],services:[],tasks:[],logs:[],templates:[],hotel:{name:'Mein Hotel',address:'',iban:'',email:'',vat:'',street:'',houseNumber:'',postalCode:'',city:'',country:'CH'}});
+const empty=()=>({guests:[],rooms:[],bookings:[],invoices:[],payments:[],services:[],tasks:[],logs:[],templates:[],hotel:{name:'Mein Hotel',address:'',iban:'',email:'',vat:'',street:'',houseNumber:'',postalCode:'',city:'',country:'CH',breakfastAdult:'0',breakfastChild:'0',halfBoardAdult:'0',halfBoardChild:'0',fullBoardAdult:'0',fullBoardChild:'0'}});
 let db=empty(),storageReadFailed=false;try{const raw=typeof Stay!=='undefined'?Stay.load():localStorage.getItem('stay');if(raw){const loaded=JSON.parse(raw);db=Object.assign(empty(),loaded);db.hotel=Object.assign(empty().hotel,loaded.hotel||{});db=validateBackup(db)}}catch(e){db=empty();storageReadFailed=true;alert('Gespeicherte Daten konnten nicht gelesen werden. Änderungen sind zum Schutz Ihrer Daten gesperrt.')}
 function save(){if(storageReadFailed)throw Error('Speicherung gesperrt: App neu starten und Datenbank prüfen');const raw=JSON.stringify(db);if(typeof Stay!=='undefined'){if(!Stay.save(raw))throw Error('Speichern fehlgeschlagen')}else localStorage.setItem('stay',raw)}
 function log(msg){db.logs.unshift({id:uid(),date:new Date().toLocaleString('de-CH'),message:msg});save()}
@@ -14,10 +14,65 @@ function hotelCountrySelect(value){return '<select data-hotel="country">'+COUNTR
 function formattedAddress(o){return [([o.street,o.houseNumber].filter(Boolean).join(' ')||o.address||'').trim(),[o.postalCode,o.city].filter(Boolean).join(' '),COUNTRY_OPTIONS.find(c=>c[0]===o.country)?.[1]||o.country||''].filter(Boolean).join(', ')}
 
 const ROOM_CATEGORIES=["Einzelzimmer","Doppelzimmer","Zweibettzimmer","Dreibettzimmer","Vierbettzimmer","Standard","Komfort","Superior","Deluxe","Junior Suite","Suite","Familienzimmer"];
+
+/* Room-only prices: gross CHF per room/night, by adult count and child count.
+   Breakfast belongs to the accommodation special VAT rate even if shown separately.
+   Extra meals on half/full board are separately billed at the standard rate. */
+const VAT_LODGING=3.8,VAT_CATERING=8.1;
+const cents=v=>Math.round(Number(v)*100);
+const chf=c=>Math.round(c)/100;
+function priceInput(value,label,name){return '<label>'+esc(label)+'</label><input type="number" name="'+name+'" min="0" step="0.01" value="'+esc(value===undefined||value===null?'':value)+'" placeholder="Basispreis verwenden">'}
+function priceForm(room){
+ let out='<section class="price-editor"><h3>Zimmerpreis · nur Übernachtung</h3><p>Bruttopreise pro Zimmer und Nacht, inklusive 3.8 % MWST, ohne Verpflegung. Erwachsenenstaffel = Gesamtpreis für die Anzahl Erwachsene, Kinderstaffel = gesamter Zuschlag für die Anzahl Kinder.</p><div class="price-fields">';
+ for(let i=1;i<=6;i++)out+=priceInput(room['adultRate'+i],i+' Erwachsene · CHF','adultRate'+i);
+ for(let i=1;i<=4;i++)out+=priceInput(room['childRate'+i],i+' Kinder · Zuschlag CHF','childRate'+i);
+ out+='</div><h3>Wochenende</h3><p>Zusätzlicher Aufschlag auf Freitag- und Samstagnächte (Prozent). 0 = kein Aufschlag.</p>'+priceInput(room.weekendPercent||0,'Wochenendzuschlag %','weekendPercent');
+ out+='<h3>Saisonpreise</h3><p>Zwei optionale Saisonzeiträume (inklusive Start- und Endtag), mit prozentualer Anpassung des Zimmerpreises. Negative Werte sind Rabatte.</p><div class="price-fields">';
+ for(let i=1;i<=2;i++){out+='<div class="season-group"><strong>Saison '+i+'</strong><label>Name</label><input name="season'+i+'Name" value="'+esc(room['season'+i+'Name']||'')+'" placeholder="z. B. Hochsaison"><label>Von</label><input type="date" name="season'+i+'Start" value="'+esc(room['season'+i+'Start']||'')+'"><label>Bis</label><input type="date" name="season'+i+'End" value="'+esc(room['season'+i+'End']||'')+'">'+priceInput(room['season'+i+'Percent']||0,'Anpassung %','season'+i+'Percent')+'</div>'}
+ return out+'</div></section>';
+}
+function validPricePlan(room){
+ for(let i=1;i<=6;i++)if(room['adultRate'+i]!==''&&room['adultRate'+i]!=null&&(!Number.isFinite(Number(room['adultRate'+i]))||Number(room['adultRate'+i])<0))throw Error('Ungültiger Preis für '+i+' Erwachsene');
+ for(let i=1;i<=4;i++)if(room['childRate'+i]!==''&&room['childRate'+i]!=null&&(!Number.isFinite(Number(room['childRate'+i]))||Number(room['childRate'+i])<0))throw Error('Ungültiger Kinderzuschlag');
+ const percent=Number(room.weekendPercent||0);if(!Number.isFinite(percent)||percent<0||percent>300)throw Error('Wochenendzuschlag muss zwischen 0 und 300 % liegen');
+ for(let i=1;i<=2;i++){const start=room['season'+i+'Start'],end=room['season'+i+'End'],p=Number(room['season'+i+'Percent']||0);if((start&&!end)||(!start&&end))throw Error('Saison '+i+': Start und Ende angeben');if(start&&end&&start>end)throw Error('Saison '+i+': Zeitraum ungültig');if(!Number.isFinite(p)||p< -100||p>300)throw Error('Saison '+i+': Anpassung ausserhalb -100 bis 300 %')}
+ if(room.season1Start&&room.season2Start&&room.season1Start<=room.season2End&&room.season2Start<=room.season1End)throw Error('Saisonzeiträume dürfen sich nicht überschneiden');
+}
+function occupancy(b){const adults=b.adults==null||b.adults===''?Number(b.people||1):Number(b.adults),children=Number(b.children||0);if(!Number.isInteger(adults)||adults<1||adults>6||!Number.isInteger(children)||children<0||children>4)throw Error('Erlaubt sind 1–6 Erwachsene und 0–4 Kinder');return {adults,children,people:adults+children}}
+function grossRoomNight(room,b,date){
+ const occ=occupancy(b),adult=room['adultRate'+occ.adults],child=room['childRate'+occ.children],base=adult!==''&&adult!==undefined&&adult!==null?Number(adult):Number(room.rate||0);
+ const children=occ.children&&child!==''&&child!==undefined&&child!==null?Number(child):0;
+ if(!Number.isFinite(base)||base<0||!Number.isFinite(children)||children<0)throw Error('Zimmerstaffel ungültig');
+ let value=cents(base+children),dt=new Date(date+'T12:00:00Z'),weekend=dt.getUTCDay()===5||dt.getUTCDay()===6;
+ if(weekend)value=Math.round(value*(1+Number(room.weekendPercent||0)/100));
+ for(let i=1;i<=2;i++){const start=room['season'+i+'Start'],end=room['season'+i+'End'];if(start&&end&&date>=start&&date<=end)value=Math.round(value*(1+Number(room['season'+i+'Percent']||0)/100))}
+ return value;
+}
+function mealQuote(b,hotel){
+ const o=occupancy(b),meal=b.meal||'Nur Logis';if(meal==='Nur Logis')return {breakfast:0,other:0};
+ const keys={Frühstück:'breakfast',Halbpension:'halfBoard',Vollpension:'fullBoard'},prefix=keys[meal];
+ if(!prefix)throw Error('Verpflegung ungültig');
+ const adult=Number(hotel[prefix+'Adult']||0),child=Number(hotel[prefix+'Child']||0),amount=cents(adult*o.adults+child*o.children);
+ if(!Number.isFinite(amount)||amount<0)throw Error('Verpflegungspreis ungültig');
+ if(meal==='Frühstück')return {breakfast:amount,other:0};
+ const breakfast=cents(Number(hotel.breakfastAdult||0)*o.adults+Number(hotel.breakfastChild||0)*o.children);
+ if(breakfast>amount)throw Error('Halb- und Vollpension dürfen nicht günstiger als Frühstück sein');
+ return {breakfast,other:amount-breakfast};
+}
+function bookingQuote(b,room,hotel){
+ const o=occupancy(b),days=nights(b);if(!Number.isInteger(days)||days<1||days>366)throw Error('Aufenthalt muss 1–366 Nächte umfassen');
+ const lodgingDays=[];for(let i=0;i<days;i++){const date=new Date(Date.parse(b.arrival+'T12:00:00Z')+i*86400000).toISOString().slice(0,10);lodgingDays.push({date,amount:grossRoomNight(room,b,date)})}
+ const lodging=lodgingDays.reduce((n,x)=>n+x.amount,0),meals=mealQuote(b,hotel);
+ const breakfast=meals.breakfast*days,other=meals.other*days;
+ return {nights:days,people:o.people,adults:o.adults,children:o.children,lodging:chf(lodging),breakfast:chf(breakfast),other:chf(other),total:chf(lodging+breakfast+other),lodgingDays:lodgingDays.map(x=>({date:x.date,amount:chf(x.amount)}))};
+}
+function mealPricesForm(hotel){return '<section class="meal-price-settings"><h2>Verpflegungspreise</h2><p>Alle Preise pro Person und Nacht, brutto in CHF. Zimmerpreise sind immer ohne Verpflegung. Frühstück wird bei Übernachtung separat ausgewiesen (3.8 %), zusätzliche Mahlzeiten 8.1 %.</p><div class="price-fields">'+[['breakfast','Frühstück'],['halfBoard','Halbpension inkl. Frühstück'],['fullBoard','Vollpension inkl. Frühstück']].map(x=>'<div><h3>'+x[1]+'</h3>'+priceInput(hotel[x[0]+'Adult']||0,'Erwachsene CHF',x[0]+'Adult')+priceInput(hotel[x[0]+'Child']||0,'Kinder CHF',x[0]+'Child')+'</div>').join('')+'</div></section>'}
+function validateMealPrices(h){for(const prefix of ['breakfast','halfBoard','fullBoard'])for(const suffix of ['Adult','Child']){const n=Number(h[prefix+suffix]||0);if(!Number.isFinite(n)||n<0||n>10000)throw Error('Verpflegungspreis ungültig')}for(const suffix of ['Adult','Child'])if(Number(h.halfBoard+suffix)<Number(h.breakfast+suffix)||Number(h.fullBoard+suffix)<Number(h.breakfast+suffix))throw Error('Halb- und Vollpension müssen mindestens das Frühstück decken')}
+
 const schemas={
 guests:['Gästeverwaltung',[['name','Name','text'],['email','E-Mail','email'],['phone','Telefon','tel'],['birthDate','Geburtsdatum','date'],['street','Strasse','text'],['houseNumber','Hausnummer','text'],['postalCode','PLZ','text'],['city','Ort / Stadt','text'],['country','Land','country'],['documentType','Ausweisdokument',['Reisepass','Identitätskarte (ID)','Führerschein','Aufenthaltsbewilligung','Sonstiges']],['documentNumber','Dokumentnummer','text'],['documentCountry','Ausstellungsland','country'],['documentExpiry','Gültig bis','date'],['kind','Kundentyp',['Privat','Firma']]]],
 rooms:['Zimmer',[['number','Zimmernummer','text'],['category','Zimmerkategorie',ROOM_CATEGORIES],['rate','Preis pro Nacht CHF','number'],['status','Status',['Bereit','Reinigung','Gesperrt']]]],
-bookings:['Reservationen',[['guest','Gast','@guests'],['room','Zimmer','@rooms'],['arrival','Anreise','date'],['departure','Abreise','date'],['people','Personen','number'],['meal','Verpflegung',['Nur Logis','Frühstück','Halbpension','Vollpension']],['status','Status',['Anfrage','Bestätigt','Eingecheckt','Ausgecheckt','Storniert']]]],
+bookings:['Reservationen',[['guest','Gast','@guests'],['room','Zimmer','@rooms'],['arrival','Anreise','date'],['departure','Abreise','date'],['adults','Erwachsene (1–6)','number'],['children','Kinder (0–4)','number'],['meal','Verpflegung',['Nur Logis','Frühstück','Halbpension','Vollpension']],['status','Status',['Anfrage','Bestätigt','Eingecheckt','Ausgecheckt','Storniert']]]],
 services:['Zusatzleistungen',[['booking','Reservation','@bookings'],['name','Leistung','text'],['amount','Betrag CHF','number'],['vat','MWST %',['8.1','3.8','2.6','0']]]],
 tasks:['Housekeeping',[['room','Zimmer','@rooms'],['name','Aufgabe','text'],['status','Status',['Offen','Erledigt']]]],
 payments:['Zahlungen',[['invoice','Rechnung','@invoices'],['amount','Betrag CHF','number'],['date','Datum','date'],['method','Zahlungsart',['Bar','Karte','TWINT','Banküberweisung']]]],
