@@ -349,3 +349,11 @@ button[data-action]>span{line-height:1.25}
  #dialog .dialog-content form textarea{min-height:72px}
  #dialog .dialog-content p{font-size:13px;line-height:1.45;margin:6px 0 10px}
 }
+
+#sidebar .sidebar-section{flex-shrink:0;min-width:0}
+#sidebar .sidebar-section>summary{display:flex;align-items:center;justify-content:space-between;cursor:pointer;list-style:none;min-height:32px}
+#sidebar .sidebar-section>summary::-webkit-details-marker{display:none}
+#sidebar .sidebar-section>summary::after{content:'›';font-size:16px;line-height:1}
+#sidebar .sidebar-section[open]>summary::after{transform:rotate(90deg)}
+#sidebar .sidebar-section>summary:focus-visible{outline:2px solid #527b9f;outline-offset:-2px}
+@media(min-width:800px) and (orientation:landscape){body:not(.reference-dashboard) #sidebar .sidebar-section>summary{padding:6px 8px;min-height:30px}body:not(.reference-dashboard) #sidebar{scrollbar-width:none}body:not(.reference-dashboard) #sidebar::-webkit-scrollbar{display:none}}
