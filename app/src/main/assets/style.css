@@ -7,3 +7,61 @@ nav button{display:flex;flex-direction:column;align-items:center;justify-content
 @media(max-width:799px){nav button{flex:1;width:auto;max-width:20%}.actions button{flex:1 1 auto}#dialog{max-height:90vh;overflow-y:auto}.reference-dashboard>main>svg{max-width:100%}}@media print{.card{overflow:visible!important}}
 
 #recovery-warning{display:none}.storage-recovery #recovery-warning{display:block;position:relative;padding:12px;background:#fff2e0;color:#75451a;font-weight:bold;line-height:1.4}@media print{#recovery-warning{display:none!important}}
+
+
+/* Tablet-Querformat: eigenstaendiges Layout entsprechend mockups/tablet/querformat. */
+#app-header .tablet-page-identity,#app-header .header-profile,#app-header .header-tool{display:none}
+.mobile-brand{display:flex;align-items:center;gap:12px;min-width:0}
+.header-tools{margin-left:auto;display:flex;gap:8px;align-items:center}
+#app-header .header-tools button{margin-left:0;display:flex;align-items:center;justify-content:center;padding:10px}
+#app-header svg{width:22px;height:22px;fill:none;stroke:#416887;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.header-search span{display:none}
+#sidebar button{min-height:42px;display:flex;align-items:center;gap:10px;width:100%;font-weight:500;line-height:1.25}
+#sidebar .sidebar-group{font-size:10px;font-weight:700;letter-spacing:.05em;color:#8294a5;padding:15px 10px 7px}
+#sidebar .sidebar-brand{display:none}
+#sidebar .sidebar-icon{display:inline-flex;width:22px;justify-content:center;flex:none;font-size:19px}
+#sidebar .sidebar-icon svg{width:20px;height:20px;stroke:#527b9f;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.actions{margin-top:16px}
+.actions button,.tabs button{display:inline-flex;align-items:center;justify-content:center;gap:8px}
+@media(min-width:800px) and (orientation:landscape){
+ body:not(.reference-dashboard){display:grid;grid-template-columns:244px minmax(0,1fr);grid-template-rows:78px minmax(0,1fr);min-height:100vh}
+ body:not(.reference-dashboard) #app-header{grid-column:2;grid-row:1;position:sticky;top:0;height:78px;z-index:5;padding:0 22px 0 24px;border-bottom:1px solid #dce5ee;min-width:0}
+ body:not(.reference-dashboard) .mobile-brand{display:none}
+ body:not(.reference-dashboard) #app-header .tablet-page-identity{display:flex;flex-direction:column;justify-content:center;gap:3px;min-width:0}
+ body:not(.reference-dashboard) .tablet-page-identity small{margin:0;font-size:11px}
+ body:not(.reference-dashboard) .tablet-page-identity strong{font-size:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ body:not(.reference-dashboard) #app-header .header-tool{display:flex}
+ body:not(.reference-dashboard) #app-header .header-profile{display:flex;align-items:center;gap:10px;padding:8px 12px;background:#f3f6fa;border-radius:12px;white-space:nowrap}
+ body:not(.reference-dashboard) .header-profile strong{font-size:13px}
+ body:not(.reference-dashboard) .header-profile small{font-size:10px;margin:2px 0 0}
+ body:not(.reference-dashboard) .profile-avatar{width:34px;height:34px;border-radius:50%;background:#dceafa;color:#284a6b;display:grid;place-items:center;font-weight:700}
+ body:not(.reference-dashboard) .header-search{min-width:165px;max-width:290px;flex:1;background:#f3f6fa}
+ body:not(.reference-dashboard) .header-search span{display:inline;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#64788c;font-size:13px}
+ body:not(.reference-dashboard) .header-tools{gap:8px;min-width:0}
+ body:not(.reference-dashboard) .header-tool{width:42px;height:42px;padding:9px;background:#f3f6fa}
+ body:not(.reference-dashboard) #sidebar{display:flex;grid-column:1;grid-row:1 / 3;position:sticky;top:0;bottom:auto;width:244px;height:100vh;background:white;overflow-y:auto;flex-direction:column;gap:2px;padding:12px;z-index:6;border-right:1px solid #e4ebf2}
+ body:not(.reference-dashboard) #sidebar .sidebar-brand{display:flex;gap:12px;align-items:center;padding:8px 6px 20px}
+ body:not(.reference-dashboard) .sidebar-brand .brand{width:44px;height:44px;display:grid;place-items:center;flex:none;background:#dceafa;font-weight:700}
+ body:not(.reference-dashboard) .sidebar-brand strong{font-size:19px}
+ body:not(.reference-dashboard) .sidebar-brand small{font-size:10px}
+ body:not(.reference-dashboard) #sidebar button{min-height:42px;padding:9px 12px;background:white;border-radius:9px;text-align:left;font-size:13px}
+ body:not(.reference-dashboard) #sidebar button.active{background:#dceafa;font-weight:700}
+ body:not(.reference-dashboard) main{grid-column:2;grid-row:2;margin:0;max-width:none;width:100%;min-width:0;padding:24px 26px 40px}
+ body:not(.reference-dashboard) main h1{font-size:30px;margin:0 0 5px}
+ body:not(.reference-dashboard) nav{display:none}
+}
+@media(min-width:800px) and (max-width:1199px) and (orientation:landscape){
+ body:not(.reference-dashboard) #app-header{padding-left:16px;padding-right:14px}
+ body:not(.reference-dashboard) .header-profile{display:none!important}
+ body:not(.reference-dashboard) #app-header .header-tool:nth-of-type(4),body:not(.reference-dashboard) #app-header .header-tool:nth-of-type(5){display:none}
+ body:not(.reference-dashboard) .header-search{min-width:42px}
+}
+@media(min-width:800px) and (orientation:portrait){
+ #sidebar{display:flex;position:fixed;top:0;bottom:0;width:84px;flex-direction:column;padding:12px 6px;overflow-y:auto;background:white;z-index:5}
+ #sidebar button{font-size:10px;flex-direction:column;gap:3px;padding:8px 2px;min-height:60px;overflow-wrap:anywhere}
+ #sidebar .sidebar-icon{width:auto}
+ #sidebar .sidebar-group,#sidebar .sidebar-brand{display:none}
+ #app-header{margin-left:84px}
+ main{margin-left:84px;max-width:none}
+ nav{display:none}
+}
