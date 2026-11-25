@@ -23,13 +23,14 @@ const cents=v=>Math.round(Number(v)*100);
 const chf=c=>Math.round(c)/100;
 function priceInput(value,label,name){return '<label>'+esc(label)+'</label><input type="number" name="'+name+'" min="0" step="0.01" value="'+esc(value===undefined||value===null?'':value)+'" placeholder="Basispreis verwenden">'}
 function priceForm(room){
- let out='<section class="price-editor"><h3>Zimmerpreis · nur Übernachtung</h3><p>Bruttopreise pro Zimmer und Nacht, inklusive 3.8 % MWST, ohne Verpflegung. Erwachsenenstaffel = Gesamtpreis für die Anzahl Erwachsene, Kinderstaffel = gesamter Zuschlag für die Anzahl Kinder.</p><div class="price-fields">';
- for(let i=1;i<=6;i++)out+=priceInput(room['adultRate'+i],i+' Erwachsene · CHF','adultRate'+i);
- for(let i=1;i<=4;i++)out+=priceInput(room['childRate'+i],i+' Kinder · Zuschlag CHF','childRate'+i);
- out+='</div><h3>Wochenende</h3><p>Zusätzlicher Aufschlag auf Freitag- und Samstagnächte (Prozent). 0 = kein Aufschlag.</p>'+priceInput(room.weekendPercent||0,'Wochenendzuschlag %','weekendPercent');
- out+='<h3>Saisonpreise</h3><p>Zwei optionale Saisonzeiträume (inklusive Start- und Endtag), mit prozentualer Anpassung des Zimmerpreises. Negative Werte sind Rabatte.</p><div class="price-fields">';
- for(let i=1;i<=2;i++){out+='<div class="season-group"><strong>Saison '+i+'</strong><label>Name</label><input name="season'+i+'Name" value="'+esc(room['season'+i+'Name']||'')+'" placeholder="z. B. Hochsaison"><label>Von</label><input type="date" name="season'+i+'Start" value="'+esc(room['season'+i+'Start']||'')+'"><label>Bis</label><input type="date" name="season'+i+'End" value="'+esc(room['season'+i+'End']||'')+'">'+priceInput(room['season'+i+'Percent']||0,'Anpassung %','season'+i+'Percent')+'</div>'}
- return out+'</div></section>';
+ let out='<section class="price-editor"><h3>Zimmer-Tarife · ohne Verpflegung</h3><p>CHF brutto je Zimmer und Nacht, inklusive 3,8 % MWST. Der Preis für Erwachsene ist der gesamte Zimmerpreis. Der Kinderbetrag ist ein Zuschlag für die angegebene Kinderzahl.</p>';
+ out+='<details class="tariff-section" open><summary>Personenstaffel · Erwachsene und Kinder</summary><div class="price-fields">';
+ for(let i=1;i<=6;i++)out+='<div class="price-field">'+priceInput(room['adultRate'+i],i+' Erwachsene · Gesamtpreis CHF','adultRate'+i)+'</div>';
+ for(let i=1;i<=4;i++)out+='<div class="price-field">'+priceInput(room['childRate'+i],i+' Kinder · Zuschlag CHF','childRate'+i)+'</div>';
+ out+='</div></details><details class="tariff-section"><summary>Wochenendtarif · Freitag und Samstag</summary><p>Aufschlag für Freitag- und Samstagnächte in Prozent; 0 bedeutet Standardpreis.</p><div class="price-fields"><div class="price-field">'+priceInput(room.weekendPercent||0,'Wochenendzuschlag %','weekendPercent')+'</div></div></details>';
+ out+='<details class="tariff-section"><summary>Saison-Tarife · zwei Zeiträume</summary><p>Datumsbereiche inklusive Start- und Endtag. Positive Prozentwerte sind Zuschläge, negative sind Rabatte.</p><div class="season-list">';
+ for(let i=1;i<=2;i++)out+='<div class="season-group"><strong>Saison '+i+'</strong><label>Name</label><input name="season'+i+'Name" value="'+esc(room['season'+i+'Name']||'')+'" placeholder="z. B. Hochsaison"><label>Von</label><input type="date" name="season'+i+'Start" value="'+esc(room['season'+i+'Start']||'')+'"><label>Bis</label><input type="date" name="season'+i+'End" value="'+esc(room['season'+i+'End']||'')+'">'+priceInput(room['season'+i+'Percent']||0,'Anpassung %','season'+i+'Percent')+'</div>';
+ return out+'</div></details></section>';
 }
 function validPricePlan(room){
  for(let i=1;i<=6;i++)if(room['adultRate'+i]!==''&&room['adultRate'+i]!=null&&(!Number.isFinite(Number(room['adultRate'+i]))||Number(room['adultRate'+i])<0))throw Error('Ungültiger Preis für '+i+' Erwachsene');
