@@ -10,7 +10,8 @@ const sample={
  guests:[{id:'g1',name:'Anna',street:'Gastweg',houseNumber:'1',postalCode:'8000',city:'Zürich',country:'CH',birthDate:'1985-04-01',documentType:'Reisepass',documentNumber:'PASS1'}],
  rooms:[{id:'r1',number:'101',category:'Standard',status:'Bereit',rate:120},{id:'r2',number:'102',category:'Standard',status:'Bereit',rate:120}],
  bookings:[{id:'b1',guest:'g1',room:'r1',arrival:today,departure:'2026-11-27',status:'Bestätigt',people:2}],
- invoices:[{id:'i1',number:'RE-1',guest:'Anna',date:today,dueDate:'2026-12-10',total:240,lines:[{name:'Logis',amount:240,vat:3.8}]}],
+ cashDays:[{id:'c1',date:today,name:'Rezeption',opening:100,counted:100,entries:[]}],
+ invoices:[{id:'i1',booking:'b1',number:'RE-1',guest:'Anna',date:today,dueDate:'2026-12-10',total:240,lines:[{name:'Logis',amount:240,vat:3.8}]}],
  payments:[{id:'p1',invoice:'i1',amount:40,date:today,method:'TWINT'}],
  tasks:[{id:'t1',room:'r2',name:'Reinigung',status:'Offen'}]
 };
@@ -56,7 +57,7 @@ assert.equal(ctx.reportBuild('jahresbelegungsubersicht',today).rows.length,12);
 assert.equal(ctx.reportBuild('jahresbelegungsubersicht',today).rows[10][2],2);
 assert.equal(ctx.reportBuild('verpflegungsplan',today).rows.length,1);
 assert.equal(ctx.reportBuild('housekeeping-kontrollbericht',today).rows.length,1);
-assert.equal(ctx.reportBuild('kassenbericht',today).rows[0][2],'40.00');
+assert.equal(ctx.reportBuild('kassenbericht',today).rows[0][2],'100.00');
 assert.equal(ctx.reportBuild('umsatz-nach-zimmerkategorien',today).rows.length,1);
 assert.equal(ctx.reportBuild('offene-posten',today).rows[0][3],'200.00');
 assert.equal(ctx.reportBuild('anreiseinformationen',today,'b1').rows[0][1],'Anna');
@@ -83,16 +84,16 @@ for(const [key,id] of [['lostItems','fundgegenstande-protokoll'],['guestWishes',
  sample[key]=[{id:'1',date:today,name:'Test',location:'101',details:'Notiz',status:'Offen'},{id:'2',date:'2026-11-26',name:'Zukunft'}];
  const report=ctx.reportBuild(id,today);
  assert.equal(report.rows.length,1);
- assert.equal(report.rows[0][1],'Test');
+ assert.equal(report.rows[0][key==='lostItems'?2:1],'Test');
  assert.equal(report.rows[0][4],'Offen');
 }
-assert.equal(ctx.reportBuild('jahresabschluss',today).rows.length,13);
+assert.equal(ctx.reportBuild('jahresabschluss',today).rows.length,14);
 assert.deepEqual(Array.from(ctx.reportBuild('jahresabschluss',today).rows[10]),['2026-11','240.00','0.00','40.00','200.00']);
 assert.deepEqual(Array.from(ctx.reportBuild('auswertung',today).rows[1]),['Total','240.00','0.00','40.00','200.00']);
 sample.invoices[0].credits=[{date:'2026-12-01',amount:10.81}];
 assert.deepEqual(Array.from(ctx.reportBuild('jahresabschluss',today).rows[11]),['2026-12','0.00','10.81','0.00','-10.81']);
 delete sample.invoices[0].credits;
-assert.equal(ctx.reportBuild('monatsabschluss',today).rows.some(x=>x[0]==='Rechnungsvolumen'),true);
+assert.equal(ctx.reportBuild('monatsabschluss',today).rows.some(x=>x[0]==='Rechnungsumsatz'),true);
 assert.throws(()=>ctx.reportBuild('stornierungsbestatigung',today,'b1'),/stornierte Reservation/);
 assert.equal(ctx.reportBuild('rechnung',today,'i1').rows[0][0],'Logis');
 assert.equal(ctx.reportBuild('rechnung',today,'i1').rows.some(x=>x[0]==='Offen CHF'&&x[2]==='200.00'),true);
@@ -106,9 +107,9 @@ assert.throws(()=>ctx.reportBuild('qr-rechnung',today),/Rechnung auswählen/);
 assert.throws(()=>ctx.reportBuild('ruckerstattungsbeleg',today,'i1:0'),/gespeicherte Rückerstattung/);
 sample.invoices[0].refunds=[{number:'RS-1',date:today,amount:10,method:'TWINT',reference:'TEST',reason:'Test'}];
 assert.equal(ctx.reportBuild('ruckerstattungsbeleg',today,'i1:0').rows[7][1],'10.00');
-assert.equal(ctx.reportBuild('kassenbericht',today).rows.find(x=>x[0]==='Rückzahlung · TWINT')[2],'-10.00');
+assert.equal(ctx.reportBuild('kassenbericht',today).rows.length,1,'TWINT refund does not affect cash');
 assert.equal(ctx.reportBuild('jahresabschluss',today).rows[10][3],'30.00');
-assert.equal(ctx.reportBuild('monatsabschluss',today).rows.find(x=>x[0]==='Im Monat ausgezahlte Rückerstattungen')[3],'10.00');
+assert.equal(ctx.reportBuild('monatsabschluss',today).rows.find(x=>x[0]==='Rückerstattungen')[1],'10.00');
 assert.match(css,/body\.document-preview/);
 assert.doesNotMatch(css,/:has\(\.report-a4\)/);
 assert.match(js,/function documentClose\(\)/);
