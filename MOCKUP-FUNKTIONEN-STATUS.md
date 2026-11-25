@@ -115,6 +115,16 @@ Auch jedes entsprechende `tablet/hochformat/*.svg` sowie die Smartphone-Mockups 
 - [ ] **19** verbleibende Dokumenttypen und genaue visuelle Originalgestaltung
 - [ ] Belegung berücksichtigt bei Zeitreihen nicht historisch wechselnde Zimmer-Sperr- und Reinigungsstatus; Auslastung als Planungswert deklarieren
 
+## Weitere Dokumentfunktionen – 25.11.2026
+
+- [x] Anreiseinformationen: Gast-, Hotel-, Zimmer- und Aufenthaltsdaten aus gespeicherter Reservation
+- [x] Reservationsofferte: ausdrücklich unverbindlicher Entwurf aus Zimmerpreis × Nächten (ohne separat kalkulierte Zuschläge)
+- [x] Stornierungsbestätigung: nur bei tatsächlich als storniert markierter Reservation; keine erfundenen Stornogebühren oder Erstattungen
+- [x] Zahlungserinnerung: nur für offene Rechnungen, als nicht versendeter Entwurf gekennzeichnet
+- [x] Monatsübersicht: Rechnungs- und Zahlungssummen nach Monat, **kein** geprüfter buchhalterischer Monatsabschluss
+- [x] Insgesamt 29 von 43 Dokumenttypen als dynamische Berichtsausgabe verfügbar
+- [ ] 14 Dokumenttypen fehlen weiterhin; individuelle PDF-Designparität und vollständige Fachlogik bleiben gesonderte Abnahmepunkte
+
 ## Weitere Lücken
 - [ ] Exakte Zuordnung sämtlicher SVG-Buttonaktionen inkl. Dialoge, Filter, Tabellen, Pagination
 - [ ] PDF-Renderer je Berichtstyp mit realen Datensätzen, Druckvorschau und Export
