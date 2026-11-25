@@ -54,4 +54,10 @@ assert.match(src,/bisherige Kategorie/,'legacy room category is retained on edit
 assert.match(src,/Bitte eine gültige Zimmerkategorie auswählen/,'room category validated on save');
 assert.match(css,/\.dialog-identity/,'dialog heading section has mockup styling');
 assert.match(css,/\.dialog-section-title/,'dialog has settings section');
+assert.match(css,/@media \(min-width:800px\) and \(orientation:landscape\)/,'compact tablet landscape rules');
+assert.match(css,/grid-template-columns:200px minmax\(0,1fr\)/,'tablet sidebar width is compact');
+assert.match(css,/body:not\(\.reference-dashboard\) main h1\{font-size:24px/,'tablet heading scale reduced');
+assert.match(css,/#dialog\{width:min\(100%,520px\)/,'modal width reduced on tablet');
+assert.match(css,/\.dialog-toolbar h2\{font-size:19px/,'modal title scale reduced');
+assert.match(css,/body\.document-preview \.report-a4\{font-size:11pt\}/,'PDF paper layout keeps print typography');
 console.log('Tablet UI, guest fields, SVG buttons, email templates and preview controls: OK');
