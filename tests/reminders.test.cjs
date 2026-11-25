@@ -38,3 +38,7 @@ assert.equal(ready(),false,'settled invoice must not offer creation');
 invoice.total=100;
 invoice.dueDate='2026-11-25';
 assert.equal(ready(),false,'invoice due today must not offer creation');
+
+invoice.dueDate='2026-11-01';
+invoice.reminders=[{level:1,date:'2026-11-10',amount:100}];
+assert.equal(ready(),false,'missing previous deadline must block follow-up reminder');
