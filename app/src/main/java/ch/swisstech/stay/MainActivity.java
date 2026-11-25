@@ -35,6 +35,23 @@ public class MainActivity extends Activity {
  @JavascriptInterface public boolean save(String data){return database.save(data);}
  @JavascriptInterface public void print(){runOnUiThread(()->((PrintManager)getSystemService(PRINT_SERVICE)).print("STAY Swiss",web.createPrintDocumentAdapter("STAY Swiss"),null));}
  @JavascriptInterface public void share(String data){runOnUiThread(()->{Intent i=new Intent(Intent.ACTION_SEND);i.setType("text/plain");i.putExtra(Intent.EXTRA_TEXT,data);startActivity(Intent.createChooser(i,"STAY Swiss"));});}
+ @JavascriptInterface public String countriesJson(){
+  org.json.JSONArray countries=new org.json.JSONArray();
+  String[] codes=java.util.Locale.getISOCountries();
+  java.util.Locale german=java.util.Locale.GERMAN;
+  java.util.ArrayList<String[]> list=new java.util.ArrayList<>();
+  for(String code:codes){
+   java.util.Locale locale=new java.util.Locale("",code);
+   String name=locale.getDisplayCountry(german);
+   if(name!=null&&!name.isEmpty())list.add(new String[]{code,name});
+  }
+  java.util.Collections.sort(list,(a,b)->a[1].compareToIgnoreCase(b[1]));
+  for(String[] entry:list){
+   org.json.JSONArray pair=new org.json.JSONArray();
+   pair.put(entry[0]);pair.put(entry[1]);countries.put(pair);
+  }
+  return countries.toString();
+ }
  @JavascriptInterface public void openExternal(String url){
   if(!"https://buymeacoffee.com/swisstech".equals(url))return;
   runOnUiThread(()->{
