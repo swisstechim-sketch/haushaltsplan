@@ -135,6 +135,16 @@ Auch jedes entsprechende `tablet/hochformat/*.svg` sowie die Smartphone-Mockups 
 - [ ] Visuelle Pixel-/Geräteprüfung der geänderten SVG-Darstellung, Button-Abstände und Tabellen in LDPlayer
 - [ ] Alle noch offenen Mockup-Aktionen und exakte PDF-Layoutparität
 
+## Tablet-Skalierung – zusätzliche Korrektur
+
+- [x] Tablet-Querformat: Sitepanel von 244 auf 200 CSS-Pixel verkleinert, Navigationsschrift und Symbole kompakter
+- [x] Tablet-Header, Seitentitel, Inhalte und Karten mit eigenen reduzierten Tablet-Schriftgrössen
+- [x] Dialogbreite auf maximal 520 CSS-Pixel, Titel und Formularabstände verringert
+- [x] Tablet-Hochformat ebenfalls mit reduzierter Schrift- und Kartengrösse
+- [x] Smartphone-Darstellung (unter 800 CSS-Pixel) unverändert
+- [x] PDF-A4-Dokumente ausdrücklich von der kompakteren UI-Schrift ausgenommen
+- [ ] Abnahme in LDPlayer bei 1280×800 / 1600×900 und auf realem Tablet
+
 ## Weitere Lücken
 - [ ] Exakte Zuordnung sämtlicher SVG-Buttonaktionen inkl. Dialoge, Filter, Tabellen, Pagination
 - [ ] PDF-Renderer je Berichtstyp mit realen Datensätzen, Druckvorschau und Export
