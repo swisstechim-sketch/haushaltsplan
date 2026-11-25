@@ -11,6 +11,11 @@ public class MainActivity extends Activity {
  private WebView web;
  private StayDatabase database;
  @Override public void onCreate(Bundle b){super.onCreate(b); database=new StayDatabase(this); web=new WebView(this); web.getSettings().setJavaScriptEnabled(true); web.getSettings().setDomStorageEnabled(true); web.getSettings().setAllowFileAccess(false); web.getSettings().setAllowContentAccess(false); web.addJavascriptInterface(new Bridge(),"Stay"); web.setWebViewClient(new WebViewClient(){@Override public boolean shouldOverrideUrlLoading(WebView v,String url){return true;}}); setContentView(web); web.loadUrl("file:///android_asset/index.html");}
+ @Override public void onBackPressed(){
+  if(web==null){super.onBackPressed();return;}
+  web.evaluateJavascript("typeof stayBack==='function' && stayBack()",value->{if("false".equals(value))super.onBackPressed();});
+ }
+ @Override protected void onDestroy(){if(web!=null){web.removeJavascriptInterface("Stay");web.destroy();web=null;}super.onDestroy();}
  public class Bridge {
  @JavascriptInterface public String qrSvg(String data){
   try {
