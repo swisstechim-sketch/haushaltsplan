@@ -44,6 +44,8 @@ jobs:
         run: node --check app/src/main/assets/app.js
       - name: Finance regression tests
         run: node tests/finance.test.cjs
+      - name: Tablet and UI regression tests
+        run: node tests/ui-regression.test.cjs
       - name: Backup regression tests
         run: node tests/backup.test.cjs
       - name: Storage regression tests
