@@ -26,7 +26,7 @@ const ctx=vm.createContext({
 vm.runInContext(js.slice(first,last),ctx);
 const names=vm.runInContext('DOCUMENT_TYPES',ctx);
 assert.equal(names.length,43,'all 43 PDF mockups are listed');
-assert.equal(names.filter(x=>x.available).length,24,'24 reports have data-driven renderers');
+assert.equal(names.filter(x=>x.available).length,29,'29 reports have data-driven renderers');
 assert.equal(ctx.reportBuild('checkin-checkout-tagesliste',today).rows.length,1);
 assert.equal(ctx.reportBuild('freie-zimmer',today).rows.length,1);
 assert.equal(ctx.reportBuild('aufenthaltsplan',today).rows.length,1);
@@ -42,6 +42,11 @@ assert.equal(ctx.reportBuild('housekeeping-kontrollbericht',today).rows.length,1
 assert.equal(ctx.reportBuild('kassenbericht',today).rows[0][2],'40.00');
 assert.equal(ctx.reportBuild('umsatz-nach-zimmerkategorien',today).rows.length,1);
 assert.equal(ctx.reportBuild('offene-posten',today).rows[0][3],'200.00');
+assert.equal(ctx.reportBuild('anreiseinformationen',today,'b1').rows[0][1],'Anna');
+assert.equal(ctx.reportBuild('reservationsofferte',today,'b1').rows.find(x=>x[0]==='Logis-Basispreis CHF')[1],'240.00');
+assert.equal(ctx.reportBuild('zahlungserinnerung',today,'i1').rows.find(x=>x[0]==='Offen CHF')[1],'200.00');
+assert.equal(ctx.reportBuild('monatsabschluss',today).rows.some(x=>x[0]==='Rechnungsvolumen'),true);
+assert.throws(()=>ctx.reportBuild('stornierungsbestatigung',today,'b1'),/stornierte Reservation/);
 assert.equal(ctx.reportBuild('rechnung',today,'i1').rows[0][0],'Logis');
 assert.equal(ctx.reportBuild('rechnung',today,'i1').rows.some(x=>x[0]==='Offen CHF'&&x[2]==='200.00'),true);
 assert.throws(()=>ctx.reportBuild('gutschrift',today,'i1:0'),/gespeicherte Gutschrift/);
