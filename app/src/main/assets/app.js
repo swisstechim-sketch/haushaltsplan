@@ -19,6 +19,7 @@ const get=(k,id)=>db[k].find(x=>x.id===id)||{}, label=(k,x)=>k==='rooms'?x.numbe
 const nights=b=>Math.round((Date.parse(b.departure)-Date.parse(b.arrival))/86400000), active=b=>!['Anfrage','Storniert','Ausgecheckt'].includes(b.status), overlap=(a,b)=>a.arrival<b.departure&&b.arrival<a.departure;
 const credited=id=>(get('invoices',id).credits||[]).reduce((n,c)=>n+Math.round(Number(c.amount)*100),0)/100;
 const paid=id=>db.payments.filter(p=>p.invoice===id).reduce((s,p)=>s+Number(p.amount),0);
+function bindSvgAction(el,fn){if(!el)return;el.setAttribute('tabindex','0');el.setAttribute('role','button');const title=el.querySelector('title');if(title&&title.textContent.trim())el.setAttribute('aria-label',title.textContent.trim());el.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();fn()});el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '||e.key==='Spacebar'){e.preventDefault();e.stopPropagation();if(!e.repeat)fn()}})}
 function btn(t,a,id='',cl=''){return '<button type="button" class="'+cl+'" data-action="'+a+'" data-id="'+esc(id)+'">'+esc(t)+'</button>'}
 function card(s){return '<section class="card">'+s+'</section>'}
 function metric(t,v){return card(esc(t)+'<strong>'+esc(v)+'</strong>')}
@@ -64,7 +65,7 @@ function renderDashboard(){
  const day=today(), b=db.bookings.filter(active), staying=b.filter(x=>x.arrival<=day&&day<x.departure), arrivals=b.filter(x=>x.arrival>=day).sort((a,b)=>a.arrival.localeCompare(b.arrival));
  const tasks=db.tasks.filter(x=>x.status!=='Erledigt'), revenue=db.invoices.filter(x=>x.date===day).reduce((s,x)=>s+x.total,0);
  const set=(g,x,y,value)=>{const t=g.querySelector('text[x="'+x+'"][y="'+y+'"]');if(t)t.textContent=value};
- const bind=(el,fn)=>{if(!el)return;el.setAttribute('tabindex','0');el.setAttribute('role','button');el.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();fn()});el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();fn()}})};
+ const bind=bindSvgAction;
  const show=()=>{main.setAttribute('display',tab==='work'?'none':'inline');work.setAttribute('display',tab==='work'?'inline':'none')};
  const route={'01-dashboard.svg':'dashboard','06-kalender.svg':'calendar','03-buchungen.svg':'bookings','09-rechnungen.svg':'invoices','19-menu.svg':'more'};
  svg.querySelectorAll('a').forEach(a=>{const href=a.getAttribute('href'), title=(a.querySelector('title')||{}).textContent||'';bind(a,()=>{if(title==='Schnellzugriff Reinigung')navigate('tasks');else if(title==='Schnellzugriff Verpflegung')navigate('meals');else if(title==='Schnellzugriff Umsatz')navigate('reports');else if(href==='#workspace-view'||href==='#main-view'){tab=href==='#workspace-view'?'work':'overview';show()}else if(href==='08-suche.svg')$('search').click();else if(href==='22-systemmeldungen.svg')navigate('logs');else if(href==='20-pdf-vollbild.svg')navigate('reports');else if(route[href])navigate(route[href])})});
@@ -92,7 +93,7 @@ function renderReferenceList(){
  const roomState=r=>occupied.has(r.id)?'Belegt':r.status==='Bereit'?'Frei':r.status;
  const all=db[k], stats=k==='bookings'?[all.filter(b=>b.status==='Bestätigt').length,all.filter(b=>b.status==='Anfrage').length,all.filter(b=>active(b)&&b.arrival===day).length,money(db.invoices.reduce((s,x)=>s+x.total-paid(x.id)-credited(x.id),0))]:k==='guests'?[present.size,all.filter(g=>visits(g.id)>1).length,all.filter(g=>g.kind==='Firma').length,all.filter(g=>visits(g.id)<=1).length]:['Belegt','Frei','Reinigung','Gesperrt'].map(s=>all.filter(r=>roomState(r)===s).length);
  const set=(g,x,y,v)=>{const t=g.querySelector('text[x="'+x+'"][y="'+y+'"]');if(t)t.textContent=v};
- const bind=(el,fn)=>{if(!el)return;el.setAttribute('role','button');el.setAttribute('tabindex','0');el.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();fn()});el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();fn()}})};
+ const bind=bindSvgAction;
  const hit=(g,x,y,fn)=>bind(g.querySelector('rect[x="'+x+'"][y="'+y+'"]'),fn);
  let filter='all', offset=0;
  const match=x=>filter==='all'||(k==='bookings'?(filter==='today'?x.arrival===day:x.status===filter):k==='guests'?(filter==='present'?present.has(x.id):filter==='repeat'?visits(x.id)>1:filter==='Firma'?x.kind==='Firma':x.kind!=='Firma'):roomState(x)===filter);
@@ -125,7 +126,7 @@ function renderBookingDraft(){
  document.body.classList.add('reference-dashboard');$('main').innerHTML=bookingReference;
  const svg=$('main').querySelector('svg'), main=svg.querySelector('#main-view'), work=svg.querySelector('#workspace-view');
  const set=(g,x,y,v)=>{const t=g.querySelector('text[x="'+x+'"][y="'+y+'"]');if(t)t.textContent=v};
- const bind=(el,fn)=>{if(!el)return;el.setAttribute('tabindex','0');el.setAttribute('role','button');el.addEventListener('click',e=>{e.preventDefault();fn()});el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();fn()}})};
+ const bind=bindSvgAction;
  const date=v=>v?v.split('-').reverse().join('.'):'Auswählen';
  const opts=(items,v)=>'<option value="">Auswählen</option>'+items.map(x=>'<option value="'+esc(x[0])+'" '+(String(x[0])===String(v)?'selected':'')+'>'+esc(x[1])+'</option>').join('');
  const select=(k,items)=>'<select required name="'+k+'">'+opts(items,draft[k])+'</select>';
@@ -150,7 +151,7 @@ function transitionStay(id,target){const b=get('bookings',id),r=get('rooms',b.ro
 function receptionAction(id){const b=get('bookings',id);if(!b.id)return;const target=b.status==='Eingecheckt'?'Ausgecheckt':'Eingecheckt';dialog('<h2>'+esc(target==='Eingecheckt'?'Check-in':'Check-out')+'</h2><p>'+esc(label('bookings',b))+'</p><p>Zimmer '+esc(get('rooms',b.room).number)+'</p>'+ (target==='Ausgecheckt'?'<p>Zimmer wird zur Reinigung freigegeben. Offene Rechnungen bleiben bestehen.</p>':'')+btn('Abbrechen','close')+btn('Bestätigen','stayTransition',id+':'+target,'primary'))}
 function renderReception(){document.body.classList.add('reference-dashboard');$('main').innerHTML=checkinReference;const svg=$('main').querySelector('svg'),m=svg.querySelector('#main-view'),w=svg.querySelector('#workspace-view'),d=today();
  const arrivals=db.bookings.filter(b=>b.status==='Bestätigt'&&b.arrival<=d&&b.departure>d),departures=db.bookings.filter(b=>b.status==='Eingecheckt'&&b.departure<=d),inhouse=db.bookings.filter(b=>b.status==='Eingecheckt'),done=db.bookings.filter(b=>[b.checkedInAt,b.checkedOutAt].some(t=>t&&new Date(t).toLocaleDateString()===new Date().toLocaleDateString()));
- const set=(g,x,y,v)=>{const t=g.querySelector('text[x="'+x+'"][y="'+y+'"]');if(t)t.textContent=v};const bind=(el,fn)=>{if(!el)return;el.setAttribute('tabindex','0');el.setAttribute('role','button');el.addEventListener('click',e=>{e.preventDefault();fn()});el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();fn()}})};
+ const set=(g,x,y,v)=>{const t=g.querySelector('text[x="'+x+'"][y="'+y+'"]');if(t)t.textContent=v};const bind=bindSvgAction;
  const select=()=>({arrivals,departures,inhouse,done})[receptionFilter].filter(b=>label('bookings',b).toLowerCase().includes(query.toLowerCase()));const rows=select(),shown=rows.slice(0,3);
  const choose=k=>{receptionFilter=k;renderReception()};const listAll=()=>dialog('<h2>Aufenthalte</h2>'+rows.map(b=>entry(label('bookings',b),b.status,'reception',b.id)).join('')+btn('Schliessen','close'));
  const search=()=>{dialog('<h2>Aufenthalte suchen</h2><input id="reception-search" value="'+esc(query)+'">'+btn('Übernehmen','receptionSearch'));};
@@ -168,7 +169,7 @@ function localDate(d){return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2
 function renderCalendarReference(){
  document.body.classList.add('reference-dashboard');$('main').innerHTML=calendarReference;const svg=$('main').querySelector('svg'),m=svg.querySelector('#main-view'),w=svg.querySelector('#workspace-view'),popup=svg.querySelector('#reservation-popup');if(popup)popup.setAttribute('display','none');
  const start=new Date();start.setDate(start.getDate()-((start.getDay()+6)%7)+weekOffset*7);const days=Array.from({length:7},(_,i)=>{const d=new Date(start);d.setDate(d.getDate()+i);return localDate(d)});
- const set=(g,x,y,v)=>{const t=g.querySelector('text[x="'+x+'"][y="'+y+'"]');if(t)t.textContent=v};const bind=(el,fn)=>{if(!el)return;el.setAttribute('role','button');el.setAttribute('tabindex','0');el.addEventListener('click',e=>{e.preventDefault();fn()});el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();fn()}})};
+ const set=(g,x,y,v)=>{const t=g.querySelector('text[x="'+x+'"][y="'+y+'"]');if(t)t.textContent=v};const bind=bindSvgAction;
  const rooms=db.rooms.slice().sort((a,b)=>String(a.number).localeCompare(String(b.number),undefined,{numeric:true}));if(roomOffset>=rooms.length)roomOffset=0;const shown=rooms.slice(roomOffset,roomOffset+7);
  const bookings=db.bookings.filter(b=>active(b)&&b.arrival<=days[6]&&b.departure>days[0]);const fmt=d=>d.split('-').reverse().join('.');
  set(m,16,132,fmt(days[0])+' – '+fmt(days[6]));set(m,29,697,(rooms.length?roomOffset+1:0)+'–'+Math.min(roomOffset+7,rooms.length)+' von '+rooms.length+' Zimmern · weiter ›');
@@ -192,7 +193,7 @@ function mealPrint(rows){const keys=['breakfast','lunch','dinner'];const totals=
 function mealExport(rows){const safe=v=>{let t=String(v==null?'':v);if(/^[=+@\-\t\r]/.test(t))t="'"+t;return '"'+t.replace(/"/g,'""')+'"'};const data=[['Datum','Zimmer','Gast','Personen','Frühstück','Mittagessen','Abendessen']].concat(rows.map(x=>[mealDay,get('rooms',x.booking.room).number,get('guests',x.booking.guest).name,x.booking.people,...['breakfast','lunch','dinner'].map(k=>x[k]?x.booking.people:0)])).map(r=>r.map(safe).join(';')).join('\r\n');if(typeof Stay!=='undefined')Stay.share(data);else{const url=URL.createObjectURL(new Blob(['\ufeff',data],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='verpflegung-'+mealDay+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}}
 function renderMealReference(){
  document.body.classList.add('reference-dashboard');$('main').innerHTML=mealReference;const svg=$('main').querySelector('svg'),m=svg.querySelector('#main-view'),w=svg.querySelector('#workspace-view'),plan=mealPlan(mealDay),keys=['breakfast','lunch','dinner'],names=['Frühstück','Mittagessen','Abendessen'];
- const set=(g,x,y,v)=>{const t=g.querySelector('text[x="'+x+'"][y="'+y+'"]');if(t)t.textContent=v};const bind=(el,fn)=>{if(!el)return;el.setAttribute('role','button');el.setAttribute('tabindex','0');el.addEventListener('click',e=>{e.preventDefault();fn()});el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();fn()}})};
+ const set=(g,x,y,v)=>{const t=g.querySelector('text[x="'+x+'"][y="'+y+'"]');if(t)t.textContent=v};const bind=bindSvgAction;
  const count=k=>plan.reduce((n,x)=>n+(x[k]?Number(x.booking.people):0),0);
  const title=x=>get('rooms',x.booking.room).number+' · '+get('guests',x.booking.guest).name;
  const desc=x=>x.booking.meal+' · '+x.booking.people+' Pers.';
