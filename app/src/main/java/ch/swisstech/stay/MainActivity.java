@@ -35,6 +35,13 @@ public class MainActivity extends Activity {
  @JavascriptInterface public boolean save(String data){return database.save(data);}
  @JavascriptInterface public void print(){runOnUiThread(()->((PrintManager)getSystemService(PRINT_SERVICE)).print("STAY Swiss",web.createPrintDocumentAdapter("STAY Swiss"),null));}
  @JavascriptInterface public void share(String data){runOnUiThread(()->{Intent i=new Intent(Intent.ACTION_SEND);i.setType("text/plain");i.putExtra(Intent.EXTRA_TEXT,data);startActivity(Intent.createChooser(i,"STAY Swiss"));});}
+ @JavascriptInterface public void openExternal(String url){
+  if(!"https://buymeacoffee.com/swisstech".equals(url))return;
+  runOnUiThread(()->{
+   try{Intent intent=new Intent(Intent.ACTION_VIEW,android.net.Uri.parse(url));startActivity(intent);}
+   catch(android.content.ActivityNotFoundException ex){android.widget.Toast.makeText(MainActivity.this,"Kein Browser verfügbar",android.widget.Toast.LENGTH_LONG).show();}
+  });
+ }
  @JavascriptInterface public void email(String recipient, String subject, String body){
   final String to=recipient==null?"":recipient.trim();
   final String sub=subject==null?"":subject;
