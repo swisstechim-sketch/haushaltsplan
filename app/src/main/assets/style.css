@@ -288,3 +288,30 @@ button[data-action]>span{line-height:1.25}
  #dialog{width:min(100%,520px);max-width:520px}
  .dialog-toolbar h2{font-size:20px}
 }
+
+
+/* Compact pricing sections for the hotel and room dialogs. */
+.price-editor{margin:18px 0 4px;border-top:1px solid #dce6f0;padding-top:14px}
+.price-editor>h3{margin:0 0 5px;color:#274765;font-size:16px}
+.price-editor>p,.tariff-section>p,.meal-price-settings>p{font-size:12px;line-height:1.5;color:#60758a;margin:5px 0 12px}
+.tariff-section{border:1px solid #dce6f0;border-radius:11px;background:#f9fbfe;margin:9px 0;overflow:hidden}
+.tariff-section>summary{padding:12px 14px;font-size:13px;font-weight:700;color:#294965;cursor:pointer;background:#f0f6fc}
+.tariff-section>summary:focus-visible{outline:2px solid #4b8cc5;outline-offset:-3px}
+.tariff-section>p{padding:0 14px;margin:12px 0}
+.tariff-section .price-fields{padding:12px 14px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.price-field{min-width:0}
+.price-field>label,.price-fields>div>label{display:block;margin:0 0 5px!important;font-size:11px}
+.tariff-section .price-field>input{width:100%;margin:0}
+.season-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:12px 14px}
+.season-group{min-width:0;padding:12px;background:white;border:1px solid #e2eaf3;border-radius:9px}
+.season-group>strong{display:block;font-size:12px;margin-bottom:10px}
+.meal-price-settings{padding-top:18px;margin-top:18px;border-top:1px solid #e2eaf3}
+.meal-price-settings>h2{font-size:16px;margin:0 0 6px}
+.meal-price-settings .price-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.meal-price-settings .price-fields>div{min-width:0;border:1px solid #e2eaf3;padding:11px;border-radius:10px;background:#f9fbfe}
+.meal-price-settings h3{font-size:12px;margin:0 0 9px}
+.meal-price-settings input{width:100%}
+.pricing-quote{background:#edf5fc;padding:12px;border-radius:10px;margin:15px 0 0;font-size:12px;line-height:1.4}
+.pricing-quote p{margin:6px 0}
+@media(max-width:620px){.tariff-section .price-fields,.season-list{grid-template-columns:1fr}.meal-price-settings .price-fields{grid-template-columns:1fr}}
+@media(min-width:800px) and (orientation:landscape){.price-editor>h3{font-size:14px}.tariff-section>summary{padding:9px 12px;font-size:12px}.tariff-section .price-fields,.season-list{gap:8px;padding:9px 12px}.season-group{padding:9px}.meal-price-settings .price-fields{gap:8px}}
