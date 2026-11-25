@@ -410,3 +410,5 @@ button[data-action]>span{line-height:1.25}
 .tariff-preview-grid{display:grid;grid-template-columns:minmax(90px,1fr) minmax(0,2fr);gap:10px 14px;align-items:center}.tariff-preview-grid label,.tariff-preview-grid input,.tariff-preview-grid select{margin:0;min-width:0}.tariff-preview-grid .actions{grid-column:1/-1}.qr-receipt p,.qr-right p{overflow-wrap:anywhere}@media(max-width:420px){.tariff-preview-grid{grid-template-columns:1fr;gap:6px}}
 
 #tariff-preview-form .tariff-meal-select{appearance:auto;-webkit-appearance:menulist;width:100%;box-sizing:border-box;background-color:#f3f6fa;color:#243b53;min-height:40px}#tariff-preview-form .actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+
+.calendar-table td.calendar-completed{background:#e5e9ee;color:#526477}.calendar-legend span{white-space:nowrap}.calendar-legend span:nth-child(4){background:#e5e9ee;color:#526477}
