@@ -77,3 +77,13 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .dialog-close{margin-left:auto}
 .pdf-preview-toolbar{background:#fff;border:1px solid #e4ebf2;border-radius:12px;padding:12px 16px;margin-bottom:16px}
 @media print{.dialog-toolbar,.pdf-preview-toolbar{display:none!important}}
+
+/* Reusable, first-party SVG action icon system (20x20). */
+.action-svg{width:20px;height:20px;flex:0 0 20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+button[data-action]{display:inline-flex;align-items:center;justify-content:center;gap:8px;vertical-align:middle}
+button[data-action]>span{line-height:1.25}
+#sidebar button[data-action]{justify-content:flex-start}
+@media(min-width:800px) and (orientation:landscape){#sidebar button[data-action]{min-height:42px}}
+#dialog .actions{padding-top:16px}
+#dialog .actions button{flex:0 1 auto}
+@media(max-width:799px){#dialog .actions button{flex:1 1 calc(50% - 12px)}}
