@@ -5,3 +5,5 @@
 nav button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 2px;min-width:0}.nav-icon{font-size:23px;line-height:1.1}.nav-label{font-size:10px;line-height:1.2;overflow-wrap:anywhere}main{min-width:0}.card{min-width:0;overflow-wrap:anywhere}.card{overflow-x:auto}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid #527da8;outline-offset:2px}@media(max-width:360px){main{padding-left:10px;padding-right:10px}.metrics strong{font-size:19px}.nav-label{font-size:9px}}@media print{.qr-sheet{overflow:visible!important}.card{padding:0;margin:0}.qr-strip{width:210mm}}
 
 @media(max-width:799px){nav button{flex:1;width:auto;max-width:20%}.actions button{flex:1 1 auto}#dialog{max-height:90vh;overflow-y:auto}.reference-dashboard>main>svg{max-width:100%}}@media print{.card{overflow:visible!important}}
+
+#recovery-warning{display:none}.storage-recovery #recovery-warning{display:block;position:relative;padding:12px;background:#fff2e0;color:#75451a;font-weight:bold;line-height:1.4}@media print{#recovery-warning{display:none!important}}
