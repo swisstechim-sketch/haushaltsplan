@@ -126,3 +126,55 @@ button[data-action]>span{line-height:1.25}
 .reception-entry:last-child{border-bottom:0}.reception-entry>div{flex:1;min-width:0}.reception-entry strong{display:block;font-size:15px}.reception-entry small{font-size:12px;margin-top:5px;line-height:1.4}
 #reception-results{margin-top:12px}.reception-entry button{flex:0 0 auto}
 @media(max-width:620px){.reception-entry{flex-direction:column;align-items:stretch}.reception-entry button{align-self:flex-start}}
+
+
+/* Unified vertical button rhythm. Controls never touch labels, sections or footers. */
+.card > .actions, .about-hero .actions, .info-intro .actions, .reception-top-actions,
+.reception-tabs, .reception-table-footer, .dialog-toolbar + .actions {
+  display:flex;align-items:center;gap:12px;margin:20px 0 18px;padding:0;flex-wrap:wrap;
+}
+.card > .actions:last-child{margin-bottom:0;padding-top:16px;border-top:1px solid #e4ebf2}
+.card > .actions:first-child{margin-top:0;margin-bottom:20px;padding:0;border-top:0}
+.actions button,.reception-top-actions button,.reception-tabs button{min-height:44px;margin:0}
+.about-hero .actions{flex-wrap:nowrap;width:100%;margin:22px 0 0;gap:12px}
+.about-hero .actions button{flex:1 1 0;min-width:0;max-width:none;white-space:nowrap;padding:10px 12px;font-size:14px}
+.about-hero .actions button span{white-space:nowrap}
+.about-footer{padding:22px 24px;margin-top:18px}
+.about-footer .company-mark{display:block;min-height:0}
+.about-footer .company-logo{display:block;width:min(100%,430px);max-height:125px;object-fit:contain;object-position:left center}
+.about-footer p{margin:14px 0 0}
+.reception-summary{margin:0 0 16px}
+.reception-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin:0 0 18px}
+.reception-heading h2{margin:5px 0 5px;font-size:27px}
+.reception-heading p{margin:0;color:#667e92}
+.reception-top-actions{margin:0;justify-content:flex-end;flex-wrap:nowrap}
+.reception-top-actions button{white-space:nowrap}
+.reception-tabs{margin:0 0 18px;border-bottom:1px solid #dce6ef;padding:0 0 14px;flex-wrap:nowrap}
+.reception-tabs button{flex:1 1 0}
+.reception-filters{margin:18px 0 18px}
+.reception-filters label{margin:0 0 8px}
+.reception-table-wrap{overflow-x:auto}
+.reception-table{width:100%;border-collapse:collapse;table-layout:auto;font-size:13px}
+.reception-table th{background:#eaf3fb;color:#294965;font-weight:700}
+.reception-table th,.reception-table td{padding:12px 10px;text-align:left;border-bottom:1px solid #e3eaf1;vertical-align:middle}
+.reception-table td strong{font-weight:600}
+.reception-action-heading,.reception-row-actions{text-align:right!important}
+.reception-row-actions{white-space:nowrap}
+.reception-row-actions button{min-height:38px;padding:7px 9px;margin:0 0 0 6px;gap:5px;font-size:12px}
+.reception-row-actions .action-svg{width:16px;height:16px;flex-basis:16px}
+.reception-status{background:#edf3f8;border-radius:7px;display:inline-block;padding:5px 8px}
+.reception-table-footer{margin:18px 0 0;justify-content:space-between}
+.reception-table-footer span{color:#667b90;font-size:13px}
+@media(min-width:800px) and (orientation:landscape){
+ .reception-heading{align-items:center}
+ .reception-summary .metrics{margin:0}
+}
+@media(max-width:799px){
+ .about-hero .actions{flex-wrap:nowrap}
+ .about-hero .actions button{flex:1 1 0;padding:10px 7px;font-size:12px}
+ .about-hero .actions .action-svg{width:16px;height:16px;flex-basis:16px}
+ .reception-heading{flex-direction:column}
+ .reception-top-actions{width:100%;justify-content:flex-start}
+ .reception-tabs{gap:6px}
+ .reception-tabs button{font-size:12px;padding:9px 6px}
+}
