@@ -94,7 +94,7 @@ Auch jedes entsprechende `tablet/hochformat/*.svg` sowie die Smartphone-Mockups 
 - [ ] Native PDF-Dateispeicherung bzw. Android-Teilen inkl. lesbaren Dateinamen
 - [ ] E-Mail-Anhänge als tatsächliche PDFs
 - [ ] Länderauswahl vervollständigen und regulatorische Datenvalidierung prüfen
-- [ ] SVG-Logo aus dem angehängten Original als Android-Asset integrieren
+- [x] SwissTech.im-Logo aus dem Anhang als lokales komprimiertes SVG-Bildasset in die Über-Seite integrieren (optische Prüfung auf Gerät offen)
 - [ ] Visueller Mockup-Vergleich für alle Seiten
 - [ ] Fertige signierte Release-APK nach bestandenen Tests
 
