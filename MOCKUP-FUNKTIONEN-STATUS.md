@@ -157,6 +157,16 @@ Auch jedes entsprechende `tablet/hochformat/*.svg` sowie die Smartphone-Mockups 
 - [ ] Besonderheiten bei Halb-/Vollpensionsarrangements und Paketaufteilungen anhand ESTV-Branchen-Info 08 vor produktiver Rechnungsfreigabe im Einzelfall validieren
 - [ ] End-to-End-Tests der Preisbearbeitung/Reservation und visueller Abgleich der neuen Tariffelder im LDPlayer
 
+## Neue Funktionen: Tarifkontrolle pro Zimmer
+
+- [x] In der Zimmerliste neben „Bearbeiten“ neue Aktion **Tarif prüfen**
+- [x] Tarifvorschau mit Anreise/Abreise, 1–6 Erwachsenen, 0–4 Kindern und allen vier Verpflegungsarten
+- [x] Berechnung einzelner Nächte mit Wochenend- und Saisonregeln sowie gesonderte Summe für Zimmer, Frühstück und weitere Mahlzeiten
+- [x] Keine neue Buchung und keine Änderung gespeicherter Daten bei der Tarifkontrolle
+- [x] Beim Bearbeiten einer bestehenden Reservation wird der bisher gespeicherte Preis angezeigt, wenn Zimmer, Daten, Belegung und Verpflegung unverändert geblieben sind
+- [x] Tests für unveränderte Tarife und Änderungsfälle (Kinderanzahl, Verpflegung)
+- [ ] Fachliche Abnahme der MWST-Verteilung bei Halb-/Vollpension und visuelle Prüfung der Tarifvorschau im Tablet-Querformat
+
 ## Weitere Lücken
 - [ ] Exakte Zuordnung sämtlicher SVG-Buttonaktionen inkl. Dialoge, Filter, Tabellen, Pagination
 - [ ] PDF-Renderer je Berichtstyp mit realen Datensätzen, Druckvorschau und Export
