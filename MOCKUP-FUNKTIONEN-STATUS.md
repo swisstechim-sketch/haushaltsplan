@@ -96,13 +96,22 @@ Auch jedes entsprechende `tablet/hochformat/*.svg` sowie die Smartphone-Mockups 
 - [ ] Diese Listenberichte sind noch **keine** 1:1-Umsetzung der individuellen SVG-Dokumente. Einzelbelege wie Gästemeldeformular und Reservationsbestätigung brauchen jeweils eine dokumentbezogene Auswahl, Unterschrifts-/Adressfelder und Original-Layout
 - [ ] 31 weitere individuelle Dokumentausgaben bleiben nicht verfügbar, werden im Katalog jedoch sichtbar als offen markiert
 
+## Zusätzliche Umsetzung – 25.11.2026
+
+- [x] Acht weitere datengesteuerte Berichtsübersichten: Gästeherkunft, Aufenthaltsplan, Verpflegungsplan, Wochenverpflegung, Wochenbelegungsplan, Umsatz nach Zimmerkategorie, Kassenbericht und Housekeeping-Kontrollbericht
+- [x] Damit 20 verfügbare Berichtstypen im PDF-Katalog (kein Anspruch auf 1:1-Designparität)
+- [x] Funktionale Tablet-Check-in-/Check-out-Ansicht mit Filter, Gast-/Zimmeranzeige und Statuswechsel-Aktion
+- [x] Vollständige Android-ISO-Länderauswahl über Native Bridge; Browser-Fallback mit begrenzter Länderliste
+- [ ] Weitere 23 Berichtstypen mit Original-Layout, vollständiger Fachlogik und Datenvalidierung umsetzen
+
 ## Weitere Lücken
 - [ ] Exakte Zuordnung sämtlicher SVG-Buttonaktionen inkl. Dialoge, Filter, Tabellen, Pagination
 - [ ] PDF-Renderer je Berichtstyp mit realen Datensätzen, Druckvorschau und Export
 - [ ] PDF-Vorlageneditor und PDF-Einstellungen
 - [ ] Native PDF-Dateispeicherung bzw. Android-Teilen inkl. lesbaren Dateinamen
 - [ ] E-Mail-Anhänge als tatsächliche PDFs
-- [ ] Länderauswahl vervollständigen und regulatorische Datenvalidierung prüfen
+- [x] Alle von Android/ISO unterstützten Länder über native Länderliste anbieten (Browser-Fallback weiterhin verkürzt)
+- [ ] Regulatorische Datenvalidierung und länderspezifische Meldepflichten prüfen
 - [x] SwissTech.im-Logo aus dem Anhang als lokales komprimiertes SVG-Bildasset in die Über-Seite integrieren (optische Prüfung auf Gerät offen)
 - [ ] Visueller Mockup-Vergleich für alle Seiten
 - [ ] Fertige signierte Release-APK nach bestandenen Tests
