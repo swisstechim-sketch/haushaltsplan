@@ -34,4 +34,5 @@ assert.match(src,/\['about','Über STAY Swiss'/,'about appears in navigation');
 assert.match(src,/buymeacoffee\.com\/swisstech/,'support button targets requested URL');
 assert.match(css,/\.help-grid/,'help layouts are styled');
 assert.match(css,/\.about-hero/,'about layouts are styled');
+assert.match(src,/swisstech-logo\.svg/,'About uses attached logo asset');
 console.log('Tablet UI, guest fields, SVG buttons, email templates and preview controls: OK');
