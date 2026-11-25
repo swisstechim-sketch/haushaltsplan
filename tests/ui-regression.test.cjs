@@ -74,3 +74,12 @@ assert.match(src,/function touristTaxSettings\(h\)/,'hotel tourist tax configura
 assert.match(src,/taxExemptAdults','Kurtaxenbefreite Erwachsene/,'adult visitor tax exemptions are configurable');
 assert.match(src,/Kurtaxe \/ Gästetaxe/,'tourist tax appears on the invoice');
 console.log('Tablet UI, guest fields, SVG buttons, email templates and preview controls: OK');
+
+assert.match(src,/class="sidebar-section"/,'expandable sidebar sections');
+assert.match(src,/class="more-menu-grid"/,'mobile grouped navigation');
+assert.match(css,/\.more-menu-grid/,'responsive mobile menu');
+assert.match(src,/size=12,total=Math\.max/,'management list page size');
+assert.match(src,/function listFilterControls\(k\)/,'schema-driven filters');
+assert.match(src,/data-list-filter/,'filter controls connected');
+assert.match(src,/Einträge suchen und filtern/,'SVG search dialog');
+assert.match(css,/\.list-filters/,'responsive filter layout');
