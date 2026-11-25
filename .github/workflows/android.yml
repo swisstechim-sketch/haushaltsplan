@@ -6,6 +6,7 @@ on:
       - 'app/**'
       - 'tests/**'
       - '*.gradle'
+      - 'gradle.properties'
       - '.github/workflows/android.yml'
 jobs:
   build:
@@ -96,3 +97,43 @@ jobs:
           name: emulator-test-reports
           path: app/build/outputs/androidTest-results/
           if-no-files-found: ignore
+
+  release:
+    needs: [build, emulator-tests]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - name: Build signed release APK
+        shell: bash
+        env:
+          STAY_KEYSTORE_BASE64: ${{ secrets.STAY_KEYSTORE_BASE64 }}
+          STAY_STORE_PASSWORD: ${{ secrets.STAY_STORE_PASSWORD }}
+          STAY_KEY_ALIAS: ${{ secrets.STAY_KEY_ALIAS }}
+          STAY_KEY_PASSWORD: ${{ secrets.STAY_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          for name in STAY_KEYSTORE_BASE64 STAY_STORE_PASSWORD STAY_KEY_ALIAS STAY_KEY_PASSWORD; do
+            if [ -z "${!name}" ]; then echo "::error::Missing secret $name"; exit 1; fi
+          done
+          umask 077
+          export STAY_KEYSTORE_PATH="$RUNNER_TEMP/stay-release.p12"
+          trap 'rm -f "$STAY_KEYSTORE_PATH"' EXIT
+          printf '%s' "$STAY_KEYSTORE_BASE64" | base64 --decode > "$STAY_KEYSTORE_PATH"
+          unset STAY_KEYSTORE_BASE64
+          gradle --no-daemon :app:assembleRelease
+          mkdir -p release
+          cp app/build/outputs/apk/release/app-release.apk release/STAY-Swiss-1.0.0.apk
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose release/STAY-Swiss-1.0.0.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: STAY-Swiss-1.0.0-release
+          path: release/STAY-Swiss-1.0.0.apk
+          if-no-files-found: error
