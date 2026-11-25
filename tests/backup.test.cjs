@@ -7,3 +7,8 @@ const d=ctx.make();d.guests.push({id:'g'});d.rooms.push({id:'r'});d.bookings.pus
 assert.equal(ctx.validateBackup(d).payments.length,1);
 for(const mutate of [x=>x.guests.push({id:'g'}),x=>x.payments[0].invoice='missing',x=>x.payments[0].amount=-1,x=>delete x.rooms]){const x=JSON.parse(JSON.stringify(d));mutate(x);assert.throws(()=>ctx.validateBackup(x))}
 console.log('Backup checks passed');
+
+const legacy=JSON.parse(JSON.stringify(d));for(const k of ['lostItems','guestWishes','maintenance','handover'])delete legacy[k];legacy.bookings[0].deposit=25;
+const restored=ctx.validateBackup(legacy);assert.equal(restored.bookings[0].depositAmount,25);assert.equal(restored.maintenance.length,0);
+for(const key of ['credits','refunds']){const x=JSON.parse(JSON.stringify(d));x.invoices[0][key]=[{amount:10}];assert.equal(ctx.validateBackup(x).invoices[0][key][0].amount,10);for(const bad of [null,{},[{amount:-1}],[{amount:'invalid'}],[null]]){x.invoices[0][key]=bad;assert.throws(()=>ctx.validateBackup(x))}}
+console.log('Legacy backup and nested financial validation checks passed');
