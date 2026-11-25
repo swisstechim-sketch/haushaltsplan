@@ -29,3 +29,12 @@ invoice.dueDate='2026-11-01';
 invoice.reminders=[1,2,3].map(level=>({level,date:'2026-11-01',dueDate:'2026-11-02',amount:100}));
 assert.equal(ready(),false,'fourth reminder cannot be created');
 console.log('Reminder eligibility regression checks passed');
+
+invoice.reminders=[{level:2,date:'2026-11-10',dueDate:'2026-11-20',amount:100}];
+assert.equal(ready(),false,'inconsistent reminder sequence must not offer creation');
+invoice.reminders=[];
+invoice.total=0;
+assert.equal(ready(),false,'settled invoice must not offer creation');
+invoice.total=100;
+invoice.dueDate='2026-11-25';
+assert.equal(ready(),false,'invoice due today must not offer creation');
