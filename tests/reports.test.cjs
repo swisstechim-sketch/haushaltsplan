@@ -26,7 +26,7 @@ const ctx=vm.createContext({
 vm.runInContext(js.slice(first,last),ctx);
 const names=vm.runInContext('DOCUMENT_TYPES',ctx);
 assert.equal(names.length,43,'all 43 PDF mockups are listed');
-assert.equal(names.filter(x=>x.available).length,42,'42 reports have data-driven renderers');
+assert.equal(names.filter(x=>x.available).length,43,'43 reports have data-driven renderers');
 sample.bookings[0].priceSnapshot={touristTax:15.2,touristTaxDetails:{enabled:true,adults:2,children:0,adultRate:3.8,childRate:0,amount:15.2}};
 assert.equal(ctx.touristTaxMonthRows('2026-11').length,1,'monthly tourist tax includes saved room nights');
 assert.equal(ctx.touristTaxMonthRows('2026-11')[0].total,15.2,'monthly tax uses saved nightly rates');
@@ -103,6 +103,12 @@ assert.equal(ctx.reportBuild('gastemeldeformular',today,'g1').rows[0][1],'Anna')
 assert.equal(ctx.reportBuild('buchungsbestaetigung',today,'b1').rows[0][1],'Anna');
 assert.equal(ctx.reportBuild('zahlungsquittung',today,'p1').rows[4][1],'40.00');
 assert.throws(()=>ctx.reportBuild('qr-rechnung',today),/Rechnung auswählen/);
+assert.throws(()=>ctx.reportBuild('ruckerstattungsbeleg',today,'i1:0'),/gespeicherte Rückerstattung/);
+sample.invoices[0].refunds=[{number:'RS-1',date:today,amount:10,method:'TWINT',reference:'TEST',reason:'Test'}];
+assert.equal(ctx.reportBuild('ruckerstattungsbeleg',today,'i1:0').rows[7][1],'10.00');
+assert.equal(ctx.reportBuild('kassenbericht',today).rows.find(x=>x[0]==='Rückzahlung · TWINT')[2],'-10.00');
+assert.equal(ctx.reportBuild('jahresabschluss',today).rows[10][3],'30.00');
+assert.equal(ctx.reportBuild('monatsabschluss',today).rows.find(x=>x[0]==='Im Monat ausgezahlte Rückerstattungen')[3],'10.00');
 assert.match(css,/body\.document-preview/);
 assert.doesNotMatch(css,/:has\(\.report-a4\)/);
 assert.match(js,/function documentClose\(\)/);
