@@ -47,3 +47,17 @@ assert.match(ctx.reminderOverview(),/Mahnverlauf prüfen/,'missing deadline is v
 invoice.reminders=[{level:9,date:'2026-11-10',dueDate:'2026-11-20',amount:100}];
 assert.match(ctx.reminderOverview(),/Unbekannte Mahnstufe/,'unknown reminder level is visibly flagged');
 assert.equal(ready(),false,'unknown reminder level blocks creation');
+
+const archiveStart=src.indexOf('function reminderArchive(');
+assert.ok(archiveStart>=0&&archiveStart<start);
+let archiveHtml='';
+const archiveCtx=vm.createContext({get:()=>invoice,esc:x=>String(x),money:x=>String(x),dialog:x=>{archiveHtml=x},btn:(label,action)=>action==='reminderArchivePdf'?'[PDF]':''});
+vm.runInContext(src.slice(archiveStart,start),archiveCtx);
+invoice.reminders=[{level:9,amount:100}];
+archiveCtx.reminderArchive(invoice.id);
+assert.match(archiveHtml,/Datensatz prüfen/);
+assert.doesNotMatch(archiveHtml,/\[PDF\]/);
+invoice.reminders=[{level:1,amount:100}];
+archiveCtx.reminderArchive(invoice.id);
+assert.match(archiveHtml,/\[PDF\]/);
+assert.match(archiveHtml,/Versandstatus: nicht nachgewiesen/);
