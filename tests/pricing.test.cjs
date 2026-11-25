@@ -58,3 +58,5 @@ assert.equal(context.unchangedReservationTariff(persisted,{room:'r1',arrival:'20
 assert.equal(context.unchangedReservationTariff(persisted,{room:'r1',arrival:'2026-11-26',departure:'2026-11-29',adults:'2',children:'0',meal:'Halbpension'}),false,'changed child count requires new price');
 assert.equal(context.unchangedReservationTariff(persisted,{room:'r1',arrival:'2026-11-26',departure:'2026-11-29',adults:'2',children:'1',meal:'Vollpension'}),false,'changed meal requires new price');
 console.log('Room, adult/child, weekend, season, meal and VAT price tests passed');
+const legacy={room:'r1',arrival:base.arrival,departure:base.departure,people:2,priceSnapshot:{total:300}};
+assert.equal(context.unchangedReservationTariff(legacy,{room:'r1',arrival:base.arrival,departure:base.departure,adults:'2',children:'0',meal:'Nur Logis',taxExemptAdults:'0',taxExemptChildren:'0'}),true,'legacy reservation keeps saved tariff');
