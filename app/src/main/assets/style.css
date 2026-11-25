@@ -315,3 +315,10 @@ button[data-action]>span{line-height:1.25}
 .pricing-quote p{margin:6px 0}
 @media(max-width:620px){.tariff-section .price-fields,.season-list{grid-template-columns:1fr}.meal-price-settings .price-fields{grid-template-columns:1fr}}
 @media(min-width:800px) and (orientation:landscape){.price-editor>h3{font-size:14px}.tariff-section>summary{padding:9px 12px;font-size:12px}.tariff-section .price-fields,.season-list{gap:8px;padding:9px 12px}.season-group{padding:9px}.meal-price-settings .price-fields{gap:8px}}
+
+/* Room price check action and readable day-by-day tariff results. */
+.room-row-actions{display:flex;flex:0 0 auto!important;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.room-row-actions button{min-height:38px;white-space:nowrap}
+#tariff-preview-result{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.6 Arial,sans-serif;margin-top:16px;max-height:300px;overflow-y:auto}
+@media(max-width:799px){.room-row-actions{width:auto;gap:6px}.room-row-actions button{font-size:12px}}
+@media(min-width:800px) and (orientation:landscape){.room-row-actions button{min-height:34px;font-size:11px;padding:7px}}
