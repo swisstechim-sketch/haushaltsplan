@@ -39,6 +39,8 @@ jobs:
         run: node tests/finance.test.cjs
       - name: Backup regression tests
         run: node tests/backup.test.cjs
+      - name: Storage regression tests
+        run: node tests/storage.test.cjs
       - name: Build and unit tests
         run: gradle --no-daemon --stacktrace :app:assembleDebug :app:testDebugUnitTest
       - name: Verify APK
