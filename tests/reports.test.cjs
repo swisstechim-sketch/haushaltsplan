@@ -26,7 +26,7 @@ const ctx=vm.createContext({
 vm.runInContext(js.slice(first,last),ctx);
 const names=vm.runInContext('DOCUMENT_TYPES',ctx);
 assert.equal(names.length,43,'all 43 PDF mockups are listed');
-assert.equal(names.filter(x=>x.available).length,29,'29 reports have data-driven renderers');
+assert.equal(names.filter(x=>x.available).length,32,'32 reports have data-driven renderers');
 assert.equal(ctx.reportBuild('checkin-checkout-tagesliste',today).rows.length,1);
 assert.equal(ctx.reportBuild('freie-zimmer',today).rows.length,1);
 assert.equal(ctx.reportBuild('aufenthaltsplan',today).rows.length,1);
