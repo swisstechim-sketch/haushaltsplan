@@ -1,0 +1,2 @@
+# Dashboard – Referenzimplementierung
+Original: mockups/01-dashboard.svg, 390 × 844, Header 79, Footer 66. Originale SVG-Geometrie, Farben, Typografie und Pfade direkt eingebettet. Nutzerfreigabe: Navigation mit Icons und Text. Live-Kennzahlen und Anreisen aus bestehendem SQLite-Datenmodell. Smartphone-Ansicht integriert; Tablet, Dialoge, Such-/Filterdetails, vollständiger CSV/PDF-Export, Screenshot- und Gerätetests noch offen. Mitteilungen führen vorläufig zum Protokoll. Keine visuelle Freigabe.
