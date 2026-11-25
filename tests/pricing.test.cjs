@@ -41,4 +41,8 @@ assert.match(app,/if\(q\.breakfast>0\)lines\.push\(\{name:'Frühstück/,'breakfa
 assert.match(app,/vat:VAT_CATERING,amount:q\.other/,'other catering meal VAT separated');
 assert.match(app,/priceSnapshot=q/,'reservation stores calculated price snapshot');
 assert.match(app,/const isSnapshot=Boolean\(b\.priceSnapshot/,'old reservations remain grandfathered');
+const persisted={room:'r1',arrival:'2026-11-26',departure:'2026-11-29',adults:2,children:1,meal:'Halbpension',priceSnapshot:{total:993.8}};
+assert.equal(context.unchangedReservationTariff(persisted,{room:'r1',arrival:'2026-11-26',departure:'2026-11-29',adults:'2',children:'1',meal:'Halbpension'}),true,'unchanged booking retains original price');
+assert.equal(context.unchangedReservationTariff(persisted,{room:'r1',arrival:'2026-11-26',departure:'2026-11-29',adults:'2',children:'0',meal:'Halbpension'}),false,'changed child count requires new price');
+assert.equal(context.unchangedReservationTariff(persisted,{room:'r1',arrival:'2026-11-26',departure:'2026-11-29',adults:'2',children:'1',meal:'Vollpension'}),false,'changed meal requires new price');
 console.log('Room, adult/child, weekend, season, meal and VAT price tests passed');
