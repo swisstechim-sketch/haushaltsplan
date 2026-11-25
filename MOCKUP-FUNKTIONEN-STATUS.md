@@ -125,6 +125,16 @@ Auch jedes entsprechende `tablet/hochformat/*.svg` sowie die Smartphone-Mockups 
 - [x] Insgesamt 29 von 43 Dokumenttypen als dynamische Berichtsausgabe verfügbar
 - [ ] 14 Dokumenttypen fehlen weiterhin; individuelle PDF-Designparität und vollständige Fachlogik bleiben gesonderte Abnahmepunkte
 
+## Layoutkorrekturen – neue Screenshots
+
+- [x] SwissTech.im-Logo als echtes SVG mit Vektorformen, ohne eingebettetes JPEG; Copyright-Layout responsiv
+- [x] «Über STAY Swiss»: Support- und Hilfe-Button gleich hoch und in einer Zeile
+- [x] Vertikale Button-Abstände oben und unten auf Aktionsebenen vereinheitlicht
+- [x] Tablet Check-in / Check-out: tabellarische Ansicht mit Mockup-Spalten und rechtsbündigen Aktionen
+- [x] 32 von 43 Dokumenttypen haben eine datengesteuerte Ausgabe (11 weiterhin offen)
+- [ ] Visuelle Pixel-/Geräteprüfung der geänderten SVG-Darstellung, Button-Abstände und Tabellen in LDPlayer
+- [ ] Alle noch offenen Mockup-Aktionen und exakte PDF-Layoutparität
+
 ## Weitere Lücken
 - [ ] Exakte Zuordnung sämtlicher SVG-Buttonaktionen inkl. Dialoge, Filter, Tabellen, Pagination
 - [ ] PDF-Renderer je Berichtstyp mit realen Datensätzen, Druckvorschau und Export
