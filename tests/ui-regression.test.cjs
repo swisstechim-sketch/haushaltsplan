@@ -60,4 +60,10 @@ assert.match(css,/body:not\(\.reference-dashboard\) main h1\{font-size:24px/,'ta
 assert.match(css,/#dialog\{width:min\(100%,520px\)/,'modal width reduced on tablet');
 assert.match(css,/\.dialog-toolbar h2\{font-size:19px/,'modal title scale reduced');
 assert.match(css,/body\.document-preview \.report-a4\{font-size:11pt\}/,'PDF paper layout keeps print typography');
+assert.match(src,/class="tariff-section" open/,'room tariff staffel is an expandable section');
+assert.match(src,/Wochenendtarif · Freitag und Samstag/,'weekend rules explained in room dialog');
+assert.match(src,/Saison-Tarife · zwei Zeiträume/,'season rules explained in room dialog');
+assert.match(src,/const tariffUnchanged=Boolean/,'unchanged reservation uses stored price');
+assert.match(css,/\.tariff-section>summary/,'tariff accordion has compact tablet styling');
+assert.match(css,/\.meal-price-settings \.price-fields/,'board supplements are grouped in settings');
 console.log('Tablet UI, guest fields, SVG buttons, email templates and preview controls: OK');
