@@ -1,6 +1,24 @@
 plugins { id 'com.android.application' }
 android { namespace 'ch.swisstech.stay'; compileSdk 35
- defaultConfig { applicationId 'ch.swisstech.stay'; minSdk 23; targetSdk 35; versionCode 1; versionName '0.1.0'; testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner' }
+ defaultConfig { applicationId 'ch.swisstech.stay'; minSdk 23; targetSdk 35; versionCode 2; versionName '1.0.0'; testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner' }
+ signingConfigs {
+  release {
+   if (System.getenv('STAY_KEYSTORE_PATH')) {
+    storeFile file(System.getenv('STAY_KEYSTORE_PATH'))
+    storeType 'PKCS12'
+    storePassword System.getenv('STAY_STORE_PASSWORD')
+    keyAlias System.getenv('STAY_KEY_ALIAS')
+    keyPassword System.getenv('STAY_KEY_PASSWORD')
+   }
+  }
+ }
+ buildTypes {
+  release {
+   debuggable false
+   minifyEnabled false
+   signingConfig signingConfigs.release
+  }
+ }
  compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
 }
 
