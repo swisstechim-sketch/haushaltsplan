@@ -120,3 +120,9 @@ button[data-action]>span{line-height:1.25}
  .report-table tr{break-inside:avoid}
  .pdf-preview-toolbar{display:none!important}
 }
+
+/* Tablet reception list from original check-in/out mockup */
+.reception-entry{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 2px;border-bottom:1px solid #e4ebf2}
+.reception-entry:last-child{border-bottom:0}.reception-entry>div{flex:1;min-width:0}.reception-entry strong{display:block;font-size:15px}.reception-entry small{font-size:12px;margin-top:5px;line-height:1.4}
+#reception-results{margin-top:12px}.reception-entry button{flex:0 0 auto}
+@media(max-width:620px){.reception-entry{flex-direction:column;align-items:stretch}.reception-entry button{align-self:flex-start}}
