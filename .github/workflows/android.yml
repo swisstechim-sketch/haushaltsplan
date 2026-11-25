@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'app/**'
+      - 'tests/**'
       - '*.gradle'
       - '.github/workflows/android.yml'
 jobs:
@@ -34,6 +35,8 @@ jobs:
           gradle-version: '8.9'
       - name: JavaScript syntax
         run: node --check app/src/main/assets/app.js
+      - name: Finance regression tests
+        run: node tests/finance.test.cjs
       - name: Build and unit tests
         run: gradle --no-daemon --stacktrace :app:assembleDebug :app:testDebugUnitTest
       - name: Verify APK
