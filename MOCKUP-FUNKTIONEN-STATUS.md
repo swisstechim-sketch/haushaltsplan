@@ -145,6 +145,18 @@ Auch jedes entsprechende `tablet/hochformat/*.svg` sowie die Smartphone-Mockups 
 - [x] PDF-A4-Dokumente ausdrücklich von der kompakteren UI-Schrift ausgenommen
 - [ ] Abnahme in LDPlayer bei 1280×800 / 1600×900 und auf realem Tablet
 
+## Preislogik und kompakte Tarifverwaltung
+
+- [x] Preisberechnung für 1–6 Erwachsene und 0–4 Kinder mit separaten Kinderzuschlägen
+- [x] Wochenend- und Saisonpreise nach konkretem Übernachtungsdatum
+- [x] Frühstück, Halb- und Vollpension je Erwachsenen-/Kinderzahl separat zum Übernachtungspreis
+- [x] Gespeicherte Preis-Snapshots bei der Reservation: nachträgliche Hotel-/Zimmerpreisänderungen sollen alte Buchungen nicht unbemerkt verändern
+- [x] Reservierungsbestätigung und Offertenvorschau mit Logis-/Frühstück-/Mahlzeiten-Aufschlüsselung aus der gespeicherten Kalkulation
+- [x] Zimmerpreisdialog in ausklappbare, kompakte Tarifbereiche unterteilt; Saisonfelder und Pensionspreise übersichtlicher
+- [x] Schweizer MWST-Sätze 3,8 % (Beherbergung einschliesslich Frühstück) und 8,1 % (grundsätzlich zusätzliche gastgewerbliche Mahlzeiten) als getrennte Positionen
+- [ ] Besonderheiten bei Halb-/Vollpensionsarrangements und Paketaufteilungen anhand ESTV-Branchen-Info 08 vor produktiver Rechnungsfreigabe im Einzelfall validieren
+- [ ] End-to-End-Tests der Preisbearbeitung/Reservation und visueller Abgleich der neuen Tariffelder im LDPlayer
+
 ## Weitere Lücken
 - [ ] Exakte Zuordnung sämtlicher SVG-Buttonaktionen inkl. Dialoge, Filter, Tabellen, Pagination
 - [ ] PDF-Renderer je Berichtstyp mit realen Datensätzen, Druckvorschau und Export
