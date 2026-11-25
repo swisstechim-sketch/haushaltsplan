@@ -26,7 +26,7 @@ const ctx=vm.createContext({
 vm.runInContext(js.slice(first,last),ctx);
 const names=vm.runInContext('DOCUMENT_TYPES',ctx);
 assert.equal(names.length,43,'all 43 PDF mockups are listed');
-assert.equal(names.filter(x=>x.available).length,32,'32 reports have data-driven renderers');
+assert.equal(names.filter(x=>x.available).length,34,'34 reports have data-driven renderers');
 sample.bookings[0].priceSnapshot={touristTax:15.2,touristTaxDetails:{enabled:true,adults:2,children:0,adultRate:3.8,childRate:0,amount:15.2}};
 assert.equal(ctx.touristTaxMonthRows('2026-11').length,1,'monthly tourist tax includes saved room nights');
 assert.equal(ctx.touristTaxMonthRows('2026-11')[0].total,15.2,'monthly tax uses saved nightly rates');
@@ -65,6 +65,12 @@ sample.bookings[0].priceSnapshot={nights:2,adults:2,children:1,lodging:300,break
 assert.equal(ctx.reportBuild('buchungsbestaetigung',today,'b1').rows.find(x=>x[0]==='Gesamtbetrag CHF')[1],'440.00');
 assert.equal(ctx.reportBuild('reservationsofferte',today,'b1').rows.find(x=>x[0]==='Zusätzliche Mahlzeiten inkl. MWST CHF')[1],'80.00');
 assert.equal(ctx.reportBuild('zahlungserinnerung',today,'i1').rows.find(x=>x[0]==='Offen CHF')[1],'200.00');
+assert.equal(ctx.reportBuild('jahresabschluss',today).rows.length,13);
+assert.deepEqual(Array.from(ctx.reportBuild('jahresabschluss',today).rows[10]),['2026-11','240.00','0.00','40.00','200.00']);
+assert.deepEqual(Array.from(ctx.reportBuild('auswertung',today).rows[1]),['Total','240.00','0.00','40.00','200.00']);
+sample.invoices[0].credits=[{date:'2026-12-01',amount:10.81}];
+assert.deepEqual(Array.from(ctx.reportBuild('jahresabschluss',today).rows[11]),['2026-12','0.00','10.81','0.00','-10.81']);
+delete sample.invoices[0].credits;
 assert.equal(ctx.reportBuild('monatsabschluss',today).rows.some(x=>x[0]==='Rechnungsvolumen'),true);
 assert.throws(()=>ctx.reportBuild('stornierungsbestatigung',today,'b1'),/stornierte Reservation/);
 assert.equal(ctx.reportBuild('rechnung',today,'i1').rows[0][0],'Logis');
