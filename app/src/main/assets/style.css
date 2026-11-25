@@ -178,3 +178,22 @@ button[data-action]>span{line-height:1.25}
  .reception-tabs{gap:6px}
  .reception-tabs button{font-size:12px;padding:9px 6px}
 }
+
+/* Mockup-based modal layout: title, context, setting section, actions. */
+#overlay{padding:20px;background:rgba(27,47,67,.48)}
+#dialog{width:min(100%,640px);max-width:640px;max-height:min(90vh,850px);padding:0;overflow-y:auto;border-radius:22px;border:1px solid #dce6f0;box-shadow:0 22px 60px rgba(21,37,54,.22);background:#fff}
+.dialog-toolbar{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:24px 26px 18px;margin:0;border-bottom:1px solid #e1e9f1}
+.dialog-identity{min-width:0}.dialog-kicker{display:block;color:#6d8298;font-size:12px;font-weight:700;letter-spacing:.03em;margin-bottom:8px}
+.dialog-toolbar h2{font-size:24px;margin:0;color:#243b53;line-height:1.2}.dialog-toolbar .dialog-close{flex:0 0 auto;min-height:42px;margin:0}
+.dialog-content{padding:20px 26px 26px}.dialog-section-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#778ba0;margin:0 0 18px}
+.dialog-content form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px;align-items:start}
+.dialog-content form label{margin:12px 0 6px;grid-column:auto}
+.dialog-content form label+input,.dialog-content form label+select,.dialog-content form label+textarea{grid-column:auto}
+.dialog-content #editor{display:block}
+.dialog-content #editor label{display:block;margin:16px 0 6px}
+.dialog-content #editor input,.dialog-content #editor select,.dialog-content #editor textarea{display:block;width:100%;min-height:46px}
+.dialog-content #editor .actions{display:flex;justify-content:flex-end;gap:12px;margin:22px 0 0;padding:18px 0 0;border-top:1px solid #e4ebf2}
+.dialog-content .actions{margin-top:22px;display:flex;justify-content:flex-end;gap:12px;align-items:center}
+.dialog-content .actions button{min-height:44px;flex:0 1 auto}
+.dialog-content>button[data-action="delete"]{margin-top:16px;float:right}
+@media(max-width:699px){#overlay{padding:10px}#dialog{max-height:94vh;border-radius:17px}.dialog-toolbar{padding:18px 18px 14px}.dialog-toolbar h2{font-size:20px}.dialog-content{padding:16px 18px 22px}.dialog-content form{display:block}.dialog-content .actions{flex-wrap:wrap}.dialog-content .actions button{flex:1 1 calc(50% - 12px)}}
