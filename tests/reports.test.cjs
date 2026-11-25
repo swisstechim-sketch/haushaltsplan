@@ -19,14 +19,14 @@ const ctx=vm.createContext({
  formattedAddress:x=>[x.street,x.houseNumber,x.postalCode,x.city].filter(Boolean).join(' '),
  active:x=>!['Storniert','Anfrage','Ausgecheckt'].includes(x.status),
  paid:id=>sample.payments.filter(x=>x.invoice===id).reduce((n,x)=>n+x.amount,0),
- credited:()=>0,money:n=>'CHF '+Number(n).toFixed(2),
+ qrPaymentData:id=>{if(id!=='i1')throw Error('Invalid invoice');return 'SPC'},credited:()=>0,money:n=>'CHF '+Number(n).toFixed(2),
  invoiceTax:lines=>lines.map(x=>({rate:Number(x.vat),gross:Number(x.amount),net:Number(x.amount)/(1+Number(x.vat)/100),tax:Number(x.amount)-Number(x.amount)/(1+Number(x.vat)/100)})),
  esc:s=>String(s),btn:()=>'<button></button>'
 });
 vm.runInContext(js.slice(first,last),ctx);
 const names=vm.runInContext('DOCUMENT_TYPES',ctx);
 assert.equal(names.length,43,'all 43 PDF mockups are listed');
-assert.equal(names.filter(x=>x.available).length,38,'38 reports have data-driven renderers');
+assert.equal(names.filter(x=>x.available).length,40,'40 reports have data-driven renderers');
 sample.bookings[0].priceSnapshot={touristTax:15.2,touristTaxDetails:{enabled:true,adults:2,children:0,adultRate:3.8,childRate:0,amount:15.2}};
 assert.equal(ctx.touristTaxMonthRows('2026-11').length,1,'monthly tourist tax includes saved room nights');
 assert.equal(ctx.touristTaxMonthRows('2026-11')[0].total,15.2,'monthly tax uses saved nightly rates');
@@ -64,6 +64,8 @@ assert.equal(ctx.reportBuild('reservationsofferte',today,'b1').rows.find(x=>x[0]
 sample.bookings[0].priceSnapshot={nights:2,adults:2,children:1,lodging:300,breakfast:60,other:80,total:440};
 assert.equal(ctx.reportBuild('buchungsbestaetigung',today,'b1').rows.find(x=>x[0]==='Gesamtbetrag CHF')[1],'440.00');
 assert.equal(ctx.reportBuild('reservationsofferte',today,'b1').rows.find(x=>x[0]==='Zusätzliche Mahlzeiten inkl. MWST CHF')[1],'80.00');
+assert.equal(ctx.reportBuild('reservationsanderung',today,'b1').rows.find(x=>x[0]==='Gesamt CHF')[1],'440.00');
+assert.equal(ctx.reportBuild('qr-rechnung',today,'i1').rows.find(x=>x[0]==='Offen CHF')[1],'200.00');
 assert.equal(ctx.reportBuild('zahlungserinnerung',today,'i1').rows.find(x=>x[0]==='Offen CHF')[1],'200.00');
 for(const [key,id] of [['lostItems','fundgegenstande-protokoll'],['guestWishes','gastewunsche'],['maintenance','wartungsliste'],['handover','schichtubergabe']]){
  sample[key]=[{id:'1',date:today,name:'Test',location:'101',details:'Notiz',status:'Offen'},{id:'2',date:'2026-11-26',name:'Zukunft'}];
