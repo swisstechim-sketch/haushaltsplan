@@ -197,3 +197,10 @@ button[data-action]>span{line-height:1.25}
 .dialog-content .actions button{min-height:44px;flex:0 1 auto}
 .dialog-content>button[data-action="delete"]{margin-top:16px;float:right}
 @media(max-width:699px){#overlay{padding:10px}#dialog{max-height:94vh;border-radius:17px}.dialog-toolbar{padding:18px 18px 14px}.dialog-toolbar h2{font-size:20px}.dialog-content{padding:16px 18px 22px}.dialog-content form{display:block}.dialog-content .actions{flex-wrap:wrap}.dialog-content .actions button{flex:1 1 calc(50% - 12px)}}
+
+/* Keep label and control together in all legacy single-column modal forms. */
+.dialog-content form{display:block}
+.dialog-content form label{display:block;margin:15px 0 6px}
+.dialog-content form input,.dialog-content form select,.dialog-content form textarea{display:block;width:100%}
+.dialog-content form>.actions{display:flex;flex-direction:row;align-items:center;justify-content:flex-end;margin-top:22px;padding-top:16px;border-top:1px solid #e4ebf2}
+.dialog-content form>button[type="submit"]{margin-top:16px}
