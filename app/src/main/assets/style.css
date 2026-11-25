@@ -335,3 +335,6 @@ button[data-action]>span{line-height:1.25}
 .tourist-tax-notice{font-size:11px!important;color:#697c8f!important}
 @media(max-width:620px){.tourist-tax-settings .price-fields{grid-template-columns:1fr}}
 @media(min-width:800px) and (orientation:landscape){.tourist-tax-settings>h2{font-size:14px}.tourist-tax-settings .price-fields{gap:9px}.tourist-tax-settings .price-fields>div{padding:9px}}
+
+/* Compact monthly Kurtaxe planning report. */
+#tax-report-month{max-width:220px;margin:4px 0 14px}.tourist-tax-report-total{display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:14px;border-top:1px solid #e1eaf1;padding-top:13px}.tourist-tax-report-total strong{font-size:17px}@media(min-width:800px) and (orientation:landscape){.tourist-tax-report-total{font-size:12px}.tourist-tax-report-total strong{font-size:15px}}
