@@ -167,6 +167,19 @@ Auch jedes entsprechende `tablet/hochformat/*.svg` sowie die Smartphone-Mockups 
 - [x] Tests für unveränderte Tarife und Änderungsfälle (Kinderanzahl, Verpflegung)
 - [ ] Fachliche Abnahme der MWST-Verteilung bei Halb-/Vollpension und visuelle Prüfung der Tarifvorschau im Tablet-Querformat
 
+## Kurtaxe / Gästetaxe – neue Implementierung
+
+- [x] Hotelprofil: Kurtaxe aktivieren/deaktivieren; lokale Ansätze Erwachsene/Kinder in CHF pro Person und Nacht
+- [x] Reservationen: Anzahl kurtaxenbefreiter Erwachsener und Kinder separat eingeben, Plausibilitätsprüfung
+- [x] Preisvorschau und Preis-Snapshot: Kurtaxe auf Zimmer-/Verpflegungssumme aufschlagen, nach Anzahl Nächten
+- [x] Separater Kurtaxenposten in Rechnungen, nicht mit dem Beherbergungspreis vermischen
+- [x] Reservationsbestätigung/Offerte und Tarifvorschau mit ausgewiesener Kurtaxe
+- [x] MWST-Aufschlüsselung ignoriert als durchlaufenden Posten markierte Kurtaxe; diese Einordnung ist **vor der produktiven Nutzung anhand der örtlichen Abgabenregelung zu prüfen**
+- [x] Kein erfundener Schweizer Standardtarif; standardmässig ist die Kurtaxe deaktiviert
+- [ ] Automatische Altersprüfung einzelner Kinder sowie kantons-/gemeindespezifische Befreiungstatbestände sind noch nicht implementiert
+- [ ] Kommunale Kurtaxenabrechnung und Übermittlung an die lokale Stelle fehlen noch
+- [ ] Live-Abnahme in LDPlayer und fachliche Überprüfung der korrekten MWST-/Abgabebehandlung
+
 ## Weitere Lücken
 - [ ] Exakte Zuordnung sämtlicher SVG-Buttonaktionen inkl. Dialoge, Filter, Tabellen, Pagination
 - [ ] PDF-Renderer je Berichtstyp mit realen Datensätzen, Druckvorschau und Export
