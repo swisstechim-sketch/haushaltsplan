@@ -1,0 +1,30 @@
+'use strict';
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const vm=require('node:vm');
+const src=fs.readFileSync('app/src/main/assets/app.js','utf8');
+const hotel={name:'Test Hotel',iban:'CH9300762011623852957',street:'Teststrasse',houseNumber:'1',postalCode:'8000',city:'Zürich',country:'CH'};
+const invoice={id:'i',number:'RE-2026-0001',total:108.10,issuer:hotel};
+const ctx=vm.createContext({get:()=>invoice,db:{hotel},paid:()=>10,credited:()=>8.10});
+for(const [name,next] of [['swissIban','qrPaymentData'],['qrPaymentData','qrDataView'],['invoiceTax','invoice']]){
+ const start=src.indexOf('function '+name+'('),end=src.indexOf('function '+next+'(',start);
+ assert.ok(start>=0&&end>start,name);
+ vm.runInContext(src.slice(start,end),ctx);
+}
+assert.equal(ctx.swissIban(hotel.iban),true);
+assert.equal(ctx.swissIban('CH9400762011623852957'),false);
+assert.equal(ctx.swissIban(''),false);
+const fields=ctx.qrPaymentData('i').split('\r\n');
+assert.equal(fields.length,31);
+assert.equal(fields[0],'SPC');
+assert.equal(fields[18],'90.00');
+assert.equal(fields[19],'CHF');
+assert.equal(fields[27],'NON');
+assert.equal(fields[30],'EPD');
+const tax=ctx.invoiceTax([{vat:8.1,amount:108.10},{vat:3.8,amount:103.80}]);
+assert.equal(tax[0].tax,3.8);
+assert.equal(tax[1].tax,8.1);
+assert.equal(tax[1].net,100);
+invoice.total=18.10;
+assert.throws(()=>ctx.qrPaymentData('i'));
+console.log('Finance and QR payload checks passed');
