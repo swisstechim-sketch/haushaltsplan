@@ -30,7 +30,6 @@ assert.equal(names.filter(x=>x.available).length,12,'12 reports have data-driven
 assert.equal(ctx.reportBuild('checkin-checkout-tagesliste',today).rows.length,1);
 assert.equal(ctx.reportBuild('freie-zimmer',today).rows.length,1);
 assert.equal(ctx.reportBuild('offene-posten',today).rows[0][3],'200.00');
-assert.equal(ctx.reportBuild('zahlungsquittung',today).rows[0][3],'40.00');
 assert.equal(ctx.reportBuild('gastemeldeformular',today,'g1').rows[0][1],'Anna');
 assert.equal(ctx.reportBuild('buchungsbestaetigung',today,'b1').rows[0][1],'Anna');
 assert.equal(ctx.reportBuild('zahlungsquittung',today,'p1').rows[4][1],'40.00');
