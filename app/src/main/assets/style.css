@@ -417,3 +417,6 @@ button[data-action]>span{line-height:1.25}
 
 /* Shared metric typography and responsive finance summary */
 .metric-content{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;min-width:0}.metric-label{min-width:0;overflow-wrap:anywhere}.metric-content .metric-value{margin:0;white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums}.metrics .metric-content{display:flex;flex-direction:column;align-items:flex-start;gap:6px}.metrics .metric-content .metric-value{text-align:left}.finance-summary-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}.finance-summary-grid>.card{margin:0}.finance-summary-grid .metric-value{margin-left:auto}@media(max-width:640px){.finance-summary-grid{grid-template-columns:1fr}}
+
+/* Keep table header actions separated from table content. */
+.table-section-heading,.dashboard-heading:has(+ .dashboard-table-wrap){margin-bottom:12px;gap:12px;align-items:center}.table-section-heading h2{margin:0}.table-section-heading button{margin:0;flex-shrink:0}.dashboard-table-wrap{margin-top:0}
