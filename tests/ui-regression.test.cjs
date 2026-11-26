@@ -236,3 +236,5 @@ for(const legacy of ['renderDashboard();','renderReferenceList();','renderRecept
 assert.match(src,/Die verfügbaren Berichte und Vorlagen vor Verwendung als Vorschau prüfen/);
 assert.match(src,/QR-Zahlungen und Finanzabschlüsse benötigen vor produktiver Verwendung eine fachliche Prüfung/);
 console.log('Tablet-only copy and unified live-page regression checks: OK');
+
+assert.match(css,/main \.actions:not\(\.master-type-tabs\):not\(\.settings-tabs\)>button\{[^}]*min-height:34px;padding:6px 10px/);
