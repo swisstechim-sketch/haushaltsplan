@@ -51,5 +51,14 @@ const SwissPayrollRules=(function(){
     if(paid<=0||paid>balance.remaining)throw Error('Auszahlung überschreitet Restanspruch oder ist null');
     return {mode:'Separat',entitlement:0,paid};
   }
-  return {YEARS,values,period,bvg,bvgMonthly,ahv,tariffLookup,thirteenthBalance,separateThirteenthDraft};
+  // Incremental annual ceiling calculation; inputs must be verified payroll bases.
+  function incrementalContribution({base,previousBase,annualLimit,employeeRate,employerRate}){
+    const b=cents(base),p=cents(previousBase),limit=cents(annualLimit);
+    if(![b,p,limit,b+p].every(Number.isSafeInteger)||limit<=0)throw Error('Versicherungsbasis prüfen');
+    if(![employeeRate,employerRate].every(v=>typeof v==='number'&&Number.isFinite(v)&&v>=0&&v<=100))throw Error('Beitragssatz prüfen');
+    const before=Math.min(p,limit),after=Math.min(p+b,limit);
+    const delta=rate=>Math.round(after*rate/100)-Math.round(before*rate/100);
+    return {insuredBase:after-before,employeeAmount:delta(employeeRate),employerAmount:delta(employerRate)};
+  }
+  return {YEARS,values,period,bvg,bvgMonthly,ahv,tariffLookup,thirteenthBalance,separateThirteenthDraft,incrementalContribution};
 })();
