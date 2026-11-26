@@ -428,3 +428,16 @@ button[data-action]{display:inline-flex;flex-direction:row;align-items:center;ju
 .list-filters>label{display:flex;flex-direction:column;gap:6px;min-width:0;margin:0}.list-filters>label>input,.list-filters>label>select{width:100%;min-width:0;margin:0;box-sizing:border-box;min-height:40px}.list-filters.housekeeping-filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:16px 0;align-items:end}.housekeeping-entry{padding:12px 0;gap:12px}.housekeeping-entry small{margin-top:5px}.housekeeping-entry button{flex-shrink:0}@media(max-width:650px){.list-filters.housekeeping-filters{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:360px){.list-filters.housekeeping-filters{grid-template-columns:1fr}}
 
 .housekeeping-table-wrap{width:100%;min-width:0;margin:12px 0}.housekeeping-table{width:100%;border-collapse:collapse;table-layout:auto;font-size:13px}.housekeeping-table th,.housekeeping-table td{text-align:left;padding:10px 8px;border-bottom:1px solid #e0e8f0;overflow-wrap:anywhere;vertical-align:middle}.housekeeping-table th{background:#f0f5fa;color:#526b82;font-weight:600}.housekeeping-table th:last-child,.housekeeping-table td:last-child{text-align:right}.housekeeping-table button{white-space:nowrap;margin:0}.housekeeping-table td:last-child{width:1%}@media(max-width:1100px){.housekeeping-table,.housekeeping-table tbody,.housekeeping-table tr,.housekeeping-table td{display:block;width:100%;box-sizing:border-box}.housekeeping-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}.housekeeping-table tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px;padding:12px 0;border-bottom:1px solid #e0e8f0}.housekeeping-table td{border:0;padding:2px 0}.housekeeping-table td:before{content:attr(data-label);display:block;color:#526b82;font-size:11px;margin-bottom:4px}.housekeeping-table td:last-child{width:100%;text-align:right}.housekeeping-table td:last-child:before{display:none}}
+
+/* Shared dialog polish, compatible with legacy WebView */
+#dialog .dialog-toolbar .dialog-identity{flex:1;min-width:0;text-align:left}
+#dialog.search-dialog{width:calc(100% - 32px);max-width:620px}
+#dialog .global-search{display:flex;flex-direction:column;gap:10px}
+#dialog .global-search p{margin:0 0 4px;line-height:1.5}
+#dialog .global-search label{font-size:12px;font-weight:600;margin:0}
+#dialog .global-search input,#dialog .global-search select{width:100%;box-sizing:border-box;min-height:44px;margin:0}
+#dialog .global-search input[type=search]{padding-left:40px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23426784' stroke-width='2'%3E%3Ccircle cx='10' cy='10' r='6'/%3E%3Cpath d='m15 15 5 5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:12px center}
+#dialog .global-search #hits{min-height:72px;padding:16px 0 4px;border-top:1px solid #dce6ef;color:#426784;overflow-wrap:anywhere}
+#dialog .dialog-actions,#dialog .compact-editor .dialog-actions,#dialog .special-editor>.actions{flex-wrap:wrap;gap:10px}
+#dialog .dialog-content>button{margin-top:12px}
+#dialog .calendar-detail-value{white-space:pre-wrap}
