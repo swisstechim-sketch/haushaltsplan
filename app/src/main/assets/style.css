@@ -510,3 +510,10 @@ button[data-action]{display:inline-flex;flex-direction:row;align-items:center;ju
  body:not(.reference-dashboard) #dialog .dialog-content{font-size:12px;padding:14px}
  #tariff-preview-form{display:block}#tariff-preview-form>.actions{margin-top:10px}
 }
+
+/* Compact catering dashboard on landscape tablets. */
+@media screen and (min-width:800px) and (orientation:landscape){
+main .meal-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:100%}
+main .meal-toolbar{display:flex;flex-wrap:wrap;gap:8px;margin:0}
+main .meal-metrics>*{min-width:0;width:auto}
+}
