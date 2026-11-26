@@ -52,3 +52,5 @@ Bei jeder Änderung diese Datei im Repository-Hauptverzeichnis aktualisieren: Co
 - d862d9f: Versicherungs-Soll-/Habenkonto im Entwurf gespeichert; reguläre Lohnbuchung um AN-Abzüge (Lohnverbindlichkeit an Versicherungsverbindlichkeit) und AG-Aufwand erweitert. Fehlende/inaktive Konten, manuelle Positionen, unzugeordnete Quellensteuer und separate Auszahlung bleiben gesperrt. Kontenarten, fachliche Freigabe, Regression und CI offen.
 
 - 708ce7a: Quellensteuer-Snapshot enthält eindeutige geprüfte Tarifzeile, Herkunft, Jahr, Kanton, Code und hinterlegtes Habenkonto; reguläre Buchung nutzt bestehende Gegenkontenprüfung. Sonderzahlungen, korrekte steuerbare Basis, Tarifgrenzen, Kontenarten, feste Zulagen/Abzüge und CI/Fachprüfung weiterhin offen.
+
+- b15aece: Gegenkonten für vier regelmässige Zulagen und vier Abzüge in Personalstammdaten, Snapshot und Lohnbuchung ergänzt; Kontenklasse und Summen werden geprüft. Manuelle Beträge ohne Zuordnung bleiben gesperrt. Bestehende Snapshots nicht migriert. UI, fachliche Behandlung steuer-/versicherungspflichtiger Zulagen und CI offen.
