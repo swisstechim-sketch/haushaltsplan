@@ -156,10 +156,10 @@ assert.match(src,/a\.dueDate\|\|'9999-12-31'/,'housekeeping orders dated tasks b
  const financeContext=vm.createContext({db:{accounts:[{id:'existing',number:'1000',name:'Eigene Kasse'}],hotel:{financeLockedThrough:''}},uid:(()=>{let i=0;return ()=>String(++i)})(),confirm:()=>true,alert:()=>{},save:()=>{},render:()=>{},today:()=> '2026-11-26',swissDate:v=>v,prompt:()=> '2026-10-31',log:()=>{}});
  vm.runInContext(src.slice(src.indexOf('const HOTEL_ACCOUNT_TEMPLATE='),src.indexOf('function accountLedger(')),financeContext);
  financeContext.importHotelAccounts();
- assert.equal(financeContext.db.accounts.length,21);
+ assert.equal(financeContext.db.accounts.length,45);
  assert.equal(financeContext.db.accounts[0].name,'Eigene Kasse');
  financeContext.importHotelAccounts();
- assert.equal(financeContext.db.accounts.length,21);
+ assert.equal(financeContext.db.accounts.length,45);
  vm.runInContext(src.slice(src.indexOf('function lockFinancePeriod('),src.indexOf('function trialBalance(')),financeContext);
  financeContext.lockFinancePeriod();
  assert.equal(financeContext.db.hotel.financeLockedThrough,'2026-10-31');
