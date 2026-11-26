@@ -1,6 +1,5 @@
 package ch.swisstech.stay;
 
-import android.content.Intent;
 import android.graphics.pdf.PdfDocument;
 import android.graphics.pdf.PdfRenderer;
 import android.os.ParcelFileDescriptor;
@@ -12,7 +11,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.nio.file.Files;
 import static org.junit.Assert.*;
 
 @RunWith(AndroidJUnit4.class)
@@ -30,10 +28,11 @@ public class PdfExportTest {
    scenario.onActivity(a->{
     try{
      byte[] bytes;
-     try(PdfDocument pdf=new PdfDocument(); ByteArrayOutputStream out=new ByteArrayOutputStream()){
+     PdfDocument pdf=new PdfDocument();
+     try(ByteArrayOutputStream out=new ByteArrayOutputStream()){
       PdfDocument.Page page=pdf.startPage(new PdfDocument.PageInfo.Builder(595,842,1).create());
       pdf.finishPage(page);pdf.writeTo(out);bytes=out.toByteArray();
-     }
+     }finally{pdf.close();}
      String name=a.new Bridge().savePdf(Base64.encodeToString(bytes,Base64.NO_WRAP));
      assertFalse(name.isEmpty());
      File file=new File(new File(a.getFilesDir(),"pdf_exports"),name);
@@ -43,7 +42,8 @@ public class PdfExportTest {
       assertEquals("content",uri.getScheme());
       try(ParcelFileDescriptor fd=a.getContentResolver().openFileDescriptor(uri,"r");PdfRenderer renderer=new PdfRenderer(fd)){
        assertEquals(1,renderer.getPageCount());
-       try(PdfRenderer.Page page=renderer.openPage(0)){assertEquals(595,page.getWidth());assertEquals(842,page.getHeight());}
+       PdfRenderer.Page page=renderer.openPage(0);
+       try{assertEquals(595,page.getWidth());assertEquals(842,page.getHeight());}finally{page.close();}
       }
      }finally{file.delete();}
     }catch(Exception ex){throw new AssertionError(ex);}
