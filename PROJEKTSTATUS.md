@@ -82,3 +82,5 @@ Bei jeder Änderung diese Datei im Repository-Hauptverzeichnis aktualisieren: Co
 - Regressionstests für Löschbestätigung, Schutz verbuchter Abhängigkeiten, unabhängige Mitarbeiter und automatische aktive Gegenkonten ergänzt. CI offen. #550 erfolgreich, #551 bei Beginn laufend; historische Neustarts erst nach Ursachenprüfung und ohne Konkurrenz.
 
 - Lohnkorrektur: schreibgeschützte Gegenbuchungsvorschau mit Prüfung Zahlungen, Folgeabrechnungen, Periodensperre und historischen Konten ergänzt. Tatsächliche Korrekturbuchung und Neuberechnung weiterhin offen; CI/Live-Test offen. #551/#552 bei Beginn laufend, #550 erfolgreich.
+
+- Korrekturplan aus Originaljournal mit exakten Rappenbeträgen, aktiven Konten, Zahlungsschutz, Folgeabrechnungen, Periodensperre und Doppelkorrekturschutz implementiert; Regressionstests ergänzt. Keine tatsächliche Gegenbuchung freigegeben, da historische Versicherungs-/13.-Monatslohn-Salden und Ersatzabrechnung noch integriert werden müssen. #551–553 erfolgreich; neue CI offen.
