@@ -24,5 +24,30 @@ const SwissPayrollRules=(function(){
     const row=rows[0];if(!Number.isFinite(row.rate)||row.rate<0||row.rate>100)throw Error('Quellensteuersatz ungueltig');
     return {amount:Math.round(salary*row.rate/100),rate:row.rate,source:'ESTV',year,canton,code};
   }
-  return {YEARS,values,period,bvg,bvgMonthly,ahv,tariffLookup};
+  // All amounts are integer cents. Planned payouts are not proof of payment.
+  function thirteenthBalance(rows,employeeId,year){
+    if(!employeeId||!/^\d{4}$/.test(String(year)))throw Error('Mitarbeiter und Jahr prüfen');
+    let entitlement=0,planned=0;const ids=new Set();
+    for(const row of rows){
+      if(row.employee!==employeeId||String(row.date).slice(0,4)!==String(year))continue;
+      iso(row.date);
+      if(!row.id||ids.has(row.id))throw Error('Doppelte Abrechnung');
+      ids.add(row.id);
+      const v=row.thirteenthSnapshot;
+      if(!v||![v.entitlement,v.paid].every(n=>Number.isSafeInteger(n)&&n>=0))throw Error('Anspruchsdaten fehlen oder sind ungültig');
+      entitlement+=v.entitlement;planned+=v.paid;
+      if(!Number.isSafeInteger(entitlement)||!Number.isSafeInteger(planned))throw Error('Lohnsumme zu gross');
+    }
+    return {entitlement,planned,remaining:entitlement-planned};
+  }
+  function separateThirteenthDraft(rows,employee,date,amount){
+    date=iso(date);
+    if(employee.thirteenthSalary!=='Separat')throw Error('Separate Auszahlung nicht vereinbart');
+    if(!employee.entryDate||date<iso(employee.entryDate)||(employee.exitDate&&date>iso(employee.exitDate)))throw Error('Abrechnungsdatum ausserhalb der Anstellung');
+    const balance=thirteenthBalance(rows,employee.id,date.slice(0,4));
+    const paid=cents(amount);
+    if(paid<=0||paid>balance.remaining)throw Error('Auszahlung überschreitet Restanspruch oder ist null');
+    return {mode:'Separat',entitlement:0,paid};
+  }
+  return {YEARS,values,period,bvg,bvgMonthly,ahv,tariffLookup,thirteenthBalance,separateThirteenthDraft};
 })();
