@@ -34,3 +34,5 @@ Bei jeder Änderung diese Datei im Repository-Hauptverzeichnis aktualisieren: Co
 - Buildkontrolle: 521 erfolgreich, 522 fehlgeschlagen, 523 erfolgreich (78eecf4). Ursache 522 noch nicht geprüft; fachliche Regression und Live-Abnahme offen. PR 2 offen und mergeable; kein Merge.
 
 - a5bc827 / 15509ce: Berechnungsgrundlage für separate 13.-Monatslohn-Entwürfe ergänzt; Restanspruch in Rappen, Schutz vor Überzahlung, doppelten IDs und fehlenden historischen Anspruchsdaten. Regressionstests ergänzt, Ausführung/CI noch nicht bestätigt. UI-Anbindung, Austrittsabrechnung inklusive nachträglicher Auszahlung, Versicherungsberechnung, Korrekturabrechnungen und tatsächliche Zahlungshistorie bleiben offen. Keine fachliche Freigabe.
+
+- 02a920f / 6b7059c: nachträgliche separate Auszahlung nach Austritt innerhalb desselben Anspruchsjahrs in Berechnungsfunktion ermöglicht; spätere Entwürfe sperren rückdatierte Auszahlung. Regression ergänzt, CI nicht bestätigt. UI-Anbindung weiterhin offen; jahresübergreifende Ansprüche und fachliche Prüfung offen.
