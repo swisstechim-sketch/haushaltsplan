@@ -27,3 +27,8 @@ Dieses Regelwerk zuerst lesen, dann aktuellen Entwicklungsbranch und GitHub Acti
 
 ## Verbindliche Änderung der Seitennavigation (26.11.2026)
 Diese Regel ersetzt alle früheren Vorgaben zur Trennung in Übersicht und Arbeitsbereich. Keine allgemeinen Übersicht-/Arbeitsbereich-Tabs und keine zusätzlichen Öffnen-Buttons. Kennzahlen, Aktionen, Suche, Filter und Arbeitslisten direkt auf derselben Seite anzeigen. Fachbezogene Tabs (z.B. Stammdatenkategorien, Hilfe, Einstellungen) bleiben erhalten. Jede Seite einzeln im Tablet-Querformat prüfen; bestehende Funktionen und Daten erhalten. Nur Stammdaten-Kategoriebuttons kompakt in einer Zeile.
+
+## Verbindliche Übergabe an jeden neuen Chat
+- Bei jedem neuen Chat zu STAY Swiss zuerst diese AGENTS.md lesen, dann PROJEKTSTATUS.md im Hauptverzeichnis des aktiven Entwicklungsbranches `fix/form-select-consistency-20261126` lesen. Nicht vom möglicherweise älteren main-Quellcode auf den Entwicklungsstand schliessen.
+- Vor jeder Fortsetzung aktuelle Commits, offene PRs und CI-Builds prüfen. Offene Aufgaben in PROJEKTSTATUS.md der Reihe nach tatsächlich bearbeiten, beginnend mit Lohnbuchhaltung. Bei jedem Arbeitsdurchgang die Statusdatei mit Änderungen, Commit, Testnachweis, Blockern und Restarbeiten aktualisieren. Keine Aufgabe ohne Nachweis als abgeschlossen markieren.
+- Auch bei einer kurzen Aufforderung wie «weiter» gilt diese Übergabe. Keine erneute Aufgabenliste vom Nutzer verlangen, wenn sie im Repository steht. Keine ungefragten Merges.
