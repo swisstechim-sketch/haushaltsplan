@@ -42,3 +42,5 @@ Bei jeder Änderung diese Datei im Repository-Hauptverzeichnis aktualisieren: Co
 - 6f8623f / e989538: allgemeine kumulative Versicherungsobergrenzen-Berechnung in Rappen mit getrennten AN-/AG-Sätzen und Regressionen ergänzt. Noch nicht an Lohnentwürfe angebunden; historische geprüfte Bemessungsgrundlagen, Beitragsperioden, BVG/Fixbeträge, Quellensteuer und Buchung weiterhin offen. CI nicht bestätigt; keine fachliche Freigabe.
 
 - 6f76b6b / afbad1f: AHV-Rentnerfreibetrag berücksichtigt in der Berechnungsfunktion historische 13.-Monatslohn-Auszahlungsentwürfe desselben Monats; ungültige historische Beträge werden abgewiesen. Regression ergänzt. Anbindung an tatsächliche geprüfte AHV-Basen, Jahresabstimmung, weitere Versicherungen und CI-Nachweis offen.
+
+- d2e204b: AHV-Basisvorschlag im regulären Lohnentwurf verwendet Alters-/Freibetragslogik und mitarbeiterbezogene Monatsentwürfe statt pauschalem Bruttolohn. Manuelle geprüfte Basis weiterhin möglich; bei fehlenden Stammdaten kein automatischer Vorschlag. Separate Auszahlung, ALV-Jahresabstimmung, Versicherungsverträge und fachliche/CI-Prüfung offen.
