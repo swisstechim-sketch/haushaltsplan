@@ -2,7 +2,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const src=fs.readFileSync('app/src/main/assets/app.js','utf8');
 const ctx=vm.createContext({});
-vm.runInContext(src.slice(src.indexOf('const empty='),src.indexOf('let db='))+src.slice(src.indexOf('function validateCashDays('),src.indexOf('function list(k)'))+src.slice(src.indexOf('function reminderFee('),src.indexOf('function validateReminderSettings('))+';globalThis.make=empty;',ctx);
+vm.runInContext(src.slice(src.indexOf('const empty='),src.indexOf('let db='))+src.slice(src.indexOf('function validateCashDays('),src.indexOf('function list(k)'))+src.slice(src.indexOf('function reminderFee('),src.indexOf('function validateReminderSettings('))+src.slice(src.indexOf('function extraMealOverrides('),src.indexOf('function bookingQuote('))+';globalThis.make=empty;',ctx);
 const d=ctx.make();d.guests.push({id:'g'});d.rooms.push({id:'r'});d.bookings.push({id:'b',guest:'g',room:'r'});d.invoices.push({id:'i',booking:'b',total:100,lines:[]});d.payments.push({id:'p',invoice:'i',amount:20});
 assert.equal(ctx.validateBackup(d).payments.length,1);
 for(const mutate of [x=>x.guests.push({id:'g'}),x=>x.payments[0].invoice='missing',x=>x.payments[0].amount=-1,x=>delete x.rooms]){const x=JSON.parse(JSON.stringify(d));mutate(x);assert.throws(()=>ctx.validateBackup(x))}
@@ -22,3 +22,7 @@ const dispatch={date:'2026-11-25',channel:'Post',note:'Beleg',recordedAt:'2026-1
 const withReminder=JSON.parse(JSON.stringify(d));withReminder.invoices[0].reminders=[{level:1,fee:12.5,dispatchHistory:[dispatch]}];
 assert.equal(ctx.validateBackup(withReminder).invoices[0].reminders[0].fee,12.5);
 for(const bad of [{fee:-1},{fee:1.001},{dispatchHistory:{}},{dispatchHistory:[{...dispatch,channel:'invalid'}]}]){const x=JSON.parse(JSON.stringify(withReminder));Object.assign(x.invoices[0].reminders[0],bad);assert.throws(()=>ctx.validateBackup(x))}
+
+const mealBackup=JSON.parse(JSON.stringify(d));Object.assign(mealBackup.bookings[0],{arrival:'2026-11-25',departure:'2026-11-27',extraMealDays:'2026-11-26;1;2;3'});
+assert.equal(ctx.validateBackup(mealBackup).bookings[0].extraMealDays,'2026-11-26;1;2;3');
+for(const bad of [42,'2026-11-30;1;2;3','2026-11-26;101;0;0']){mealBackup.bookings[0].extraMealDays=bad;assert.throws(()=>ctx.validateBackup(mealBackup))}
