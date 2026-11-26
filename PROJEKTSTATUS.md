@@ -38,3 +38,5 @@ Bei jeder Änderung diese Datei im Repository-Hauptverzeichnis aktualisieren: Co
 - 02a920f / 6b7059c: nachträgliche separate Auszahlung nach Austritt innerhalb desselben Anspruchsjahrs in Berechnungsfunktion ermöglicht; spätere Entwürfe sperren rückdatierte Auszahlung. Regression ergänzt, CI nicht bestätigt. UI-Anbindung weiterhin offen; jahresübergreifende Ansprüche und fachliche Prüfung offen.
 
 - 0ededf2: separater 13.-Monatslohn-Dialog an Lohnliste angebunden; eigener Entwurfstyp, reguläre Monatsentwürfe bleiben separat, Änderungen/Löschung der Anspruchsgrundlagen bei vorhandenen separaten Entwürfen gesperrt. Buchung separater Entwürfe bis fachlicher Versicherungs-/Quellensteuerprüfung gesperrt. CI, UI-Regression, Backupprüfung, Korrekturen und Zahlungshistorie offen.
+
+- 6f8623f / e989538: allgemeine kumulative Versicherungsobergrenzen-Berechnung in Rappen mit getrennten AN-/AG-Sätzen und Regressionen ergänzt. Noch nicht an Lohnentwürfe angebunden; historische geprüfte Bemessungsgrundlagen, Beitragsperioden, BVG/Fixbeträge, Quellensteuer und Buchung weiterhin offen. CI nicht bestätigt; keine fachliche Freigabe.
