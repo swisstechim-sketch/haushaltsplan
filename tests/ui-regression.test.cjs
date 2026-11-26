@@ -177,3 +177,18 @@ assert.equal(groups.length,8);
 const links=groups.flatMap(g=>g[1]);
 assert.equal(new Set(links).size,links.length,'unique sidebar destinations');
 for(const key of ['employees','accounts','journal','recipes','menus','stockItems','purchaseOrders'])assert.ok(links.includes(key),key);
+
+// Hotel KPI regression: exclusive end, cancelled bookings, zero capacity.
+const hotelKpiContext=vm.createContext({db:{rooms:[{id:'r1'},{id:'r2'}],bookings:[{room:'r1',arrival:'2026-11-01',departure:'2026-11-03',status:'Bestätigt',priceSnapshot:{lodging:200}},{room:'r2',arrival:'2026-11-02',departure:'2026-11-03',status:'Storniert',rate:100}]},nights:b=>(Date.parse(b.departure)-Date.parse(b.arrival))/86400000,get:()=>({rate:100})});
+vm.runInContext(src.slice(src.indexOf('function premiumHotelMetrics('),src.indexOf('function premiumHotelReport(')),hotelKpiContext);
+const hotelKpi=hotelKpiContext.premiumHotelMetrics('2026-11-01','2026-11-03');
+assert.equal(hotelKpi.occupied,2);
+assert.equal(hotelKpi.available,4);
+assert.equal(hotelKpi.adr,100);
+assert.equal(hotelKpi.revpar,50);
+assert.equal(hotelKpi.occupancy,50);
+assert.equal(hotelKpi.arrivals,1);
+assert.equal(hotelKpi.departures,0);
+assert.throws(()=>hotelKpiContext.premiumHotelMetrics('2026-11-03','2026-11-03'));
+hotelKpiContext.db.rooms=[];hotelKpiContext.db.bookings=[];
+assert.equal(hotelKpiContext.premiumHotelMetrics('2026-11-01','2026-11-03').revpar,0);
