@@ -72,3 +72,23 @@ assert.throws(()=>r.ahv({birthDate:'1950-01-01',ahvRetired:'Ja'},'2026-11-26',10
  db.journal.push({source:'payroll-payment:p:c',debit:'liability',credit:'bank',amount:1});
  assert.throws(state,/Lohnverbindlichkeit/);
 }
+
+
+{
+ const app=fs.readFileSync('app/src/main/assets/app.js','utf8');
+ const start=app.indexOf('function premiumPayrollBook(id)');
+ const end=app.indexOf('\nfunction ',start+1);
+ assert.ok(start>=0&&end>start);
+ const draft={id:'p',name:'Test',gross:5000,date:'2026-11-26'};
+ let expected=500000,posted=0;
+ const ctx=vm.createContext({get:()=>draft,cents:v=>Math.round(Number(v)*100),premiumPayrollAmounts:()=>({gross:500000,deductions:0,allowances:0,net:expected}),confirm:()=>true,atomicChange:fn=>fn(),premiumPost:()=>posted++,render:()=>{}});
+ vm.runInContext(app.slice(start,end),ctx);
+ vm.runInContext("premiumPayrollBook('p')",ctx);
+ assert.equal(posted,1);
+ expected=499999;
+ assert.throws(()=>vm.runInContext("premiumPayrollBook('p')",ctx),/Nettolohn/);
+ assert.equal(posted,1);
+ expected=-1;
+ assert.throws(()=>vm.runInContext("premiumPayrollBook('p')",ctx),/Nettolohn/);
+ assert.equal(posted,1);
+}
