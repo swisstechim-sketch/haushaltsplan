@@ -56,3 +56,7 @@ Bei jeder Änderung diese Datei im Repository-Hauptverzeichnis aktualisieren: Co
 - b15aece: Gegenkonten für vier regelmässige Zulagen und vier Abzüge in Personalstammdaten, Snapshot und Lohnbuchung ergänzt; Kontenklasse und Summen werden geprüft. Manuelle Beträge ohne Zuordnung bleiben gesperrt. Bestehende Snapshots nicht migriert. UI, fachliche Behandlung steuer-/versicherungspflichtiger Zulagen und CI offen.
 
 - b692874: Lohnzahlungsdialog für gebuchte reguläre Löhne, Teilzahlungen über 2000/1020 mit eigener Journalreferenz, offene Verbindlichkeit aus Journal, Überzahlung und Datum vor Abrechnung blockiert. Bankkonto 1020 vorgegeben; Auswahl, sichtbare Zahlungshistorie, Storno, fachliche Prüfung und CI offen.
+
+- b9fb41e: Bankkontenauswahl 1020–1099 und Lohnzahlungshistorie; fachliche Kontenauswahl und UI-Test offen.
+- 0a21aab: Zahlungsstorno als Gegenbuchung, Doppelstornos gesperrt; Datum heute, UI und fachliche Regression offen.
+- Buildstatus: #537 und #538 nach Neustart erfolgreich, #539–541 erfolgreich, #542–543 laufen. #536 erst nach Abschluss starten. Keine Release-Veröffentlichung.
