@@ -70,3 +70,5 @@ Bei jeder Änderung diese Datei im Repository-Hauptverzeichnis aktualisieren: Co
 - Regressionstest der tatsächlichen premiumPayrollBook-Funktion mit simuliertem Journal: korrekter Nettolohn erlaubt, abweichender und negativer Sollwert gesperrt, keine zusätzliche Buchung. CI-Nachweis offen.
 
 - Allgemeine Journalstornierung für Lohnbuchungen und Lohnzahlungen gesperrt, damit die spezielle Zahlungshistorie nicht umgangen wird. Vollständige Korrekturabrechnung und CI-Prüfung offen.
+
+- #544: Release fehlgeschlagen wegen Maven Central HTTP 429 bei kotlin-stdlib und kotlinx-coroutines-android; Build und Emulator erfolgreich. Begrenzte Wiederholungen auf fünf mit 120/240/360/480 Sekunden Wartezeit erweitert. #545–548 erfolgreich. #536 Versuch 2 erneut abgebrochen (Joblog operation canceled), historische Konkurrenzkonfiguration bleibt unveränderlich; keine parallelen Reruns. #531 lief bei Prüfung. Neuer Workflow-Build durch Push, Ergebnis offen.
