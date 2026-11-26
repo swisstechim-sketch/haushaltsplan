@@ -131,6 +131,10 @@ const schemaStart=js.indexOf('const schemas=');
 const schemaEnd=js.indexOf('};',schemaStart)+1;
 // Extract the actual schema object without executing application startup.
 const schemaSource=js.slice(schemaStart,schemaEnd+1);
+for(const key of ['ROOM_CATEGORIES','HOUSEKEEPING_TASKS']){
+ const start=js.indexOf('const '+key+'=');assert.ok(start>=0,key);
+ vm.runInContext(js.slice(start,js.indexOf(';',start)+1),ctx);
+}
 vm.runInContext(schemaSource,ctx);
 for(const [key,spec] of Object.entries(pageReports)){
  assert.ok(names.some(x=>x.id===spec.id&&x.available),key);
