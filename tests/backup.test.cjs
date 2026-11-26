@@ -2,7 +2,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const src=fs.readFileSync('app/src/main/assets/app.js','utf8');
 const ctx=vm.createContext({});
-vm.runInContext(src.slice(src.indexOf('const empty='),src.indexOf('let db='))+src.slice(src.indexOf('function validateCashDays('),src.indexOf('function list(k)'))+';globalThis.make=empty;',ctx);
+vm.runInContext(src.slice(src.indexOf('const empty='),src.indexOf('let db='))+src.slice(src.indexOf('function validateCashDays('),src.indexOf('function list(k)'))+src.slice(src.indexOf('function reminderFee('),src.indexOf('function validateReminderSettings('))+';globalThis.make=empty;',ctx);
 const d=ctx.make();d.guests.push({id:'g'});d.rooms.push({id:'r'});d.bookings.push({id:'b',guest:'g',room:'r'});d.invoices.push({id:'i',booking:'b',total:100,lines:[]});d.payments.push({id:'p',invoice:'i',amount:20});
 assert.equal(ctx.validateBackup(d).payments.length,1);
 for(const mutate of [x=>x.guests.push({id:'g'}),x=>x.payments[0].invoice='missing',x=>x.payments[0].amount=-1,x=>delete x.rooms]){const x=JSON.parse(JSON.stringify(d));mutate(x);assert.throws(()=>ctx.validateBackup(x))}
@@ -17,3 +17,8 @@ const cash={id:'cash1',date:'2026-11-25',name:'Rezeption',opening:100,counted:12
 d.cashDays=[cash];assert.equal(ctx.validateBackup(d).cashDays.length,1);assert.equal(restored.cashDays.length,0);
 for(const bad of [[cash,{...cash,id:'cash2'}],[{...cash,date:'2026-02-30'}],[{...cash,counted:-1}],[{...cash,entries:[{kind:'Aus',amount:-1,name:'Test'}]}]]){assert.throws(()=>ctx.validateBackup({...d,cashDays:bad}))}
 console.log('Cash backup validation checks passed');
+
+const dispatch={date:'2026-11-25',channel:'Post',note:'Beleg',recordedAt:'2026-11-25T12:00:00Z'};
+const withReminder=JSON.parse(JSON.stringify(d));withReminder.invoices[0].reminders=[{level:1,fee:12.5,dispatchHistory:[dispatch]}];
+assert.equal(ctx.validateBackup(withReminder).invoices[0].reminders[0].fee,12.5);
+for(const bad of [{fee:-1},{fee:1.001},{dispatchHistory:{}},{dispatchHistory:[{...dispatch,channel:'invalid'}]}]){const x=JSON.parse(JSON.stringify(withReminder));Object.assign(x.invoices[0].reminders[0],bad);assert.throws(()=>ctx.validateBackup(x))}
