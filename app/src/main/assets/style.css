@@ -463,3 +463,10 @@ button[data-action]{display:inline-flex;flex-direction:row;align-items:center;ju
  #dialog .calendar-detail [role="tabpanel"]{min-height:96px}
  #dialog .calendar-detail-tabs button{font-size:12px}
 }
+
+/* Invoice recipient block: readable in preview and A4 print. */
+.invoice-report .invoice-address-block{display:flex;flex-direction:column;gap:3px;margin:22px 0 18px;max-width:100%;overflow-wrap:anywhere;color:#263444;line-height:1.45}
+.invoice-report .invoice-address-block>span{font-size:11px;color:#536579;letter-spacing:.04em;text-transform:uppercase}
+.invoice-report .invoice-address-block>strong{font-size:15px;font-weight:650}
+.invoice-report .invoice-address-block>div{white-space:pre-line;font-size:13px}
+@media print{.invoice-report .invoice-address-block{break-inside:avoid;color:#222}}
