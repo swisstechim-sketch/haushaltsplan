@@ -530,3 +530,16 @@ body:not(.reference-dashboard) main input,body:not(.reference-dashboard) main se
 body:not(.reference-dashboard) main .entry{padding:6px 0;gap:6px;min-height:0}
 body:not(.reference-dashboard) main .list-filters{gap:6px;margin:8px 0}
 }
+
+/* Compact tablet content: housekeeping and master data */
+@media screen and (min-width:800px) and (orientation:landscape){
+main .housekeeping-filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:6px;align-items:end;margin:6px 0}
+main .housekeeping-filters label{margin:0;font-size:11px;min-width:0}
+main .housekeeping-filters select,main .housekeeping-filters input{width:100%;min-width:0;min-height:32px;margin:3px 0 0;padding:4px 6px}
+main .housekeeping-table th,main .housekeeping-table td{padding:6px 8px;font-size:12px}
+main .master-type-tabs{display:flex;flex-wrap:wrap;gap:5px;margin:0}
+main .master-type-tabs button{min-height:32px;padding:5px 7px;font-size:11px}
+#dialog .editor-tabs{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0}
+#dialog .editor-tabs button{min-height:32px;padding:5px 8px;font-size:11px}
+#dialog .editor-tabs svg{width:16px;height:16px}
+}
