@@ -86,3 +86,5 @@ Bei jeder Änderung diese Datei im Repository-Hauptverzeichnis aktualisieren: Co
 - Korrekturplan aus Originaljournal mit exakten Rappenbeträgen, aktiven Konten, Zahlungsschutz, Folgeabrechnungen, Periodensperre und Doppelkorrekturschutz implementiert; Regressionstests ergänzt. Keine tatsächliche Gegenbuchung freigegeben, da historische Versicherungs-/13.-Monatslohn-Salden und Ersatzabrechnung noch integriert werden müssen. #551–553 erfolgreich; neue CI offen.
 
 - Aktive Lohnhistorie als Vorbereitung für Korrekturen: Originale mit Korrekturjournalquelle aus Jahresübersicht, Lohnausweis, separatem 13. Monatslohn, ALV-/AHV-Historie und Monatsduplikatprüfung ausgeschlossen; AHV-Editor berücksichtigt eigenen Entwurf nicht erneut. Noch keine Korrekturbuchung freigegeben; weitere Abhängigkeiten und Tests offen. #554/#555 bei Beginn laufend.
+
+- Regressionstest aktive Lohnhistorie: korrigiertes Original bleibt gespeichert, Ersatz zählt einmal, andere Mitarbeiter bleiben ausgeschlossen; ohne Korrekturjournal zählen beide Datensätze. CI offen; #554–556 bei Beginn laufend. Keine historische Wiederholung parallel gestartet.
