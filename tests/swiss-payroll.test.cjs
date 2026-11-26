@@ -24,3 +24,17 @@ assert.throws(()=>r.tariffLookup(rows,e,'2027-11-26',5000),/Keine eindeutige/);
 assert.throws(()=>r.tariffLookup(rows.concat(rows[1]),e,'2026-11-26',5000),/Keine eindeutige/);
 assert.throws(()=>r.tariffLookup([],e,'2026-11-26',5000),/Keine eindeutige/);
 console.log('Swiss payroll: BVG limits, part-year periods, AHV cases and exact verified tariff matching passed');
+
+const employee={id:'e1',entryDate:'2026-01-01',exitDate:'2026-06-30',thirteenthSalary:'Separat'};
+const accrued=[{id:'a',employee:'e1',date:'2026-05-31',thirteenthSnapshot:{entitlement:50000,paid:0}}];
+assert.equal(r.thirteenthBalance(accrued,'e1',2026).remaining,50000);
+const payout=r.separateThirteenthDraft(accrued,employee,'2026-06-30',500);
+assert.equal(payout.paid,50000);
+assert.equal(payout.entitlement,0);
+const history=accrued.concat({id:'b',employee:'e1',date:'2026-06-30',thirteenthSnapshot:payout});
+assert.throws(()=>r.separateThirteenthDraft(history,employee,'2026-06-30',1),/Restanspruch/);
+assert.throws(()=>r.separateThirteenthDraft(accrued,employee,'2026-07-01',1),/Anstellung/);
+assert.throws(()=>r.separateThirteenthDraft(accrued,employee,'2026-06-30',501),/Restanspruch/);
+assert.throws(()=>r.thirteenthBalance(accrued.concat(accrued),'e1',2026),/Doppelte/);
+assert.throws(()=>r.thirteenthBalance([{id:'old',employee:'e1',date:'2026-01-31'}],'e1',2026),/Anspruchsdaten/);
+console.log('Separate thirteenth salary draft regression passed');
