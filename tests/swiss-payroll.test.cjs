@@ -40,3 +40,7 @@ assert.throws(()=>r.separateThirteenthDraft(accrued,employee,'2026-06-30',501),/
 assert.throws(()=>r.thirteenthBalance(accrued.concat(accrued),'e1',2026),/Doppelte/);
 assert.throws(()=>r.thirteenthBalance([{id:'old',employee:'e1',date:'2026-01-31'}],'e1',2026),/Anspruchsdaten/);
 console.log('Separate thirteenth salary draft regression passed');
+
+assert.deepEqual(JSON.parse(JSON.stringify(r.incrementalContribution({base:5000,previousBase:147000,annualLimit:148200,employeeRate:1.1,employerRate:1.1}))),{insuredBase:120000,employeeAmount:1320,employerAmount:1320});
+assert.equal(r.incrementalContribution({base:5000,previousBase:148200,annualLimit:148200,employeeRate:1.1,employerRate:1.1}).employeeAmount,0);
+assert.throws(()=>r.incrementalContribution({base:5000,previousBase:0,annualLimit:148200,employeeRate:-1,employerRate:1.1}),/Beitragssatz/);
