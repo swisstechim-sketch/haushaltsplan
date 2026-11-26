@@ -517,3 +517,16 @@ main .meal-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));ga
 main .meal-toolbar{display:flex;flex-wrap:wrap;gap:8px;margin:0}
 main .meal-metrics>*{min-width:0;width:auto}
 }
+
+/* Second-pass landscape content density; leave navigation and print untouched. */
+@media screen and (min-width:800px) and (orientation:landscape){
+body:not(.reference-dashboard) main h1{font-size:18px}
+body:not(.reference-dashboard) main h2{font-size:14px}
+body:not(.reference-dashboard) main .card{padding:12px;margin:6px 0}
+body:not(.reference-dashboard) main button{font-size:12px;min-height:32px;padding:5px 8px;white-space:nowrap}
+body:not(.reference-dashboard) main .actions{gap:6px;margin:6px 0}
+body:not(.reference-dashboard) main .actions button svg{width:16px;height:16px}
+body:not(.reference-dashboard) main input,body:not(.reference-dashboard) main select{min-height:34px;padding:5px 8px}
+body:not(.reference-dashboard) main .entry{padding:6px 0;gap:6px;min-height:0}
+body:not(.reference-dashboard) main .list-filters{gap:6px;margin:8px 0}
+}
