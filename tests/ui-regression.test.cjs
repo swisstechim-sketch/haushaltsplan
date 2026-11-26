@@ -117,3 +117,8 @@ assert.match(src,/\['Finanzen',\[/,'calendar detail separates payments');
 assert.match(src,/aria-selected/,'calendar tabs expose selection');
 assert.match(src,/e\.key==='ArrowRight'/,'calendar tabs support keyboard navigation');
 assert.match(css,/\.calendar-detail \[role="tabpanel"\]\[hidden\]/,'inactive calendar detail panels are not visible');
+
+assert.match(src,/function editorTabIcon\(title\)/,'dedicated tab icons');
+assert.match(src,/editorTabIcon\(title\)/,'editor tabs use semantic icons');
+assert.match(src,/editorTabIcon\(name\)/,'calendar tabs use semantic icons');
+assert.match(src,/raw\.tabIndex=-1/,'technical meal field excluded from keyboard navigation');
