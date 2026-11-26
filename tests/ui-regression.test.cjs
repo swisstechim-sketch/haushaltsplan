@@ -131,7 +131,7 @@ assert.equal(swissDateContext.swissDate('2028-02-29'),'29.02.2028');
 assert.equal(swissDateContext.swissDate(''),'–');
 
 assert.match(src,/function openCalendarReservation\(room,day\)/,'shared calendar reservation entry');
-assert.match(src,/startBooking\(preset\)/,'mobile reservation preserves calendar selection');
+assert.ok(src.includes("edit('bookings','',preset)"),'tablet reservation preserves calendar selection');
 assert.match(src,/listFilters\[key\]==='Nicht zugeteilt'/,'housekeeping supports unassigned tasks');
 assert.match(src,/a\.dueDate\|\|'9999-12-31'/,'housekeeping orders dated tasks before undated tasks');
 
@@ -168,3 +168,12 @@ assert.match(src,/a\.dueDate\|\|'9999-12-31'/,'housekeeping orders dated tasks b
  assert.equal(financeContext.db.hotel.financeLockedThrough,'2026-10-31');
  assert.throws(()=>financeContext.lockFinancePeriod(),/Abschlussdatum/);
  assert.match(src,/n\.date<=db\.hotel\.financeLockedThrough/);
+
+const manifest=fs.readFileSync('app/src/main/AndroidManifest.xml','utf8');
+assert.match(manifest,/android:screenOrientation="sensorLandscape"/);
+assert.doesNotMatch(src,/window\.innerWidth<800/,'no mobile route switching');
+const groups=JSON.parse(src.match(/const navGroups=(\[.*?\]);const sideIcons=/)[1]);
+assert.equal(groups.length,8);
+const links=groups.flatMap(g=>g[1]);
+assert.equal(new Set(links).size,links.length,'unique sidebar destinations');
+for(const key of ['employees','accounts','journal','recipes','menus','stockItems','purchaseOrders'])assert.ok(links.includes(key),key);
