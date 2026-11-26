@@ -47,3 +47,28 @@ assert.throws(()=>r.incrementalContribution({base:5000,previousBase:0,annualLimi
 
 assert.equal(r.ahv({birthDate:'1950-01-01',ahvRetired:'Ja'},'2026-11-26',1000,[{date:'2026-11-01',gross:0,thirteenthSnapshot:{paid:100000}}]).base,60000);
 assert.throws(()=>r.ahv({birthDate:'1950-01-01',ahvRetired:'Ja'},'2026-11-26',1000,[{date:'2026-11-01',gross:0,thirteenthSnapshot:{paid:-1}}]),/historische Auszahlung/);
+
+
+ // Exercise the actual application payment balance function with journal fixtures.
+{
+ const app=fs.readFileSync('app/src/main/assets/app.js','utf8');
+ const start=app.indexOf('function premiumPayrollPaymentState(id)');
+ const end=app.indexOf('\nfunction ',start+1);
+ assert.ok(start>=0&&end>start);
+ const db={accounts:[{id:'liability',number:'2000'}],journal:[]};
+ const paymentCtx=vm.createContext({db,cents:v=>Math.round(Number(v)*100)});
+ vm.runInContext(app.slice(start,end),paymentCtx);
+ const state=()=>JSON.parse(vm.runInContext("JSON.stringify(premiumPayrollPaymentState('p'))",paymentCtx));
+ assert.equal(state().booked,false);
+ db.journal.push({source:'payroll:p',credit:'liability',debit:'expense',amount:5000},{source:'payroll:p',debit:'liability',credit:'insurance',amount:500});
+ assert.equal(state().open,450000);
+ db.journal.push({source:'payroll-payment:p:a',debit:'liability',credit:'bank',amount:2000});
+ assert.equal(state().open,250000);
+ db.journal.push({source:'payroll-payment:p:a:reversal',debit:'bank',credit:'liability',amount:2000});
+ assert.equal(state().paid,0);
+ assert.equal(state().open,450000);
+ db.journal.push({source:'payroll-payment:p:b',debit:'liability',credit:'bank',amount:4500});
+ assert.equal(state().open,0);
+ db.journal.push({source:'payroll-payment:p:c',debit:'liability',credit:'bank',amount:1});
+ assert.throws(state,/Lohnverbindlichkeit/);
+}
