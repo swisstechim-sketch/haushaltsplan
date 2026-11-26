@@ -14,6 +14,10 @@ on:
       - '*.gradle'
       - 'gradle.properties'
       - '.github/workflows/android.yml'
+# Only the newest revision of each branch needs a complete APK build.
+concurrency:
+  group: android-apk-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   build:
     runs-on: ubuntu-latest
