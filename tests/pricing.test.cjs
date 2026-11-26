@@ -75,3 +75,9 @@ assert.equal(context.unchangedReservationTariff(persisted,{...persisted,extraDin
 assert.match(app,/\['Zusatzmittagessen',el,VAT_CATERING\]/);
 assert.match(app,/\['Zusatzabendessen',ed,VAT_CATERING\]/);
 assert.match(app,/baseOther=cents\(q.other\)-el-ed/);
+
+const adjusted=context.bookingQuote({...base,extraBreakfast:1,extraLunch:2,extraDinner:1,extraMealDays:'2026-11-27;0;4;0'},room,extraHotel);
+assert.equal(adjusted.total,822.8);
+assert.throws(()=>context.bookingQuote({...base,extraMealDays:'2026-11-30;1;1;1'},room,extraHotel),/Tagesabweichung/);
+assert.throws(()=>context.bookingQuote({...base,extraMealDays:'2026-11-26;1;0;0'},room,extraHotel),/An-\/Abreisetag/);
+assert.throws(()=>context.bookingQuote({...base,extraMealDays:'2026-11-27;0;0;0\n2026-11-27;0;0;0'},room,extraHotel),/Tagesabweichung/);
