@@ -443,3 +443,5 @@ button[data-action]{display:inline-flex;flex-direction:row;align-items:center;ju
 #dialog .calendar-detail-value{white-space:pre-wrap}
 
 .housekeeping-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 0 14px}.housekeeping-summary>.card{margin:0;min-width:0}@media(min-width:760px){.housekeeping-summary{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+@media(min-width:1000px){.housekeeping-summary{grid-template-columns:repeat(5,minmax(0,1fr))}}
