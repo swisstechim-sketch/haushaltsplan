@@ -43,7 +43,9 @@ const SwissPayrollRules=(function(){
   function separateThirteenthDraft(rows,employee,date,amount){
     date=iso(date);
     if(employee.thirteenthSalary!=='Separat')throw Error('Separate Auszahlung nicht vereinbart');
-    if(!employee.entryDate||date<iso(employee.entryDate)||(employee.exitDate&&date>iso(employee.exitDate)))throw Error('Abrechnungsdatum ausserhalb der Anstellung');
+    if(!employee.entryDate||date<iso(employee.entryDate))throw Error('Abrechnungsdatum vor Anstellung');
+    if(employee.exitDate&&iso(employee.exitDate)<employee.entryDate)throw Error('Austrittsdatum vor Eintritt');
+    if(rows.some(r=>r.employee===employee.id&&String(r.date).slice(0,4)===date.slice(0,4)&&r.date>date))throw Error('Spätere Abrechnungen zuerst abstimmen');
     const balance=thirteenthBalance(rows,employee.id,date.slice(0,4));
     const paid=cents(amount);
     if(paid<=0||paid>balance.remaining)throw Error('Auszahlung überschreitet Restanspruch oder ist null');
