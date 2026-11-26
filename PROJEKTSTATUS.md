@@ -68,3 +68,5 @@ Bei jeder Änderung diese Datei im Repository-Hauptverzeichnis aktualisieren: Co
 - Vor Lohnbuchung wird der Nettosaldo auf Konto 2000 gegen berechneten Nettolohn geprüft; negative oder abweichende Salden gesperrt. CI und fachliche Prüfung offen. Korrekturabrechnungen weiterhin offen.
 
 - Regressionstest der tatsächlichen premiumPayrollBook-Funktion mit simuliertem Journal: korrekter Nettolohn erlaubt, abweichender und negativer Sollwert gesperrt, keine zusätzliche Buchung. CI-Nachweis offen.
+
+- Allgemeine Journalstornierung für Lohnbuchungen und Lohnzahlungen gesperrt, damit die spezielle Zahlungshistorie nicht umgangen wird. Vollständige Korrekturabrechnung und CI-Prüfung offen.
