@@ -65,3 +65,13 @@ assert.equal(closing.difference,0);
 assert.throws(()=>closingCtx.premiumClosingBalances('2026-02-30'));
 assert.throws(()=>closingCtx.premiumClosingBalances('2026-11-26','2027-01-01'));
 console.log('Annual closing period regression checks passed');
+
+// Existing payroll arithmetic, optional amounts and invalid deductions.
+const payrollCtx=vm.createContext({cents:n=>Math.round(Number(n)*100)});
+vm.runInContext(src.slice(src.indexOf('function premiumPayrollAmounts('),src.indexOf('function premiumPayrollPrint(')),payrollCtx);
+assert.equal(payrollCtx.premiumPayrollAmounts({gross:5000,deductions:450.25,allowances:200}).net,474975);
+assert.equal(payrollCtx.premiumPayrollAmounts({gross:5000}).net,500000);
+assert.throws(()=>payrollCtx.premiumPayrollAmounts({gross:100,deductions:101}));
+assert.throws(()=>payrollCtx.premiumPayrollAmounts({gross:100,deductions:-1}));
+assert.throws(()=>payrollCtx.premiumPayrollAmounts({gross:'invalid'}));
+console.log('Payroll arithmetic regression checks passed');
