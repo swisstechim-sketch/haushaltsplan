@@ -155,6 +155,8 @@ assert.match(src,/a\.dueDate\|\|'9999-12-31'/,'housekeeping orders dated tasks b
  // Premium finance: exercise real import and period-lock helpers.
  const financeContext=vm.createContext({db:{accounts:[{id:'existing',number:'1000',name:'Eigene Kasse'}],hotel:{financeLockedThrough:''}},uid:(()=>{let i=0;return ()=>String(++i)})(),confirm:()=>true,alert:()=>{},save:()=>{},render:()=>{},today:()=> '2026-11-26',swissDate:v=>v,prompt:()=> '2026-10-31',log:()=>{}});
  vm.runInContext(src.slice(src.indexOf('const HOTEL_ACCOUNT_TEMPLATE='),src.indexOf('function accountLedger(')),financeContext);
+ financeContext.confirm=()=>{throw Error('Native confirmation must not be required')};
+ financeContext.alert=()=>{throw Error('Native alert must not be required')};
  financeContext.importHotelAccounts();
  assert.equal(financeContext.db.accounts.length,45);
  assert.equal(financeContext.db.accounts[0].name,'Eigene Kasse');
