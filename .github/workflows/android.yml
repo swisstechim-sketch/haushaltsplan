@@ -51,6 +51,10 @@ jobs:
         run: node tests/housekeeping.test.cjs
       - name: Finance regression tests
         run: node tests/finance.test.cjs
+      - name: Swiss payroll statutory rule tests
+        run: node tests/swiss-payroll.test.cjs
+      - name: Swiss payroll engine syntax
+        run: node --check app/src/main/assets/swiss-payroll-rules.js
       - name: Tablet and UI regression tests
         run: node tests/ui-regression.test.cjs
       - name: Master-data selection regression tests
