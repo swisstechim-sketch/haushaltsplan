@@ -5,7 +5,7 @@ Status: OFFEN / TEILWEISE / PROGRAMMIERT / CI BESTANDEN / LIVE ABGENOMMEN. Keine
 | Bereich / Aufgabe | Status | Nachweis / nächste Aktion |
 |---|---|---|
 | Lohnentwürfe löschen | CI BESTANDEN | f7c4e22, Build 520; Live-Test offen |
-| 13. Monatslohn monatlich | PROGRAMMIERT | 47a40e3; Build 521 läuft; Regression ergänzen |
+| 13. Monatslohn monatlich | CI BESTANDEN | 47a40e3; Build 521 erfolgreich; Fachregression offen |
 | Separate Auszahlung / Austritt / Restanspruch / Doppelzahlungsschutz | TEILWEISE | 0fabe4d: neuer zweiter Monatsentwurf gesperrt; CI offen. Separate Auszahlung, Austritt, Auszahlungshistorie und legitime Korrektur-/Zusatzabrechnungen offen. |
 | Sozialversicherungen / Quellensteuer / Arbeitgeberanteile | TEILWEISE | Tarife, Grundlagen, BU-Arbeitgeberpflicht und Grenzfälle fachlich prüfen |
 | L-GAV Arbeitszeit, Ferien, Krankheit, Unfall, Überstunden | TEILWEISE | Fachliche Validierung und fehlende Berechnungen |
@@ -30,3 +30,5 @@ Bei jeder Änderung diese Datei im Repository-Hauptverzeichnis aktualisieren: Co
 - 0fabe4d: vorläufiger Schutz gegen doppelte Monatsentwürfe pro Mitarbeiter. Keine Datenmigration. Regression und fachliche Prüfung offen; mehrere legitime Abrechnungen pro Monat benötigen später eine explizite Korrektur-/Zusatzlogik.
 
 - 78eecf4: Jahresübersicht zeigt Anspruch, vorgesehene Auszahlung und Differenz des 13. Monatslohns aus gespeicherten Entwürfen; fehlende Altdaten werden ausgewiesen. Keine tatsächliche Zahlungsbestätigung. Separate Auszahlung, Austritt, Zahlungsabgleich und Regression bleiben offen.
+
+- Buildkontrolle: 521 erfolgreich, 522 fehlgeschlagen, 523 erfolgreich (78eecf4). Ursache 522 noch nicht geprüft; fachliche Regression und Live-Abnahme offen. PR 2 offen und mergeable; kein Merge.
