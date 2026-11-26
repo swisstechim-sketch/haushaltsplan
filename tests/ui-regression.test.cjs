@@ -129,3 +129,8 @@ vm.runInContext(src.slice(src.indexOf('function swissDate('),src.indexOf('functi
 assert.equal(swissDateContext.swissDate('2026-11-26'),'26.11.2026');
 assert.equal(swissDateContext.swissDate('2028-02-29'),'29.02.2028');
 assert.equal(swissDateContext.swissDate(''),'–');
+
+assert.match(src,/function openCalendarReservation\(room,day\)/,'shared calendar reservation entry');
+assert.match(src,/startBooking\(preset\)/,'mobile reservation preserves calendar selection');
+assert.match(src,/listFilters\[key\]==='Nicht zugeteilt'/,'housekeeping supports unassigned tasks');
+assert.match(src,/a\.dueDate\|\|'9999-12-31'/,'housekeeping orders dated tasks before undated tasks');
