@@ -10,7 +10,7 @@ const invoice={id:'invoice1',number:'RE-2026-0001',total:100,dueDate:'2026-11-01
 const ctx=vm.createContext({
  db:{invoices:[invoice]},today:()=> '2026-11-25',paid:()=>0,credited:()=>0,
  money:x=>'CHF '+x.toFixed(2),metric:()=>'',card:x=>x,
- get:()=>({name:'Testgast'}),esc:x=>String(x),
+ get:()=>({name:'Testgast',guest:'guest1'}),esc:x=>String(x),
  btn:(label,action)=>action==='reminder'?'[CREATE_REMINDER]':''
 });
 vm.runInContext(src.slice(start,end),ctx);
@@ -67,3 +67,12 @@ archiveCtx.reminderArchive(invoice.id);
 assert.match(archiveHtml,/Versand manuell dokumentiert/);
 assert.match(archiveHtml,/kein Zustellnachweis/);
 assert.match(archiveHtml,/2026-11-25 · Post · Referenz 123/);
+
+const feeStart=src.indexOf('function reminderFee(');
+const feeEnd=src.indexOf('function reminderDue(',feeStart);
+assert.ok(feeStart>=0&&feeEnd>feeStart);
+const feeCtx=vm.createContext({});
+vm.runInContext(src.slice(feeStart,feeEnd),feeCtx);
+for(const [input,expected] of [[undefined,0],['0',0],['12.50',12.5],['9999',9999]])assert.equal(feeCtx.reminderFee(input),expected);
+for(const input of [-1,10000,1.001,'abc',Infinity])assert.throws(()=>feeCtx.reminderFee(input),/Ungültige Mahngebühr/);
+console.log('Reminder fee regression checks passed');
