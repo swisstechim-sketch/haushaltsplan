@@ -470,3 +470,5 @@ button[data-action]{display:inline-flex;flex-direction:row;align-items:center;ju
 .invoice-report .invoice-address-block>strong{font-size:15px;font-weight:650}
 .invoice-report .invoice-address-block>div{white-space:pre-line;font-size:13px}
 @media print{.invoice-report .invoice-address-block{break-inside:avoid;color:#222}}
+
+@media (min-width:800px) and (orientation:landscape){.tabs>button.page-back-icon{flex:0 0 54px;width:54px;min-width:54px;padding:0;justify-content:center;gap:0}.tabs>button.page-back-icon>span{display:none}.tabs>button.page-back-icon>.action-svg{width:22px;height:22px;flex:none}}
