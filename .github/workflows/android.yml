@@ -74,14 +74,14 @@ jobs:
       - name: Build and unit tests
         run: |
           set -o pipefail
-          for attempt in 1 2 3; do
+          for attempt in 1 2 3 4 5; do
             if gradle --no-daemon --stacktrace :app:assembleDebug :app:testDebugUnitTest 2>&1 | tee "$RUNNER_TEMP/gradle-build.log"; then
               exit 0
             fi
-            if [ "$attempt" -eq 3 ] || ! grep -Eq '429|Too Many Requests' "$RUNNER_TEMP/gradle-build.log"; then
+            if [ "$attempt" -eq 5 ] || ! grep -Eq '429|Too Many Requests' "$RUNNER_TEMP/gradle-build.log"; then
               exit 1
             fi
-            sleep "$((attempt * 60))"
+            sleep "$((attempt * 120))"
           done
       - name: Compile native Android tests
         run: gradle --no-daemon --stacktrace :app:assembleDebugAndroidTest
@@ -130,7 +130,7 @@ jobs:
           target: default
           disable-animations: true
           script: |
-            bash -o pipefail -c 'for attempt in 1 2 3; do if gradle --no-daemon --stacktrace :app:connectedDebugAndroidTest 2>&1 | tee "$RUNNER_TEMP/emulator-gradle.log"; then exit 0; fi; if [ "$attempt" -eq 3 ] || ! grep -Eq "429|Too Many Requests" "$RUNNER_TEMP/emulator-gradle.log"; then adb logcat -d -s StayDatabase AndroidRuntime TestRunner; find app/build/outputs/androidTest-results -name "*.xml" -exec cat {} +; exit 1; fi; sleep "$((attempt * 60))"; done'
+            bash -o pipefail -c 'for attempt in 1 2 3 4 5; do if gradle --no-daemon --stacktrace :app:connectedDebugAndroidTest 2>&1 | tee "$RUNNER_TEMP/emulator-gradle.log"; then exit 0; fi; if [ "$attempt" -eq 5 ] || ! grep -Eq "429|Too Many Requests" "$RUNNER_TEMP/emulator-gradle.log"; then adb logcat -d -s StayDatabase AndroidRuntime TestRunner; find app/build/outputs/androidTest-results -name "*.xml" -exec cat {} +; exit 1; fi; sleep "$((attempt * 120))"; done'
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -172,14 +172,14 @@ jobs:
           trap 'rm -f "$STAY_KEYSTORE_PATH"' EXIT
           printf '%s' "$STAY_KEYSTORE_BASE64" | base64 --decode > "$STAY_KEYSTORE_PATH"
           unset STAY_KEYSTORE_BASE64
-          for attempt in 1 2 3; do
+          for attempt in 1 2 3 4 5; do
             if gradle --no-daemon :app:assembleRelease 2>&1 | tee "$RUNNER_TEMP/gradle-release.log"; then
               break
             fi
-            if [ "$attempt" -eq 3 ] || ! grep -Eq '429|Too Many Requests' "$RUNNER_TEMP/gradle-release.log"; then
+            if [ "$attempt" -eq 5 ] || ! grep -Eq '429|Too Many Requests' "$RUNNER_TEMP/gradle-release.log"; then
               exit 1
             fi
-            sleep "$((attempt * 60))"
+            sleep "$((attempt * 120))"
           done
           mkdir -p release
           cp app/build/outputs/apk/release/app-release.apk release/STAY-Swiss-1.0.0.apk
