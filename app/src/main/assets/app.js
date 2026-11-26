@@ -368,7 +368,7 @@ function premiumConfiguredPayroll(employee,draft,records){
  if(employee.withholdingTax==='Ja'){
   const rows=records.filter(r=>r.kind==='Quellensteuer'&&r.status==='Aktiv'&&r.taxVerified==='Ja'&&r.taxSource&&r.taxYear&&r.taxCanton&&r.taxCode).map(r=>({year:Number(r.taxYear),canton:r.taxCanton,code:String(r.taxCode).toUpperCase(),fromCents:cents(r.taxFrom),toCents:cents(r.taxTo),rate:r.taxRate==null||r.taxRate===''?NaN:Number(r.taxRate),source:'ESTV',verified:true}));
   const tax=SwissPayrollRules.tariffLookup(rows,employee,date,draft.gross);
-  result.push({kind:'Abzug',name:'Quellensteuer '+tax.canton+'/'+tax.code+'/'+tax.year,amount:tax.amount,employerAmount:0,taxRate:tax.rate});
+  const matches=records.filter(r=>r.kind==='Quellensteuer'&&r.status==='Aktiv'&&r.taxVerified==='Ja'&&r.taxSource&&Number(r.taxYear)===tax.year&&r.taxCanton===tax.canton&&String(r.taxCode).toUpperCase()===tax.code&&cents(r.taxFrom)<=cents(draft.gross)&&cents(r.taxTo)>=cents(draft.gross)&&Number(r.taxRate)===tax.rate);if(matches.length!==1)throw Error('Quellensteuer: eindeutige Tarifzeile prüfen');const tariff=matches[0];result.push({kind:'Abzug',name:'Quellensteuer '+tax.canton+'/'+tax.code+'/'+tax.year,amount:tax.amount,employerAmount:0,taxRate:tax.rate,contributionType:'Quellensteuer',creditAccount:tariff.creditAccount||'',taxSource:tariff.taxSource,taxYear:tax.year,taxCanton:tax.canton,taxCode:tax.code});
  }
  return result;
 }
