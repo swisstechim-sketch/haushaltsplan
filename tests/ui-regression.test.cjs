@@ -153,7 +153,7 @@ assert.match(src,/a\.dueDate\|\|'9999-12-31'/,'housekeeping orders dated tasks b
  assert.equal(zoomPlus.disabled,false);
 
  // Premium finance: exercise real import and period-lock helpers.
- const financeContext=vm.createContext({db:{accounts:[{id:'existing',number:'1000',name:'Eigene Kasse'}],hotel:{financeLockedThrough:''}},uid:(()=>{let i=0;return ()=>String(++i)})(),confirm:()=>true,alert:()=>{},save:()=>{},render:()=>{},today:()=> '2026-11-26',swissDate:v=>v,prompt:()=> '2026-10-31',log:()=>{}});
+ const financeContext=vm.createContext({storageReadFailed:false,db:{accounts:[{id:'existing',number:'1000',name:'Eigene Kasse'}],hotel:{financeLockedThrough:''}},uid:(()=>{let i=0;return ()=>String(++i)})(),confirm:()=>true,alert:()=>{},save:()=>{},render:()=>{},today:()=> '2026-11-26',swissDate:v=>v,prompt:()=> '2026-10-31',log:()=>{}});
  vm.runInContext(src.slice(src.indexOf('const HOTEL_ACCOUNT_TEMPLATE='),src.indexOf('function accountLedger(')),financeContext);
  let persisted='',preview='',notice='';
  financeContext.dialog=v=>{preview=v};
@@ -171,10 +171,11 @@ assert.match(src,/a\.dueDate\|\|'9999-12-31'/,'housekeeping orders dated tasks b
  importButton.onclick();
  assert.equal(financeContext.db.accounts.length,45);
  assert.equal(JSON.parse(persisted).accounts.length,45);
- assert.match(notice,/45 Konten gespeichert/);
+ assert.match(notice,/44 neue Konten gespeichert\. Insgesamt 45 Konten vorhanden\./);
  assert.equal(financeContext.db.accounts[0].name,'Eigene Kasse');
  financeContext.confirmHotelAccounts();
  assert.equal(financeContext.db.accounts.length,45);
+ assert.match(notice,/0 neue Konten gespeichert\. Insgesamt 45 Konten vorhanden\./);
  financeContext.localStorage.getItem=()=>JSON.stringify({accounts:[]});
  assert.throws(()=>financeContext.confirmHotelAccounts(),/Speicher gelesen/);
  financeContext.localStorage.getItem=()=>persisted;
