@@ -238,3 +238,12 @@ assert.match(src,/QR-Zahlungen und Finanzabschlüsse benötigen vor produktiver 
 console.log('Tablet-only copy and unified live-page regression checks: OK');
 
 assert.match(css,/main \.actions:not\(\.master-type-tabs\):not\(\.settings-tabs\)>button\{[^}]*min-height:34px;padding:6px 10px/);
+
+ // Scoped reservation and adaptive KPI layout regression.
+ assert.ok(src.includes("(page==='bookings'?' reservation-metrics':'')"));
+ assert.match(css,/\.metrics\.reservation-metrics\{[^}]*grid-template-columns:repeat\(6,minmax\(0,1fr\)\)/);
+ for(const n of [2,3]){
+   assert.ok(css.includes(':not(.reservation-metrics):has(>.card:nth-child('+n+'):last-child){grid-template-columns:repeat('+n+',minmax(0,1fr))}'));
+ }
+ assert.ok(css.includes(':not(.reservation-metrics):has(>.card:only-child){grid-template-columns:minmax(0,1fr)}'));
+ console.log('Scoped and adaptive KPI layout checks: OK');
