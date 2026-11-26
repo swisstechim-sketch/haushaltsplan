@@ -62,3 +62,5 @@ Bei jeder Änderung diese Datei im Repository-Hauptverzeichnis aktualisieren: Co
 - Buildstatus: #537 und #538 nach Neustart erfolgreich, #539–541 erfolgreich, #542–543 laufen. #536 erst nach Abschluss starten. Keine Release-Veröffentlichung.
 
 - Lohnzahlungshistorie korrigiert: Storno zeigt ursprüngliches Bankkonto und negativen Betrag; Postkonto 1010 zugelassen, Geldtransit 1090 ausgeschlossen. Statische Prüfung der Aktionshandler erfolgt; CI und Live-Test offen. Korrekturabrechnung weiterhin offen.
+
+- Regressionstests in tests/swiss-payroll.test.cjs für tatsächliche Saldenfunktion: ungebucht, Netto, Teilzahlung, Gegenbuchung, Vollzahlung, Überzahlung. CI-Ausführung noch nicht bestätigt; #542–544 liefen vor Änderung. Historische Neustarts zurückgestellt.
