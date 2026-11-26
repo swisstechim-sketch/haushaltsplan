@@ -90,3 +90,5 @@ Bei jeder Änderung diese Datei im Repository-Hauptverzeichnis aktualisieren: Co
 - Regressionstest aktive Lohnhistorie: korrigiertes Original bleibt gespeichert, Ersatz zählt einmal, andere Mitarbeiter bleiben ausgeschlossen; ohne Korrekturjournal zählen beide Datensätze. CI offen; #554–556 bei Beginn laufend. Keine historische Wiederholung parallel gestartet.
 
 - Korrigierte Originale: offene Auszahlung auf null, widersprüchliche Restzahlungen blockiert, generisches Storno von Korrekturjournal geschützt, Original in Liste gekennzeichnet, separater 13. Monatslohn nicht vom korrigierten Original startbar. Korrektur-Erstellung noch nicht freigegeben; CI und Tests offen. #554–557 bei Beginn laufend.
+
+- Vollständige Gegenbuchung unbezahlter Löhne mit Bestätigung, erneuter Planprüfung, atomarem Journalposting in Originalperiode und unverändertem Original implementiert. Separate 13.-Monatslohn-Entwürfe blockieren vorsorglich. Ersatzabrechnung manuell neu erstellen; automatische Ersatzabrechnung, Regression und fachliche Freigabe offen. #554 erfolgreich, #555–558 bei Beginn laufend.
