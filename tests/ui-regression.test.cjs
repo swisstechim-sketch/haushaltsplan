@@ -107,3 +107,13 @@ overlay.hidden=false;answer=false;
 assert.equal(closeContext.close(true),true);
 assert.equal(prompts,2);
 console.log('Tabbed editor and unsaved changes regression checks: OK');
+
+assert.match(src,/function calendarDetail\(b\)/,'calendar detail view exists');
+assert.match(src,/calendar-detail-tabs/,'calendar detail has separate tabs');
+assert.match(src,/\['Aufenthalt',\[/,'calendar detail separates stay');
+assert.match(src,/\['Gäste',\[/,'calendar detail separates guests');
+assert.match(src,/\['Verpflegung',\[/,'calendar detail separates meals');
+assert.match(src,/\['Finanzen',\[/,'calendar detail separates payments');
+assert.match(src,/aria-selected/,'calendar tabs expose selection');
+assert.match(src,/e\.key==='ArrowRight'/,'calendar tabs support keyboard navigation');
+assert.match(css,/\.calendar-detail \[role="tabpanel"\]\[hidden\]/,'inactive calendar detail panels are not visible');
