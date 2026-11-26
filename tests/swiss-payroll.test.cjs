@@ -44,3 +44,6 @@ console.log('Separate thirteenth salary draft regression passed');
 assert.deepEqual(JSON.parse(JSON.stringify(r.incrementalContribution({base:5000,previousBase:147000,annualLimit:148200,employeeRate:1.1,employerRate:1.1}))),{insuredBase:120000,employeeAmount:1320,employerAmount:1320});
 assert.equal(r.incrementalContribution({base:5000,previousBase:148200,annualLimit:148200,employeeRate:1.1,employerRate:1.1}).employeeAmount,0);
 assert.throws(()=>r.incrementalContribution({base:5000,previousBase:0,annualLimit:148200,employeeRate:-1,employerRate:1.1}),/Beitragssatz/);
+
+assert.equal(r.ahv({birthDate:'1950-01-01',ahvRetired:'Ja'},'2026-11-26',1000,[{date:'2026-11-01',gross:0,thirteenthSnapshot:{paid:100000}}]).base,60000);
+assert.throws(()=>r.ahv({birthDate:'1950-01-01',ahvRetired:'Ja'},'2026-11-26',1000,[{date:'2026-11-01',gross:0,thirteenthSnapshot:{paid:-1}}]),/historische Auszahlung/);
