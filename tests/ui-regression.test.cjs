@@ -163,6 +163,7 @@ assert.match(src,/a\.dueDate\|\|'9999-12-31'/,'housekeeping orders dated tasks b
  financeContext.importHotelAccounts();
  assert.equal(financeContext.db.accounts.length,45);
  vm.runInContext(src.slice(src.indexOf('function lockFinancePeriod('),src.indexOf('function trialBalance(')),financeContext);
+ financeContext.confirm=()=>true;
  financeContext.lockFinancePeriod();
  assert.equal(financeContext.db.hotel.financeLockedThrough,'2026-10-31');
  assert.throws(()=>financeContext.lockFinancePeriod(),/Abschlussdatum/);
