@@ -1,0 +1,22 @@
+'use strict';
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const vm=require('node:vm');
+const source=fs.readFileSync('app/src/main/assets/app.js','utf8');
+const start=source.indexOf('function masterDataSelect(');
+const end=source.indexOf('function hotelCountrySelect(',start);
+assert.ok(start>=0&&end>start,'shared master-data selector exists');
+const context=vm.createContext({esc:s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')});
+vm.runInContext(source.slice(start,end),context);
+const html=context.masterDataSelect('role','Bestehende Tätigkeit',['Koch/Köchin','Koch/Köchin','Servicefachperson']);
+assert.match(html,/<select name="role">/);
+assert.match(html,/value="Bestehende Tätigkeit" selected/,'previous value preserved');
+assert.equal((html.match(/value="Koch\/Köchin"/g)||[]).length,1,'duplicate options removed');
+assert.match(context.masterDataSelect('role','<script>',[]),/value="&lt;script>"/,'stored option escaped');
+assert.match(source,/k==='employees'&&key==='nationalityText'/);
+assert.match(source,/k==='employees'&&key==='role'/);
+for(const key of ['bankName','pensionFund','accidentInsurance','sicknessInsurance'])
+ assert.ok(source.includes("k==='employees'&&key==='"+key+"'"),key+' uses master data');
+assert.match(source,/k==='handover'&&key==='location'/);
+assert.match(source,/k==='staffReports'&&key==='name'/);
+console.log('Schema-driven master-data selection and legacy values: OK');
