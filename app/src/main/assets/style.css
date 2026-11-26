@@ -557,3 +557,25 @@ main .master-type-tabs button{min-height:32px;padding:5px 7px;font-size:11px}
 #dialog .extra-meal-table{border:1px solid #e1e8ef;border-radius:9px;background:#fff;padding:8px}
 @media(min-width:800px){#dialog .pricing-quote .price-fields{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:420px){#dialog .pricing-quote .price-fields{grid-template-columns:minmax(0,1fr)}#dialog .pricing-quote{padding:10px}}
+
+/* LDPlayer: single-line controls and responsive profile layout. */
+@media screen {
+main button,#dialog button{white-space:nowrap;overflow-wrap:normal;word-break:normal}
+main button>span,#dialog button>span{white-space:nowrap}
+main .actions,#dialog .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+main .actions>button,#dialog .actions>button{flex-shrink:0;min-height:44px}
+main .master-type-tabs,main .settings-tabs,#dialog .editor-tabs{display:flex;flex-wrap:nowrap;overflow-x:auto;max-width:100%;min-width:0;gap:8px;scrollbar-width:none}
+main .master-type-tabs::-webkit-scrollbar,main .settings-tabs::-webkit-scrollbar,#dialog .editor-tabs::-webkit-scrollbar{display:none}
+main .master-type-tabs>button,main .settings-tabs>button,#dialog .editor-tabs>button{flex:0 0 auto;min-height:44px}
+main .master-type-tabs>button.active{background:#cce1f5;font-weight:700}
+main .hotel-profile-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+main .advanced-list-filters{grid-column:1/-1}
+main .about-premium-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:12px 0}
+main .about-premium-grid>.card{margin:0;min-width:0}
+main .about-premium-grid h3{margin:0 0 6px}
+main .about-footer .company-logo{width:100%;max-width:320px;height:auto}
+main .about-footer{text-align:center}
+main .about-footer .company-mark{display:flex;justify-content:center}
+}
+@media screen and (min-width:800px) and (orientation:landscape){main .hotel-profile-grid{grid-template-columns:repeat(3,minmax(0,1fr))}main .list-filters:not(.housekeeping-filters){grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media screen and (max-width:560px){main .hotel-profile-grid,main .about-premium-grid{grid-template-columns:minmax(0,1fr)}}
