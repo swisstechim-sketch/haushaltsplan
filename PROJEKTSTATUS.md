@@ -66,3 +66,5 @@ Bei jeder Änderung diese Datei im Repository-Hauptverzeichnis aktualisieren: Co
 - Regressionstests in tests/swiss-payroll.test.cjs für tatsächliche Saldenfunktion: ungebucht, Netto, Teilzahlung, Gegenbuchung, Vollzahlung, Überzahlung. CI-Ausführung noch nicht bestätigt; #542–544 liefen vor Änderung. Historische Neustarts zurückgestellt.
 
 - Vor Lohnbuchung wird der Nettosaldo auf Konto 2000 gegen berechneten Nettolohn geprüft; negative oder abweichende Salden gesperrt. CI und fachliche Prüfung offen. Korrekturabrechnungen weiterhin offen.
+
+- Regressionstest der tatsächlichen premiumPayrollBook-Funktion mit simuliertem Journal: korrekter Nettolohn erlaubt, abweichender und negativer Sollwert gesperrt, keine zusätzliche Buchung. CI-Nachweis offen.
