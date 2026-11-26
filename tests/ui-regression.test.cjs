@@ -247,3 +247,8 @@ assert.match(css,/main \.actions:not\(\.master-type-tabs\):not\(\.settings-tabs\
  }
  assert.ok(css.includes(':not(.reservation-metrics):has(>.card:only-child){grid-template-columns:minmax(0,1fr)}'));
  console.log('Scoped and adaptive KPI layout checks: OK');
+
+// Main navigation uses the app header as the sole page title.
+assert.match(unifiedRender,/let body='';/);
+assert.doesNotMatch(unifiedRender,/btn\('Zurück','go','dashboard'/);
+assert.doesNotMatch(unifiedRender,/<h2>Check-in \/ Check-out<\/h2>|<h2>Tagesübersicht<\/h2>/);
