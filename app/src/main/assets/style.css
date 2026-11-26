@@ -610,3 +610,6 @@ main .about-footer .company-mark{display:flex;justify-content:center}
 
 /* Reservationen only: six equal KPI cards in one row. */
 @media screen and (orientation:landscape){body:not(.reference-dashboard) main .metrics.reservation-metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}body:not(.reference-dashboard) main .reservation-metrics>.card{min-width:0;margin:0;padding:10px}body:not(.reference-dashboard) main .reservation-metrics .metric-label{font-size:clamp(10px,1.1vw,14px);overflow-wrap:anywhere}}
+
+/* Compact content action buttons across tablet pages; leave navigation and category tabs intact. */
+@media screen and (orientation:landscape){body:not(.reference-dashboard) main .actions:not(.master-type-tabs):not(.settings-tabs)>button{display:inline-flex;align-items:center;justify-content:center;align-self:center;box-sizing:border-box;height:auto;min-height:34px;padding:6px 10px;line-height:1.25;gap:7px}body:not(.reference-dashboard) main .actions:not(.master-type-tabs):not(.settings-tabs)>button>svg.action-svg{width:16px;height:16px;flex:0 0 16px;margin:0}}
