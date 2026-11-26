@@ -122,3 +122,10 @@ assert.match(src,/function editorTabIcon\(title\)/,'dedicated tab icons');
 assert.match(src,/editorTabIcon\(title\)/,'editor tabs use semantic icons');
 assert.match(src,/editorTabIcon\(name\)/,'calendar tabs use semantic icons');
 assert.match(src,/raw\.tabIndex=-1/,'technical meal field excluded from keyboard navigation');
+
+// Swiss display formatting must not mutate stored ISO dates.
+const swissDateContext=vm.createContext({});
+vm.runInContext(src.slice(src.indexOf('function swissDate('),src.indexOf('function localDate(')),swissDateContext);
+assert.equal(swissDateContext.swissDate('2026-11-26'),'26.11.2026');
+assert.equal(swissDateContext.swissDate('2028-02-29'),'29.02.2028');
+assert.equal(swissDateContext.swissDate(''),'–');
