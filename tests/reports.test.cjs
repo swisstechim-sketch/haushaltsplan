@@ -24,6 +24,7 @@ const ctx=vm.createContext({
  invoiceTax:lines=>lines.map(x=>({rate:Number(x.vat),gross:Number(x.amount),net:Number(x.amount)/(1+Number(x.vat)/100),tax:Number(x.amount)-Number(x.amount)/(1+Number(x.vat)/100)})),
  esc:s=>String(s),btn:()=>'<button></button>'
 });
+const overrideStart=js.indexOf('function extraMealOverrides('),overrideEnd=js.indexOf('function bookingQuote(',overrideStart);assert.ok(overrideStart>=0&&overrideEnd>overrideStart);vm.runInContext(js.slice(overrideStart,overrideEnd),ctx);
 vm.runInContext(js.slice(first,last),ctx);
 const names=vm.runInContext('DOCUMENT_TYPES',ctx);
 assert.equal(names.length,43,'all 43 PDF mockups are listed');
@@ -120,3 +121,5 @@ for(const [day,expected] of [['2026-11-24',[0,0,0]],['2026-11-25',[0,0,3]],['202
 assert.deepEqual(Array.from(ctx.mealDayCounts({...extraMealBooking,status:'Storniert'},'2026-11-26')),[0,0,0]);
 assert.deepEqual(Array.from(ctx.mealDayCounts({...extraMealBooking,meal:'Vollpension'},'2026-11-26')),[3,4,5]);
 assert.deepEqual(Array.from(ctx.mealDayCounts({...extraMealBooking,extraBreakfast:undefined,extraLunch:undefined,extraDinner:undefined},'2026-11-26')),[0,0,0]);
+
+assert.deepEqual(Array.from(ctx.mealDayCounts({...extraMealBooking,extraMealDays:'2026-11-26;0;4;1'},'2026-11-26')),[0,4,1]);
