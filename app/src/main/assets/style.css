@@ -597,3 +597,5 @@ main .about-footer .company-mark{display:flex;justify-content:center}
 .payroll-position-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}.payroll-position>.editor-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:12px}.payroll-position>.editor-fields>.editor-field:first-child{grid-column:1/-1}.payroll-position summary{font-weight:600}@media(max-width:600px){.payroll-position-columns,.payroll-position>.editor-fields{grid-template-columns:1fr}}
 
 .operation-status{display:inline-block;border-radius:6px;padding:4px 7px;background:#e7eef5;color:#334d65;font-size:12px}.operation-status.done{background:#e4f3e9;color:#245c39}.operation-status.urgent{background:#fbe8e8;color:#912b2b}.operation-status.pending{background:#fff1d6;color:#795015}
+
+.finance-numbers th:nth-child(n+3),.finance-numbers td:nth-child(n+3){text-align:right;font-variant-numeric:tabular-nums}.finance-summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0}@media(max-width:600px){.finance-summary-grid{grid-template-columns:1fr}}
