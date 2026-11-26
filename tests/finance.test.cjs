@@ -75,3 +75,13 @@ assert.throws(()=>payrollCtx.premiumPayrollAmounts({gross:100,deductions:101}));
 assert.throws(()=>payrollCtx.premiumPayrollAmounts({gross:100,deductions:-1}));
 assert.throws(()=>payrollCtx.premiumPayrollAmounts({gross:'invalid'}));
 console.log('Payroll arithmetic regression checks passed');
+
+// Annual payroll totals and employment-boundary work reports.
+const staffDb={employees:[{id:'e',entryDate:'2026-02-10',exitDate:'2026-02-20',weeklyHours:42}],payrollDrafts:[{employee:'e',date:'2026-02-20',gross:1000},{employee:'e',date:'2026-03-20',gross:2000,deductions:100},{employee:'e',date:'2025-12-20',gross:9000}],staffReports:[{employee:'e',date:'2026-02-09',workMinutes:60},{employee:'e',date:'2026-02-10',workMinutes:480}],absences:[{employee:'e',date:'2026-02-11',endDate:'2026-02-12',name:'Ferien',status:'Genehmigt'},{employee:'e',date:'2026-02-13',name:'Krankheit',status:'Beantragt'}]};
+const staffCtx=vm.createContext({db:staffDb,get:(k,id)=>staffDb[k].find(x=>x.id===id)||{},cents:n=>Math.round(Number(n)*100)});
+for(const [a,b] of [['premiumPayrollAmounts','premiumPayrollPrint'],['premiumPayrollYear','premiumPayrollAnnual'],['premiumWorkSummary','premiumWorkReport']]){const i=src.indexOf('function '+a+'('),j=src.indexOf('function '+b+'(',i);assert.ok(i>=0&&j>i);vm.runInContext(src.slice(i,j),staffCtx)}
+const annual=staffCtx.premiumPayrollYear('e','2026');
+assert.equal(annual.totals.net,290000);assert.equal(annual.count,2);assert.equal(annual.months.length,12);assert.equal(annual.months[0].count,0);assert.equal(annual.months[1].gross,100000);
+const work=staffCtx.premiumWorkSummary('e','2026-02');
+assert.equal(work.actual,480);assert.equal(work.contractDays,11);assert.equal(work.absences.Ferien,2);assert.equal(work.absences.Krankheit,0);assert.throws(()=>staffCtx.premiumWorkSummary('e','2026-13'));
+console.log('Annual payroll and employment period checks passed');
