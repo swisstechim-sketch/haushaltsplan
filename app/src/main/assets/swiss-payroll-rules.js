@@ -14,7 +14,7 @@ const SwissPayrollRules=(function(){
     if(employee.ahvRetired!=='Ja'&&employee.ahvRetired!=='Nein')throw Error('AHV-Referenzalter muss geprueft und erfasst werden');
     if(employee.ahvRetired==='Nein')return {base:grossCents,reason:'Normaler AHV-Lohn'};
     if(employee.ahvNoExemption==='Ja')return {base:grossCents,reason:'Verzicht auf Rentnerfreibetrag'};
-    const used=history.filter(x=>x&&x.date&&String(x.date).slice(0,7)===date.slice(0,7)).reduce((sum,x)=>sum+cents(x.gross||0),0);
+    const used=history.filter(x=>x&&x.date&&iso(x.date).slice(0,7)===date.slice(0,7)).reduce((sum,x)=>{const paid=x.thirteenthSnapshot?.paid??0;if(!Number.isSafeInteger(paid)||paid<0)throw Error('AHV: historische Auszahlung prüfen');const total=sum+cents(x.gross||0)+paid;if(!Number.isSafeInteger(total))throw Error('AHV: historische Lohnsumme prüfen');return total},0);
     const allowance=Math.max(0,v.retireeExemptionMonth*100-used);
     return {base:Math.max(0,grossCents-allowance),reason:'Rentnerfreibetrag monatlich'};
   }
