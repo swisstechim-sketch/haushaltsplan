@@ -28,3 +28,5 @@ Bei jeder Änderung diese Datei im Repository-Hauptverzeichnis aktualisieren: Co
 
 ## Arbeitsdurchgang
 - 0fabe4d: vorläufiger Schutz gegen doppelte Monatsentwürfe pro Mitarbeiter. Keine Datenmigration. Regression und fachliche Prüfung offen; mehrere legitime Abrechnungen pro Monat benötigen später eine explizite Korrektur-/Zusatzlogik.
+
+- 78eecf4: Jahresübersicht zeigt Anspruch, vorgesehene Auszahlung und Differenz des 13. Monatslohns aus gespeicherten Entwürfen; fehlende Altdaten werden ausgewiesen. Keine tatsächliche Zahlungsbestätigung. Separate Auszahlung, Austritt, Zahlungsabgleich und Regression bleiben offen.
