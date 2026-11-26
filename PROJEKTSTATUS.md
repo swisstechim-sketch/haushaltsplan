@@ -54,3 +54,5 @@ Bei jeder Änderung diese Datei im Repository-Hauptverzeichnis aktualisieren: Co
 - 708ce7a: Quellensteuer-Snapshot enthält eindeutige geprüfte Tarifzeile, Herkunft, Jahr, Kanton, Code und hinterlegtes Habenkonto; reguläre Buchung nutzt bestehende Gegenkontenprüfung. Sonderzahlungen, korrekte steuerbare Basis, Tarifgrenzen, Kontenarten, feste Zulagen/Abzüge und CI/Fachprüfung weiterhin offen.
 
 - b15aece: Gegenkonten für vier regelmässige Zulagen und vier Abzüge in Personalstammdaten, Snapshot und Lohnbuchung ergänzt; Kontenklasse und Summen werden geprüft. Manuelle Beträge ohne Zuordnung bleiben gesperrt. Bestehende Snapshots nicht migriert. UI, fachliche Behandlung steuer-/versicherungspflichtiger Zulagen und CI offen.
+
+- b692874: Lohnzahlungsdialog für gebuchte reguläre Löhne, Teilzahlungen über 2000/1020 mit eigener Journalreferenz, offene Verbindlichkeit aus Journal, Überzahlung und Datum vor Abrechnung blockiert. Bankkonto 1020 vorgegeben; Auswahl, sichtbare Zahlungshistorie, Storno, fachliche Prüfung und CI offen.
