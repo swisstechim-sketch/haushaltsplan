@@ -65,6 +65,37 @@ public class MainActivity extends Activity {
    }
   });
  }
+ @JavascriptInterface public String savePdf(String base64){
+  try {
+   if(base64==null||base64.length()>14000000)throw new IllegalArgumentException("PDF zu gross");
+   byte[] bytes=android.util.Base64.decode(base64,android.util.Base64.DEFAULT);
+   if(bytes.length<8||!new String(bytes,0,5,StandardCharsets.US_ASCII).equals("%PDF-"))throw new IllegalArgumentException("Keine PDF-Datei");
+   File dir=new File(getFilesDir(),"pdf_exports");
+   if(!dir.isDirectory()&&!dir.mkdirs())throw new java.io.IOException("Exportordner fehlt");
+   File file=File.createTempFile("Lohnausweis-",".pdf",dir);
+   try(FileOutputStream stream=new FileOutputStream(file)){stream.write(bytes);stream.getFD().sync();}
+   catch(Exception ex){file.delete();throw ex;}
+   return file.getName();
+  }catch(Exception ex){return "";}
+ }
+ @JavascriptInterface public void sharePdf(String name,String recipient){
+  runOnUiThread(()->{
+   try{
+    if(name==null||!name.matches("Lohnausweis-[0-9]+\\.pdf"))throw new IllegalArgumentException("Dateiname");
+    File file=new File(new File(getFilesDir(),"pdf_exports"),name);
+    if(!file.isFile())throw new java.io.IOException("PDF fehlt");
+    Uri uri=FileProvider.getUriForFile(MainActivity.this,getPackageName()+".fileprovider",file);
+    Intent i=new Intent(Intent.ACTION_SEND);
+    i.setType("application/pdf");
+    i.putExtra(Intent.EXTRA_STREAM,uri);
+    i.putExtra(Intent.EXTRA_SUBJECT,"Lohnausweis");
+    if(recipient!=null&&!recipient.trim().isEmpty())i.putExtra(Intent.EXTRA_EMAIL,new String[]{recipient.trim()});
+    i.setClipData(ClipData.newRawUri(name,uri));
+    i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+    startActivity(Intent.createChooser(i,"Lohnausweis teilen oder per E-Mail senden"));
+   }catch(Exception ex){android.widget.Toast.makeText(MainActivity.this,"PDF-Freigabe fehlgeschlagen",android.widget.Toast.LENGTH_LONG).show();}
+  });
+ }
  @JavascriptInterface public String countriesJson(){
   org.json.JSONArray countries=new org.json.JSONArray();
   String[] codes=java.util.Locale.getISOCountries();
