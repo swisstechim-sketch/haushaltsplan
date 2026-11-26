@@ -134,3 +134,20 @@ assert.match(src,/function openCalendarReservation\(room,day\)/,'shared calendar
 assert.match(src,/startBooking\(preset\)/,'mobile reservation preserves calendar selection');
 assert.match(src,/listFilters\[key\]==='Nicht zugeteilt'/,'housekeeping supports unassigned tasks');
 assert.match(src,/a\.dueDate\|\|'9999-12-31'/,'housekeeping orders dated tasks before undated tasks');
+
+ // Exercise multipage preview zoom without an Android device.
+ const zoomPages=[{style:{}},{style:{}}],zoomMinus={},zoomPlus={},zoomReset={textContent:'',querySelector:()=>null,setAttribute(){}};
+ const zoomMain={querySelectorAll:()=>zoomPages,querySelector:s=>s.includes('Reset')?zoomReset:s.includes('Out')?zoomMinus:zoomPlus};
+ const zoomContext=vm.createContext({$:()=>zoomMain,documentZoom:100});
+ vm.runInContext(src.slice(src.indexOf('function changeDocumentZoom('),src.indexOf('function documentClose(')),zoomContext);
+ zoomContext.changeDocumentZoom(200);
+ assert.equal(zoomPages[0].style.zoom,'2');
+ assert.equal(zoomPages[1].style.zoom,'2');
+ assert.equal(zoomPlus.disabled,true);
+ zoomContext.changeDocumentZoom(-200);
+ assert.equal(zoomMinus.disabled,true);
+ assert.equal(zoomPages[1].style.zoom,'0.5');
+ zoomContext.changeDocumentZoom(0);
+ assert.equal(zoomReset.textContent,'100 %');
+ assert.equal(zoomMinus.disabled,false);
+ assert.equal(zoomPlus.disabled,false);
