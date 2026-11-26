@@ -115,3 +115,8 @@ assert.doesNotMatch(css,/:has\(\.report-a4\)/);
 assert.match(js,/function documentClose\(\)/);
 assert.match(js,/function documentPickDate\(\)/);
 console.log('PDF report catalogue and data extraction checks passed');
+const extraMealBooking={arrival:'2026-11-25',departure:'2026-11-27',status:'Bestätigt',people:2,meal:'Nur Logis',extraBreakfast:1,extraLunch:2,extraDinner:3};
+for(const [day,expected] of [['2026-11-24',[0,0,0]],['2026-11-25',[0,0,3]],['2026-11-26',[1,2,3]],['2026-11-27',[1,0,0]],['2026-11-28',[0,0,0]]])assert.deepEqual(Array.from(ctx.mealDayCounts(extraMealBooking,day)),expected);
+assert.deepEqual(Array.from(ctx.mealDayCounts({...extraMealBooking,status:'Storniert'},'2026-11-26')),[0,0,0]);
+assert.deepEqual(Array.from(ctx.mealDayCounts({...extraMealBooking,meal:'Vollpension'},'2026-11-26')),[3,4,5]);
+assert.deepEqual(Array.from(ctx.mealDayCounts({...extraMealBooking,extraBreakfast:undefined,extraLunch:undefined,extraDinner:undefined},'2026-11-26')),[0,0,0]);
