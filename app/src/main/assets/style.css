@@ -490,3 +490,23 @@ button[data-action]{display:inline-flex;flex-direction:row;align-items:center;ju
 
 /* Compact tablet navigation */
 @media(min-width:800px) and (orientation:landscape){body:not(.reference-dashboard) #sidebar .sidebar-section>summary{font-size:10px;min-height:28px;padding:5px 7px;letter-spacing:0}body:not(.reference-dashboard) #sidebar .sidebar-section button{min-height:34px;padding:6px 8px;font-size:12px}body:not(.reference-dashboard) #sidebar .sidebar-brand{padding-bottom:8px}}
+
+/* Compact content density for landscape tablets; printed reports retain their layout. */
+@media screen and (min-width:800px) and (orientation:landscape){
+ body:not(.reference-dashboard) main{font-size:12px;line-height:1.45;padding:14px 18px 20px}
+ body:not(.reference-dashboard) main h1{font-size:20px;margin:0 0 5px}
+ body:not(.reference-dashboard) main h2{font-size:15px;margin:5px 0 9px}
+ body:not(.reference-dashboard) main h3{font-size:13px;margin:8px 0}
+ body:not(.reference-dashboard) main .card{padding:14px;margin:8px 0;border-radius:12px}
+ body:not(.reference-dashboard) main .tabs,body:not(.reference-dashboard) main .actions{gap:8px;margin:9px 0}
+ body:not(.reference-dashboard) main button,body:not(.reference-dashboard) #dialog button{font-size:12px;min-height:36px;padding:7px 10px}
+ body:not(.reference-dashboard) main input,body:not(.reference-dashboard) main select,body:not(.reference-dashboard) #dialog input,body:not(.reference-dashboard) #dialog select{font-size:12px;min-height:36px;padding:7px 10px}
+ body:not(.reference-dashboard) main label,body:not(.reference-dashboard) #dialog label{font-size:11px;margin:7px 0 4px}
+ body:not(.reference-dashboard) main .list-filters{gap:8px;margin:10px 0}
+ body:not(.reference-dashboard) main .list-filters>label>input,body:not(.reference-dashboard) main .list-filters>label>select{min-height:36px;margin:0}
+ body:not(.reference-dashboard) main .entry{padding:8px 0;gap:8px}
+ body:not(.reference-dashboard) main td,body:not(.reference-dashboard) main th{padding:7px 8px}
+ body:not(.reference-dashboard) main .metrics strong{font-size:20px}
+ body:not(.reference-dashboard) #dialog .dialog-content{font-size:12px;padding:14px}
+ #tariff-preview-form{display:block}#tariff-preview-form>.actions{margin-top:10px}
+}
