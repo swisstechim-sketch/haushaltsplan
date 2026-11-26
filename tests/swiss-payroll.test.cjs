@@ -129,3 +129,17 @@ assert.throws(()=>r.ahv({birthDate:'1950-01-01',ahvRetired:'Ja'},'2026-11-26',10
  db.journal.push({source:'payroll-correction:p'});assert.ok(plan().blockers.includes('Bereits korrigiert'));
  db.accounts[0].status='Inaktiv';assert.ok(plan().blockers.includes('Historische Konten prüfen'));
 }
+
+{
+ const app=fs.readFileSync('app/src/main/assets/app.js','utf8');
+ const db={employees:[{id:'e'}],payrollDrafts:[{id:'old',employee:'e',date:'2026-01-31',gross:5000},{id:'new',employee:'e',date:'2026-01-31',gross:5100},{id:'other',employee:'f',date:'2026-01-31',gross:9000}],journal:[{source:'payroll:old'},{source:'payroll-correction:old'}]};
+ const ctx=vm.createContext({db,get:(k,id)=>db[k].find(r=>r.id===id)||{},premiumPayrollAmounts:r=>({gross:r.gross*100,net:r.gross*100,deductions:0,allowances:0})});
+ for(const name of ['premiumActivePayrollRows','premiumPayrollYear']){
+  const start=app.indexOf('function '+name+'('),end=app.indexOf('\nfunction ',start+1);
+  assert.ok(start>=0&&end>start);vm.runInContext(app.slice(start,end),ctx);
+ }
+ const year=()=>JSON.parse(vm.runInContext("JSON.stringify(premiumPayrollYear('e','2026'))",ctx));
+ assert.equal(year().count,1);assert.equal(year().totals.gross,510000);assert.equal(year().months[0].count,1);
+ assert.equal(db.payrollDrafts.length,3);
+ db.journal.pop();assert.equal(year().count,2);assert.equal(year().totals.gross,1010000);
+}
