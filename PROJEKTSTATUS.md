@@ -84,3 +84,5 @@ Bei jeder Änderung diese Datei im Repository-Hauptverzeichnis aktualisieren: Co
 - Lohnkorrektur: schreibgeschützte Gegenbuchungsvorschau mit Prüfung Zahlungen, Folgeabrechnungen, Periodensperre und historischen Konten ergänzt. Tatsächliche Korrekturbuchung und Neuberechnung weiterhin offen; CI/Live-Test offen. #551/#552 bei Beginn laufend, #550 erfolgreich.
 
 - Korrekturplan aus Originaljournal mit exakten Rappenbeträgen, aktiven Konten, Zahlungsschutz, Folgeabrechnungen, Periodensperre und Doppelkorrekturschutz implementiert; Regressionstests ergänzt. Keine tatsächliche Gegenbuchung freigegeben, da historische Versicherungs-/13.-Monatslohn-Salden und Ersatzabrechnung noch integriert werden müssen. #551–553 erfolgreich; neue CI offen.
+
+- Aktive Lohnhistorie als Vorbereitung für Korrekturen: Originale mit Korrekturjournalquelle aus Jahresübersicht, Lohnausweis, separatem 13. Monatslohn, ALV-/AHV-Historie und Monatsduplikatprüfung ausgeschlossen; AHV-Editor berücksichtigt eigenen Entwurf nicht erneut. Noch keine Korrekturbuchung freigegeben; weitere Abhängigkeiten und Tests offen. #554/#555 bei Beginn laufend.
