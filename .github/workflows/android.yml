@@ -44,6 +44,8 @@ jobs:
         run: node --check app/src/main/assets/app.js
       - name: Reminder eligibility regression tests
         run: node tests/reminders.test.cjs
+      - name: Housekeeping regression tests
+        run: node tests/housekeeping.test.cjs
       - name: Finance regression tests
         run: node tests/finance.test.cjs
       - name: Tablet and UI regression tests
