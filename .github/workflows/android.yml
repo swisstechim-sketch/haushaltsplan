@@ -53,6 +53,8 @@ jobs:
         run: node tests/finance.test.cjs
       - name: Tablet and UI regression tests
         run: node tests/ui-regression.test.cjs
+      - name: Master-data selection regression tests
+        run: node tests/master-data-select.test.cjs
       - name: PDF report regression tests
         run: node tests/reports.test.cjs
       - name: Reservation pricing regression tests
