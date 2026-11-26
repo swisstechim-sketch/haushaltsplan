@@ -15,8 +15,14 @@ assert.equal((html.match(/value="Koch\/Köchin"/g)||[]).length,1,'duplicate opti
 assert.match(context.masterDataSelect('role','<script>',[]),/value="&lt;script>"/,'stored option escaped');
 assert.match(source,/k==='employees'&&key==='nationalityText'/);
 assert.match(source,/k==='employees'&&key==='role'/);
-for(const key of ['bankName','pensionFund','accidentInsurance','sicknessInsurance'])
+assert.ok(source.includes("['employees','suppliers'].includes(k)&&key==='bankName'"),'bank selector shared by employees and suppliers');
+for(const key of ['pensionFund','accidentInsurance','sicknessInsurance'])
  assert.ok(source.includes("k==='employees'&&key==='"+key+"'"),key+' uses master data');
 assert.match(source,/k==='handover'&&key==='location'/);
 assert.match(source,/k==='staffReports'&&key==='name'/);
+const masterStart=source.indexOf('function masterValues(');
+assert.ok(masterStart>=0&&masterStart<start);
+context.db={masterData:[{kind:'Bank',name:'Testbank',status:'Aktiv'},{kind:'Bank',name:'Altbank',status:'Inaktiv'},{kind:'Pensionskasse',name:'PK',status:'Aktiv'}],employees:[{bankName:'Bestandsbank'}]};
+vm.runInContext(source.slice(masterStart,start),context);
+assert.deepEqual(Array.from(context.masterValues('Bank','bankName')),['Testbank','Bestandsbank']);
 console.log('Schema-driven master-data selection and legacy values: OK');
