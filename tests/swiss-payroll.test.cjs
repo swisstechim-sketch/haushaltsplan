@@ -3,7 +3,7 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('nod
 const src=fs.readFileSync('app/src/main/assets/swiss-payroll-rules.js','utf8');
 const ctx=vm.createContext({});
 vm.runInContext(src,ctx);
-const r=ctx.SwissPayrollRules;
+const r=vm.runInContext('SwissPayrollRules',ctx);
 assert.equal(r.bvg(22680,2026).insuredAnnual,0);
 assert.equal(r.bvg(22681,2026).insuredAnnual,3780);
 assert.equal(r.bvg(60000,2026).insuredAnnual,33540);
