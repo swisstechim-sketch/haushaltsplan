@@ -113,3 +113,19 @@ assert.throws(()=>r.ahv({birthDate:'1950-01-01',ahvRetired:'Ja'},'2026-11-26',10
  db.accounts[0].status='Inaktiv';
  assert.equal(vm.runInContext("premiumDefaultFixedAccount('Allowance','Nachtzulage')",ctx),'');
 }
+
+{
+ const app=fs.readFileSync('app/src/main/assets/app.js','utf8'),start=app.indexOf('function premiumPayrollCorrectionPlan('),end=app.indexOf('\nfunction ',start+1);
+ assert.ok(start>=0&&end>start);
+ const db={hotel:{financeLockedThrough:''},payrollDrafts:[{id:'p',employee:'e',date:'2026-11-01'}],accounts:[{id:'a',number:'5000',status:'Aktiv'},{id:'b',number:'2000',status:'Aktiv'}],journal:[{source:'payroll:p',debit:'a',credit:'b',amount:5000,name:'Lohn'}]};
+ let paid=0;
+ const ctx=vm.createContext({db,get:(k,id)=>db[k].find(r=>r.id===id)||{},cents:v=>Math.round(Number(v)*100),premiumPayrollPaymentState:()=>({booked:true,paid})});
+ vm.runInContext(app.slice(start,end),ctx);
+ const plan=()=>JSON.parse(vm.runInContext("JSON.stringify(premiumPayrollCorrectionPlan('p'))",ctx));
+ assert.deepEqual(plan().lines,[['2000','5000',500000,'Korrektur: Lohn']]);
+ assert.equal(plan().blockers.length,0);
+ paid=100;assert.ok(plan().blockers.some(s=>s.includes('Zahlungen')));paid=0;
+ db.hotel.financeLockedThrough='2026-11-30';assert.ok(plan().blockers.some(s=>s.includes('gesperrt')));
+ db.journal.push({source:'payroll-correction:p'});assert.ok(plan().blockers.includes('Bereits korrigiert'));
+ db.accounts[0].status='Inaktiv';assert.ok(plan().blockers.includes('Historische Konten prüfen'));
+}
