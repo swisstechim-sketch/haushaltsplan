@@ -221,3 +221,18 @@ assert.doesNotMatch(unifiedRender,/if\(tab==='work'\)/);
 assert.match(unifiedRender,/if\(schemas\[page\]\)\{body\+=card\(/);
 assert.match(unifiedRender,/id="results"/);
 assert.match(css,/\.actions\.master-type-tabs\{[^}]*flex-wrap:nowrap/);
+
+
+// Tablet-only product copy and live navigation must stay aligned with the
+// unified-page design. Historical SVG mockups are not invoked by render().
+assert.match(src,/Optimiert ausschliesslich für Android-Tablets im Querformat\./);
+assert.doesNotMatch(src,/Für Smartphones und Tablets\./);
+assert.match(src,/function navigate\(p\)\{page=p;query='';listPage=1;listFilters=\{\};render\(\)\}/);
+const liveRender=src.slice(src.indexOf('function render(){'),src.indexOf("document.addEventListener('click'",src.indexOf('function render(){')));
+assert.match(liveRender,/if\(schemas\[page\]\)\{body\+=card\(/,'management renders KPIs, filters and list on same page');
+assert.match(liveRender,/else if\(page==='reception'\)/,'reception uses a unified live table');
+for(const legacy of ['renderDashboard();','renderReferenceList();','renderReception();','renderCalendarReference();'])
+ assert.ok(!liveRender.includes(legacy),'obsolete split SVG renderer is not called: '+legacy);
+assert.match(src,/Die verfügbaren Berichte und Vorlagen vor Verwendung als Vorschau prüfen/);
+assert.match(src,/QR-Zahlungen und Finanzabschlüsse benötigen vor produktiver Verwendung eine fachliche Prüfung/);
+console.log('Tablet-only copy and unified live-page regression checks: OK');
