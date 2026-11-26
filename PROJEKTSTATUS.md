@@ -64,3 +64,5 @@ Bei jeder Änderung diese Datei im Repository-Hauptverzeichnis aktualisieren: Co
 - Lohnzahlungshistorie korrigiert: Storno zeigt ursprüngliches Bankkonto und negativen Betrag; Postkonto 1010 zugelassen, Geldtransit 1090 ausgeschlossen. Statische Prüfung der Aktionshandler erfolgt; CI und Live-Test offen. Korrekturabrechnung weiterhin offen.
 
 - Regressionstests in tests/swiss-payroll.test.cjs für tatsächliche Saldenfunktion: ungebucht, Netto, Teilzahlung, Gegenbuchung, Vollzahlung, Überzahlung. CI-Ausführung noch nicht bestätigt; #542–544 liefen vor Änderung. Historische Neustarts zurückgestellt.
+
+- Vor Lohnbuchung wird der Nettosaldo auf Konto 2000 gegen berechneten Nettolohn geprüft; negative oder abweichende Salden gesperrt. CI und fachliche Prüfung offen. Korrekturabrechnungen weiterhin offen.
