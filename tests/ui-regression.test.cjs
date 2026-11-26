@@ -252,3 +252,9 @@ assert.match(css,/main \.actions:not\(\.master-type-tabs\):not\(\.settings-tabs\
 assert.match(unifiedRender,/let body='';/);
 assert.doesNotMatch(unifiedRender,/btn\('Zurück','go','dashboard'/);
 assert.doesNotMatch(unifiedRender,/<h2>Check-in \/ Check-out<\/h2>|<h2>Tagesübersicht<\/h2>/);
+
+// Quick actions remain on the dashboard, not on management pages.
+assert.doesNotMatch(unifiedRender,/<h2>Schnellzugriffe<\/h2>/);
+const dashboardBranch=unifiedRender.slice(unifiedRender.indexOf("else if(page==='dashboard')"),unifiedRender.indexOf("else if(page==='reception')"));
+assert.ok(dashboardBranch.includes("btn('Neue Reservation','edit','bookings','primary')"));
+assert.ok(dashboardBranch.includes("btn('Tagesabschluss','documentPreview','tagesabschluss')"));
