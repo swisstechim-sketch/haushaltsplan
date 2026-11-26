@@ -48,8 +48,8 @@ assert.throws(()=>context.bookingQuote({...base,children:5},room,hotel),/Erlaubt
 assert.throws(()=>context.validPricePlan({...room,weekendPercent:500}),/Wochenendzuschlag/);
 assert.throws(()=>context.validPricePlan({...room,season2Start:'2026-11-28',season2End:'2026-11-30'}),/überschneiden/);
 assert.throws(()=>context.validateMealPrices({...hotel,halfBoardAdult:10}),/mindestens das Frühstück/);
-assert.match(app,/if\(q\.breakfast>0\)lines\.push\(\{name:'Frühstück/,'breakfast invoice line added');
-assert.match(app,/vat:VAT_CATERING,amount:q\.other/,'other catering meal VAT separated');
+assert.match(app,/if\(baseBreakfast>0\)lines\.push\(\{name:'Frühstück/,'breakfast invoice line added');
+assert.match(app,/vat:VAT_CATERING,amount:chf\(baseOther\)/,'other catering meal VAT separated');
 assert.match(app,/priceSnapshot=q/,'reservation stores calculated price snapshot');
 assert.match(app,/taxTreatment:'pass_through'/,'Kurtaxe has separate invoice treatment');
 assert.match(app,/const isSnapshot=Boolean\(b\.priceSnapshot/,'old reservations remain grandfathered');
@@ -71,3 +71,7 @@ assert.equal(context.bookingQuote({...base,departure:'2026-11-27',extraLunch:2},
 assert.throws(()=>context.bookingQuote({...base,extraDinner:-1},room,extraHotel),/Zusatzmahlzeit/);
 assert.throws(()=>context.validateMealPrices({...extraHotel,extraLunchPrice:-1}),/Zusatzmahlzeitenpreis/);
 assert.equal(context.unchangedReservationTariff(persisted,{...persisted,extraDinner:1}),false);
+
+assert.match(app,/\['Zusatzmittagessen',el,VAT_CATERING\]/);
+assert.match(app,/\['Zusatzabendessen',ed,VAT_CATERING\]/);
+assert.match(app,/baseOther=cents\(q.other\)-el-ed/);
