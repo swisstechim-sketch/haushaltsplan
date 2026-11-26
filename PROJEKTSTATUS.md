@@ -40,3 +40,5 @@ Bei jeder Änderung diese Datei im Repository-Hauptverzeichnis aktualisieren: Co
 - 0ededf2: separater 13.-Monatslohn-Dialog an Lohnliste angebunden; eigener Entwurfstyp, reguläre Monatsentwürfe bleiben separat, Änderungen/Löschung der Anspruchsgrundlagen bei vorhandenen separaten Entwürfen gesperrt. Buchung separater Entwürfe bis fachlicher Versicherungs-/Quellensteuerprüfung gesperrt. CI, UI-Regression, Backupprüfung, Korrekturen und Zahlungshistorie offen.
 
 - 6f8623f / e989538: allgemeine kumulative Versicherungsobergrenzen-Berechnung in Rappen mit getrennten AN-/AG-Sätzen und Regressionen ergänzt. Noch nicht an Lohnentwürfe angebunden; historische geprüfte Bemessungsgrundlagen, Beitragsperioden, BVG/Fixbeträge, Quellensteuer und Buchung weiterhin offen. CI nicht bestätigt; keine fachliche Freigabe.
+
+- 6f76b6b / afbad1f: AHV-Rentnerfreibetrag berücksichtigt in der Berechnungsfunktion historische 13.-Monatslohn-Auszahlungsentwürfe desselben Monats; ungültige historische Beträge werden abgewiesen. Regression ergänzt. Anbindung an tatsächliche geprüfte AHV-Basen, Jahresabstimmung, weitere Versicherungen und CI-Nachweis offen.
