@@ -472,3 +472,18 @@ button[data-action]{display:inline-flex;flex-direction:row;align-items:center;ju
 @media print{.invoice-report .invoice-address-block{break-inside:avoid;color:#222}}
 
 @media (min-width:800px) and (orientation:landscape){.tabs>button.page-back-icon{flex:0 0 54px;width:54px;min-width:54px;padding:0;justify-content:center;gap:0}.tabs>button.page-back-icon>span{display:none}.tabs>button.page-back-icon>.action-svg{width:22px;height:22px;flex:none}}
+
+/* Settings cards: keep each label and input together. */
+.meal-price-settings .price-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.meal-price-settings .price-fields>div{min-width:0;display:flex;flex-direction:column;gap:8px}
+.meal-price-settings>h3{margin:24px 0 12px}
+.reminder-card-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.reminder-stage{min-width:0;padding:16px;border:1px solid #dbe5ef;border-radius:14px;background:#f5f8fb}
+.reminder-stage h3{margin:0 0 16px}
+.reminder-stage-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.reminder-stage-fields .hotel-profile-field{min-width:0;display:flex;flex-direction:column;gap:8px}
+.reminder-stage-text{grid-column:1/-1}
+.reminder-stage input,.reminder-stage textarea{width:100%;box-sizing:border-box;min-width:0}
+.reminder-contact{margin-top:20px}
+@media(max-width:799px){.meal-price-settings .price-fields,.reminder-card-grid{grid-template-columns:1fr}}
+@media(max-width:420px){.reminder-stage-fields{grid-template-columns:1fr}}
