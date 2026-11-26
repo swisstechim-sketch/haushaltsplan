@@ -24,3 +24,6 @@ Stand: 26.11.2026
 - Abschliessender LDPlayer-Live-Test durch Nutzer: Installation als Update, Offline-Betrieb, Neustart, Datenpersistenz, sämtliche Module, PDFs, Backup/Restore, Tablet-Querformat.
 ## Neuer Chat
 Dieses Regelwerk zuerst lesen, dann aktuellen Entwicklungsbranch und GitHub Actions prüfen. Nicht von historischen Statusangaben auf aktuelle Funktionsfähigkeit schliessen. Bis zur Live-Test-Bereitschaft bestehende Aufträge abarbeiten und konkrete Commits sowie verbleibende Blocker nennen.
+
+## Verbindliche Änderung der Seitennavigation (26.11.2026)
+Diese Regel ersetzt alle früheren Vorgaben zur Trennung in Übersicht und Arbeitsbereich. Keine allgemeinen Übersicht-/Arbeitsbereich-Tabs und keine zusätzlichen Öffnen-Buttons. Kennzahlen, Aktionen, Suche, Filter und Arbeitslisten direkt auf derselben Seite anzeigen. Fachbezogene Tabs (z.B. Stammdatenkategorien, Hilfe, Einstellungen) bleiben erhalten. Jede Seite einzeln im Tablet-Querformat prüfen; bestehende Funktionen und Daten erhalten. Nur Stammdaten-Kategoriebuttons kompakt in einer Zeile.
