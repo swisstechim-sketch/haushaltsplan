@@ -258,3 +258,25 @@ assert.doesNotMatch(unifiedRender,/<h2>Schnellzugriffe<\/h2>/);
 const dashboardBranch=unifiedRender.slice(unifiedRender.indexOf("else if(page==='dashboard')"),unifiedRender.indexOf("else if(page==='reception')"));
 assert.ok(dashboardBranch.includes("btn('Neue Reservation','edit','bookings','primary')"));
 assert.ok(dashboardBranch.includes("btn('Tagesabschluss','documentPreview','tagesabschluss')"));
+
+ // Native WebView must support confirmation dialogs used by destructive actions.
+ const nativeActivity=fs.readFileSync('app/src/main/java/ch/swisstech/stay/MainActivity.java','utf8');
+ assert.match(nativeActivity,/web\.setWebChromeClient\(new WebChromeClient\(\)\)/);
+ {
+  const overlay={hidden:false},form={dataset:{initialValues:'[["name","old"]]'}};
+  let allow=false,asked=0;
+  const ctx=vm.createContext({$:id=>id==='overlay'?overlay:form,FormData:class{entries(){return [['name','new']]}},confirm:()=>{asked++;return allow}});
+  const start=src.indexOf('function close(force=false)');
+  const stop=src.indexOf('\nfunction stayBack',start);
+  assert.ok(start>=0&&stop>start);
+  vm.runInContext(src.slice(start,stop),ctx);
+  assert.equal(ctx.close(),false);
+  assert.equal(overlay.hidden,false);
+  allow=true;
+  assert.equal(ctx.close(),true);
+  assert.equal(overlay.hidden,true);
+  assert.equal(asked,2);
+  overlay.hidden=false;
+  assert.equal(ctx.close(true),true);
+  assert.equal(asked,2);
+ }
