@@ -211,3 +211,13 @@ assert.equal(hotelKpi.departures,0);
 assert.throws(()=>hotelKpiContext.premiumHotelMetrics('2026-11-03','2026-11-03'));
 hotelKpiContext.db.rooms=[];hotelKpiContext.db.bookings=[];
 assert.equal(hotelKpiContext.premiumHotelMetrics('2026-11-01','2026-11-03').revpar,0);
+
+// Unified pages: no generic overview/workspace gate in the active renderer.
+const unifiedRender=src.slice(src.indexOf('function render(){'),src.indexOf(" $('main').innerHTML=body")>=0?src.indexOf(" $('main').innerHTML=body"):src.indexOf("$('main').innerHTML=body"));
+assert.ok(unifiedRender.length>1000);
+assert.doesNotMatch(unifiedRender,/btn\('Arbeitsbereich(?: öffnen)?','tab'/);
+assert.doesNotMatch(unifiedRender,/btn\('Übersicht','tab'/);
+assert.doesNotMatch(unifiedRender,/if\(tab==='work'\)/);
+assert.match(unifiedRender,/if\(schemas\[page\]\)\{body\+=card\(/);
+assert.match(unifiedRender,/id="results"/);
+assert.match(css,/\.actions\.master-type-tabs\{[^}]*flex-wrap:nowrap/);
