@@ -162,10 +162,13 @@ assert.match(src,/a\.dueDate\|\|'9999-12-31'/,'housekeeping orders dated tasks b
  financeContext.alert=v=>{notice=v};
  financeContext.save=()=>{persisted=JSON.stringify(financeContext.db)};
  financeContext.localStorage={getItem:()=>persisted};
+ const importButton={disabled:false},importStatus={textContent:''};
+ financeContext.$=id=>id==='account-import-save'?importButton:importStatus;
  financeContext.importHotelAccounts();
  assert.match(preview,/Alle Konten speichern/);
  assert.equal(financeContext.db.accounts.length,1);
- financeContext.confirmHotelAccounts();
+ assert.equal(typeof importButton.onclick,'function');
+ importButton.onclick();
  assert.equal(financeContext.db.accounts.length,45);
  assert.equal(JSON.parse(persisted).accounts.length,45);
  assert.match(notice,/45 Konten gespeichert/);
