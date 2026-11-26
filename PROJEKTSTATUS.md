@@ -88,3 +88,5 @@ Bei jeder Änderung diese Datei im Repository-Hauptverzeichnis aktualisieren: Co
 - Aktive Lohnhistorie als Vorbereitung für Korrekturen: Originale mit Korrekturjournalquelle aus Jahresübersicht, Lohnausweis, separatem 13. Monatslohn, ALV-/AHV-Historie und Monatsduplikatprüfung ausgeschlossen; AHV-Editor berücksichtigt eigenen Entwurf nicht erneut. Noch keine Korrekturbuchung freigegeben; weitere Abhängigkeiten und Tests offen. #554/#555 bei Beginn laufend.
 
 - Regressionstest aktive Lohnhistorie: korrigiertes Original bleibt gespeichert, Ersatz zählt einmal, andere Mitarbeiter bleiben ausgeschlossen; ohne Korrekturjournal zählen beide Datensätze. CI offen; #554–556 bei Beginn laufend. Keine historische Wiederholung parallel gestartet.
+
+- Korrigierte Originale: offene Auszahlung auf null, widersprüchliche Restzahlungen blockiert, generisches Storno von Korrekturjournal geschützt, Original in Liste gekennzeichnet, separater 13. Monatslohn nicht vom korrigierten Original startbar. Korrektur-Erstellung noch nicht freigegeben; CI und Tests offen. #554–557 bei Beginn laufend.
