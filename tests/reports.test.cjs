@@ -128,7 +128,7 @@ const pageReports=vm.runInContext('PAGE_LIST_REPORTS',ctx);
 assert.equal(Object.keys(pageReports).length,18);
 assert.equal(new Set(names.map(x=>x.id)).size,names.length);
 const schemaStart=js.indexOf('const schemas=');
-const schemaEnd=js.indexOf(';',schemaStart);
+const schemaEnd=js.indexOf('};',schemaStart)+1;
 // Extract the actual schema object without executing application startup.
 const schemaSource=js.slice(schemaStart,schemaEnd+1);
 vm.runInContext(schemaSource,ctx);
