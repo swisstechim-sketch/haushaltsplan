@@ -60,3 +60,14 @@ assert.equal(context.unchangedReservationTariff(persisted,{room:'r1',arrival:'20
 console.log('Room, adult/child, weekend, season, meal and VAT price tests passed');
 const legacy={room:'r1',arrival:base.arrival,departure:base.departure,people:2,priceSnapshot:{total:300}};
 assert.equal(context.unchangedReservationTariff(legacy,{room:'r1',arrival:base.arrival,departure:base.departure,adults:'2',children:'0',meal:'Nur Logis',taxExemptAdults:'0',taxExemptChildren:'0'}),true,'legacy reservation keeps saved tariff');
+
+const extraHotel={...hotel,extraBreakfastPrice:12,extraLunchPrice:20,extraDinnerPrice:30};
+const extras=context.bookingQuote({...base,extraBreakfast:1,extraLunch:2,extraDinner:1},room,extraHotel);
+assert.equal(extras.breakfast,36);
+assert.equal(extras.other,170);
+assert.equal(extras.total,824.8);
+assert.equal(extras.extraMeals.lunch,80);
+assert.equal(context.bookingQuote({...base,departure:'2026-11-27',extraLunch:2},room,extraHotel).other,0);
+assert.throws(()=>context.bookingQuote({...base,extraDinner:-1},room,extraHotel),/Zusatzmahlzeit/);
+assert.throws(()=>context.validateMealPrices({...extraHotel,extraLunchPrice:-1}),/Zusatzmahlzeitenpreis/);
+assert.equal(context.unchangedReservationTariff(persisted,{...persisted,extraDinner:1}),false);
