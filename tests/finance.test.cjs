@@ -50,3 +50,18 @@ console.log('Payment, credit and refund balance checks passed');
 
 assert.equal(ctx.qrReference('RE-2026-0001').length,27);
 assert.equal(ctx.qrReference('RE-2026-0001'),'000000000000000000202600013');
+
+// Current-year profit must exclude prior-year movements; balance sheet retains them.
+const closingDb={accounts:[{id:'cash',category:'Aktiven'},{id:'sales',category:'Ertrag'},{id:'cost',category:'Aufwand'}],journal:[{date:'2025-12-31',debit:'cash',credit:'sales',amount:100},{date:'2026-01-01',debit:'cash',credit:'sales',amount:200},{date:'2026-11-26',debit:'cost',credit:'cash',amount:50},{date:'2026-12-01',debit:'cash',credit:'sales',amount:999}]};
+const closingCtx=vm.createContext({db:closingDb,cents:n=>Math.round(Number(n)*100)});
+vm.runInContext(src.slice(src.indexOf('function premiumClosingBalances('),src.indexOf('function financeStatements(')),closingCtx);
+const closing=closingCtx.premiumClosingBalances('2026-11-26');
+assert.equal(closing.period.Ertrag,20000);
+assert.equal(closing.period.Aufwand,5000);
+assert.equal(closing.periodProfit,15000);
+assert.equal(closing.profit,25000);
+assert.equal(closing.Aktiven,25000);
+assert.equal(closing.difference,0);
+assert.throws(()=>closingCtx.premiumClosingBalances('2026-02-30'));
+assert.throws(()=>closingCtx.premiumClosingBalances('2026-11-26','2027-01-01'));
+console.log('Annual closing period regression checks passed');
