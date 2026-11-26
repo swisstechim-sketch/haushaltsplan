@@ -100,3 +100,11 @@ assert.equal(payrollCtx.premiumPayrollAmounts(draft).net,513000);
 assert.throws(()=>payrollCtx.premiumFixedPayrollSnapshot({...employee,fixedDeductionAmount:-1},'Ja'));
 assert.throws(()=>payrollCtx.premiumFixedPayrollSnapshot({...employee,fixedAllowanceName:''},'Ja'));
 console.log('Fixed payroll snapshot checks passed');
+
+const multiEmployee={id:'multi',fixedAllowanceName:'A',fixedAllowanceAmount:100,fixedAllowanceName2:'B',fixedAllowanceAmount2:50,fixedAllowanceName3:'C',fixedAllowanceAmount3:25,fixedAllowanceName4:'D',fixedAllowanceAmount4:10,fixedDeductionName:'E',fixedDeductionAmount:20,fixedDeductionName2:'F',fixedDeductionAmount2:15,fixedDeductionName3:'G',fixedDeductionAmount3:5,fixedDeductionName4:'H',fixedDeductionAmount4:2};
+const multiSnapshot=payrollCtx.premiumFixedPayrollSnapshot(multiEmployee,'Ja');
+assert.equal(multiSnapshot.length,8);
+assert.equal(payrollCtx.premiumPayrollAmounts({gross:5000,fixedPayrollSnapshot:multiSnapshot}).net,514300);
+assert.throws(()=>payrollCtx.premiumFixedPayrollSnapshot({...multiEmployee,fixedDeductionAmount4:-1},'Ja'));
+assert.throws(()=>payrollCtx.premiumPayrollAmounts({gross:5000,fixedPayrollSnapshot:[{kind:'Abzug',amount:-100}]}));
+console.log('Multiple recurring payroll positions checked');
