@@ -85,3 +85,18 @@ assert.equal(annual.totals.net,290000);assert.equal(annual.count,2);assert.equal
 const work=staffCtx.premiumWorkSummary('e','2026-02');
 assert.equal(work.actual,480);assert.equal(work.contractDays,11);assert.equal(work.absences.Ferien,2);assert.equal(work.absences.Krankheit,0);assert.throws(()=>staffCtx.premiumWorkSummary('e','2026-13'));
 console.log('Annual payroll and employment period checks passed');
+
+// Fixed employee payroll snapshots: opt-in, historical stability and manual amounts.
+vm.runInContext(src.slice(src.indexOf('function premiumFixedPayrollSnapshot('),src.indexOf('function premiumPayrollAmounts(')),payrollCtx);
+const employee={id:'e',fixedAllowanceName:'Zulage',fixedAllowanceAmount:250,fixedDeductionName:'Abzug',fixedDeductionAmount:150};
+const snapshot=payrollCtx.premiumFixedPayrollSnapshot(employee,'Ja');
+assert.equal(snapshot.length,2);
+assert.equal(payrollCtx.premiumFixedPayrollSnapshot(employee,'Nein').length,0);
+const draft={gross:5000,allowances:50,deductions:20,fixedPayrollSnapshot:snapshot};
+assert.equal(payrollCtx.premiumPayrollAmounts(draft).net,513000);
+employee.fixedAllowanceAmount=999;
+assert.equal(payrollCtx.premiumPayrollAmounts(draft).net,513000);
+assert.equal(payrollCtx.premiumPayrollAmounts(draft).net,513000);
+assert.throws(()=>payrollCtx.premiumFixedPayrollSnapshot({...employee,fixedDeductionAmount:-1},'Ja'));
+assert.throws(()=>payrollCtx.premiumFixedPayrollSnapshot({...employee,fixedAllowanceName:''},'Ja'));
+console.log('Fixed payroll snapshot checks passed');
