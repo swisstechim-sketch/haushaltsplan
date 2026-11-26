@@ -6,7 +6,7 @@ Status: OFFEN / TEILWEISE / PROGRAMMIERT / CI BESTANDEN / LIVE ABGENOMMEN. Keine
 |---|---|---|
 | Lohnentwürfe löschen | CI BESTANDEN | f7c4e22, Build 520; Live-Test offen |
 | 13. Monatslohn monatlich | PROGRAMMIERT | 47a40e3; Build 521 läuft; Regression ergänzen |
-| Separate Auszahlung / Austritt / Restanspruch / Doppelzahlungsschutz | OFFEN | Anspruchsperioden und Auszahlungshistorie |
+| Separate Auszahlung / Austritt / Restanspruch / Doppelzahlungsschutz | TEILWEISE | 0fabe4d: neuer zweiter Monatsentwurf gesperrt; CI offen. Separate Auszahlung, Austritt, Auszahlungshistorie und legitime Korrektur-/Zusatzabrechnungen offen. |
 | Sozialversicherungen / Quellensteuer / Arbeitgeberanteile | TEILWEISE | Tarife, Grundlagen, BU-Arbeitgeberpflicht und Grenzfälle fachlich prüfen |
 | L-GAV Arbeitszeit, Ferien, Krankheit, Unfall, Überstunden | TEILWEISE | Fachliche Validierung und fehlende Berechnungen |
 | Lohnbuchungen mit Gegenkonten | TEILWEISE | Aufteilung und Abstimmung |
@@ -25,3 +25,6 @@ Status: OFFEN / TEILWEISE / PROGRAMMIERT / CI BESTANDEN / LIVE ABGENOMMEN. Keine
 
 ## Arbeitsregel
 Bei jeder Änderung diese Datei im Repository-Hauptverzeichnis aktualisieren: Commit, Testnachweis, verbleibende Aufgaben. Keine neuen Module, keine ungefragten Merges. Live-Abnahme nur mit eindeutig zugeordnetem APK-Build und bestätigtem Test. Bestehende Daten schützen. Finanz- und Lohnfunktionen erst nach fachlicher Validierung produktiv freigeben.
+
+## Arbeitsdurchgang
+- 0fabe4d: vorläufiger Schutz gegen doppelte Monatsentwürfe pro Mitarbeiter. Keine Datenmigration. Regression und fachliche Prüfung offen; mehrere legitime Abrechnungen pro Monat benötigen später eine explizite Korrektur-/Zusatzlogik.
