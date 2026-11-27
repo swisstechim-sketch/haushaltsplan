@@ -674,3 +674,21 @@ button.icon-leading-button>svg.leading-svg,button>svg.leading-svg{width:18px;hei
 .annual-payroll-dialog .annual-view-tabs{position:sticky;top:0;background:white;z-index:4;padding:8px 0}
 .annual-payroll-dialog .annual-view-tabs .active{background:#d6e8f9}
 .annual-payroll-dialog #premium-payroll-result article{max-width:none;min-height:0;width:100%;box-sizing:border-box}
+
+/* Compact annual workspace: only selected panel scrolls. */
+#dialog.annual-payroll-dialog .dialog-content{display:flex;flex-direction:column;overflow:hidden;gap:8px;padding:12px 20px}
+.annual-payroll-dialog #premium-payroll-year{flex:none;margin:0;gap:10px;padding:0}
+.annual-payroll-dialog #premium-payroll-result{flex:1;min-height:0;display:flex;flex-direction:column;margin:0;padding:0}
+.annual-payroll-dialog #wage-certificate-11{display:flex;flex-direction:column;flex:1;min-height:0;height:100%;gap:8px;padding:0;margin:0}
+.annual-payroll-dialog #wage-certificate-11>.annual-kpis{flex:none;margin:0!important;gap:10px!important}
+.annual-payroll-dialog .annual-kpis>.card{min-height:0;padding:8px 12px;margin:0}
+.annual-payroll-dialog .annual-kpis h3{margin:4px 0;font-size:19px}
+.annual-payroll-dialog .annual-status{flex:none;font-size:12px;line-height:1.35;margin:0;padding:6px 10px;background:#fff7e8;border-radius:8px}
+.annual-payroll-dialog #wage-certificate-11>.annual-single-tabs{flex:none;justify-content:flex-start;margin:0!important;padding:0;gap:8px}
+.annual-payroll-dialog .annual-tab-panel{flex:1;min-height:0;overflow:auto;align-content:start;grid-auto-rows:max-content;padding:8px 2px;row-gap:12px!important}
+.annual-payroll-dialog .annual-tab-panel[hidden]{display:none!important}
+.annual-payroll-dialog .annual-tab-panel>article{grid-column:1/-1}
+.annual-payroll-dialog #wage-certificate-11 label>span{min-height:0}
+.annual-payroll-dialog #wage-certificate-11 label{align-self:start}
+.annual-payroll-dialog .wage-certificate-footer{flex:none;position:static!important;margin:0;padding:8px 0;box-shadow:none;background:white}
+.annual-payroll-dialog #wage-certificate-feedback{grid-column:1/-1;margin:0}
