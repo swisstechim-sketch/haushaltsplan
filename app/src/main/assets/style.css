@@ -621,3 +621,40 @@ main .about-footer .company-mark{display:flex;justify-content:center}
 
 /* Compact PDF centre, scoped to this page only */
 .report-centre{display:grid;gap:16px}.report-centre-toolbar,.report-centre-nav,.report-centre-list{background:#fff;border:1px solid #dce5ef;border-radius:16px}.report-centre-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px}.report-centre-toolbar small,.report-centre-row small{display:block;color:#687f96;font-size:.85em;margin-top:4px}.report-centre-body{display:grid;grid-template-columns:minmax(180px,230px) minmax(0,1fr);gap:16px;align-items:start}.report-centre-nav{display:grid;gap:5px;padding:10px}.report-centre-nav button{display:flex;justify-content:space-between;align-items:center;text-align:left;gap:8px;padding:10px 12px;min-height:40px;border:0;border-radius:9px;background:transparent;color:#263e55;white-space:normal}.report-centre-nav button.active{background:#dbe9f8;font-weight:700}.report-centre-nav small{color:#526b82}.report-centre-list{padding:0 16px;min-width:0}.report-centre-heading,.report-centre-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0}.report-centre-heading h2{margin:0;font-size:1.1rem}.report-centre-heading span{color:#687f96;font-size:.85em}.report-centre-row{border-top:1px solid #e5ebf2}.report-centre-row>div{min-width:0;overflow-wrap:anywhere}.report-centre-row button,.report-centre-toolbar button{flex-shrink:0;min-height:36px;padding:8px 12px;white-space:nowrap}.report-centre-row strong{font-size:.95rem}@media(max-width:700px){.report-centre-body{grid-template-columns:1fr}.report-centre-nav{grid-template-columns:repeat(2,minmax(0,1fr))}.report-centre-row{gap:8px}.report-centre-toolbar{flex-wrap:wrap}}
+
+
+/* 27.11.2026: Tablet-first guided help, leading icons and payroll form. */
+button.icon-leading-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;white-space:nowrap}
+button.icon-leading-button>svg.leading-svg,button>svg.leading-svg{width:18px;height:18px;flex:0 0 18px;margin:0}
+.help-manual{min-width:0}.help-manual>h2{margin-bottom:4px}.help-manual>p{color:#5b6f82}
+.help-manual .help-tabs{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;gap:8px;padding:6px 0 10px;align-items:center}
+.help-manual .help-tabs::-webkit-scrollbar{display:none}
+.help-manual .help-tabs>button{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;gap:8px;white-space:nowrap;min-height:44px;padding:9px 12px;background:#edf3f9;border:1px solid #d8e4ef;border-radius:10px;color:#2c455f}
+.help-manual .help-tabs>button.active{background:#d6e8f9;border-color:#adcce7;font-weight:700}
+.help-manual #help-columns{min-width:0}
+.help-manual #help-columns>div{min-width:0;display:flex;flex-direction:column;gap:12px}
+.help-manual #help-columns details.card{padding:0;margin:0;min-width:0;border:1px solid #dce6ef;border-radius:12px;box-shadow:none;overflow:hidden;background:#fff}
+.help-manual #help-columns summary{min-height:48px;padding:12px 15px;cursor:pointer;display:flex;align-items:center;gap:8px;list-style:none;color:#2a4259;font-weight:700}
+.help-manual #help-columns summary::-webkit-details-marker{display:none}
+.help-manual #help-columns summary::after{content:'+';margin-left:auto;font-size:19px;color:#607990}
+.help-manual #help-columns details[open] summary{background:#eff6fd;border-bottom:1px solid #dce6ef}
+.help-manual #help-columns details[open] summary::after{content:'–'}
+.help-manual #help-columns details>p{padding:10px 16px 0;margin:0;line-height:1.5;color:#445d73}
+.help-manual .help-steps{margin:10px 14px 16px 19px;padding-left:23px;line-height:1.55;color:#243b53}
+.help-manual .help-steps li{padding:0 0 7px 3px}
+.help-manual #help-columns details>button{margin:0 16px 16px;min-height:44px}
+.annual-payroll-dialog .dialog-toolbar{position:sticky;top:0;z-index:5;background:#fff}
+.annual-payroll-dialog .dialog-content{padding:16px 22px 12px;min-width:0}
+.annual-payroll-dialog #wage-certificate-11{min-height:0;max-width:none;margin:0;padding:20px 0 0;border:none;box-shadow:none;font:inherit;overflow:visible}
+.annual-payroll-dialog #wage-certificate-11>div.actions{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;gap:8px;margin:12px 0}
+.annual-payroll-dialog #wage-certificate-11>div.actions::-webkit-scrollbar{display:none}
+.annual-payroll-dialog #wage-certificate-11>div.actions>button{min-height:44px;flex:0 0 auto;white-space:nowrap;display:inline-flex;align-items:center;gap:8px}
+.annual-payroll-dialog #wage-certificate-11>div.actions>button.active{background:#d6e8f9;border-color:#adcce7}
+.annual-payroll-dialog #wage-certificate-11 label{font-size:13px;line-height:1.4;min-width:0;margin:0;font-weight:600}
+.annual-payroll-dialog #wage-certificate-11 label>span{min-height:36px;display:flex;align-items:end}
+.annual-payroll-dialog #wage-certificate-11 input,.annual-payroll-dialog #wage-certificate-11 select{min-width:0;width:100%;min-height:48px;font-size:15px}
+.annual-payroll-dialog #wage-certificate-11 [data-la="8"],.annual-payroll-dialog #wage-certificate-11 [data-la="11"]{background:#edf4fc}
+.annual-payroll-dialog .wage-certificate-footer{position:sticky;bottom:0;z-index:6;display:flex;align-items:center;justify-content:flex-end;gap:12px;flex-wrap:nowrap;background:rgba(255,255,255,.98);border-top:1px solid #dae6f0;box-shadow:0 -8px 20px rgba(36,59,83,.07);padding:12px 18px;margin:18px -22px -12px}
+.annual-payroll-dialog .wage-certificate-footer>button{min-height:44px;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.annual-payroll-dialog .wage-certificate-footer #wage-certificate-export{background:#d7e9fb;color:#243b53;font-weight:700}
+@media screen and (orientation:landscape){body:not(.reference-dashboard) main .help-manual .actions.help-tabs>button{min-height:44px;gap:8px;padding:9px 12px}body:not(.reference-dashboard) main button.icon-leading-button{min-height:44px;gap:8px}}
