@@ -1,4 +1,25 @@
-pluginManagement { repositories { google(); mavenCentral(); gradlePluginPortal() } }
-dependencyResolutionManagement { repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS); repositories { google(); mavenCentral() } }
+pluginManagement {
+ repositories {
+  google()
+  gradlePluginPortal()
+  mavenCentral()
+ }
+}
+dependencyResolutionManagement {
+ repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+ repositories {
+  google()
+  // Maven Central's primary endpoint may return HTTP 429 under concurrent CI load.
+  // The Apache-hosted mirror provides a second route to the same artifacts.
+  maven {
+   url = uri('https://repo1.maven.org/maven2/')
+   content {
+    excludeGroupByRegex('com\\.android.*')
+    excludeGroupByRegex('androidx\\..*')
+   }
+  }
+  mavenCentral()
+ }
+}
 rootProject.name='STAY Swiss'
 include ':app'
