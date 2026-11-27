@@ -95,23 +95,33 @@ assert.throws(()=>r.ahv({birthDate:'1950-01-01',ahvRetired:'Ja'},'2026-11-26',10
 
 {
  const app=fs.readFileSync('app/src/main/assets/app.js','utf8');
- const db={payrollDrafts:[{id:'a',employee:'e',date:'2026-01-31'},{id:'b',employee:'e',date:'2026-02-28'},{id:'c',employee:'other',date:'2026-02-28'}],journal:[],masterData:[],accounts:[{id:'w',number:'5000',category:'Aufwand',status:'Aktiv'},{id:'s',number:'2270',category:'Passiven',status:'Aktiv'}]};
- let approved=false;
- const ctx=vm.createContext({db,get:(k,id)=>db[k].find(r=>r.id===id)||{},confirm:()=>approved,atomicChange:fn=>fn(),close:()=>{},render:()=>{}});
+ const db={payrollDrafts:[{id:'a',employee:'e',date:'2026-01-31',name:'Lohn Januar'},{id:'b',employee:'e',date:'2026-02-28',name:'Lohn Februar'},{id:'c',employee:'other',date:'2026-02-28'}],journal:[],masterData:[],accounts:[{id:'w',number:'5000',category:'Aufwand',status:'Aktiv'},{id:'s',number:'2270',category:'Passiven',status:'Aktiv'}]};
+ let approved=false,closed=0,saved=0;
+ const ctx=vm.createContext({db,get:(k,id)=>db[k].find(r=>r.id===id)||{},confirm:()=>approved,atomicChange:fn=>{fn();saved++},close:()=>closed++,render:()=>{}});
  for(const name of ['premiumDeletePayrollDraft','premiumDefaultFixedAccount']){
-  const start=app.indexOf('function '+name+'('),end=app.indexOf('\nfunction ',start+1);
+  const start=app.indexOf('function '+name+'('),end=app.indexOf('\\nfunction ',start+1);
   assert.ok(start>=0&&end>start);vm.runInContext(app.slice(start,end),ctx);
  }
  const del=()=>vm.runInContext("premiumDeletePayrollDraft('a')",ctx);
- del();assert.equal(db.payrollDrafts.length,3);
- approved=true;db.journal.push({source:'payroll:b'});
- assert.throws(del,/Abhängige verbuchte/);assert.equal(db.payrollDrafts.length,3);
- db.journal=[];del();assert.deepEqual(db.payrollDrafts.map(r=>r.id),['c']);
+ del();assert.equal(db.payrollDrafts.length,3);assert.equal(saved,0);
+ approved=true;db.journal.push({source:'payroll:a'});
+ assert.throws(del,/Verbuchte/);assert.equal(db.payrollDrafts.length,3);
+ db.journal=[];db.payrollDrafts[1].insuranceSnapshot=[{insuranceRule:'ALV Jahresobergrenze'}];
+ assert.throws(del,/abhängige spätere/);assert.equal(db.payrollDrafts.length,3);
+ db.payrollDrafts[1].insuranceSnapshot=[];del();assert.deepEqual(db.payrollDrafts.map(r=>r.id),['b','c']);assert.equal(saved,1);assert.equal(closed,1);
  assert.equal(vm.runInContext("premiumDefaultFixedAccount('Allowance','Nachtzulage')",ctx),'w');
  assert.equal(vm.runInContext("premiumDefaultFixedAccount('Deduction','ALV')",ctx),'s');
  assert.equal(vm.runInContext("premiumDefaultFixedAccount('Deduction','Unbekannt')",ctx),'');
  db.accounts[0].status='Inaktiv';
  assert.equal(vm.runInContext("premiumDefaultFixedAccount('Allowance','Nachtzulage')",ctx),'');
+ db.accounts[0].status='Aktiv';db.accounts.push({id:'expense2',number:'5800',category:'Aufwand',status:'Aktiv'});
+ db.masterData.push({kind:'Lohnzulage',name:'Spesen',status:'Aktiv',debitAccount:'expense2',creditAccount:'s'});
+ assert.equal(vm.runInContext("premiumDefaultFixedAccount('Allowance','Spesen')",ctx),'expense2');
+ db.masterData.push({kind:'Lohnzulage',name:'Spesen',status:'Aktiv',debitAccount:'w'});
+ assert.equal(vm.runInContext("premiumDefaultFixedAccount('Allowance','Spesen')",ctx),'');
+ db.masterData.pop();db.masterData[0].debitAccount='missing';
+ assert.equal(vm.runInContext("premiumDefaultFixedAccount('Allowance','Spesen')",ctx),'');
+
 }
 
 {
