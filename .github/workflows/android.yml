@@ -72,6 +72,8 @@ jobs:
       - name: Storage regression tests
         run: node tests/storage.test.cjs
       - name: Build and unit tests
+        env:
+          GRADLE_OPTS: -Dorg.gradle.internal.http.connectionTimeout=120000 -Dorg.gradle.internal.http.socketTimeout=120000
         run: |
           set -o pipefail
           for attempt in 1 2 3 4 5; do
