@@ -97,6 +97,33 @@ public class MainActivity extends Activity {
    return file.getName();
   }catch(Exception ex){return "";}
  }
+ @JavascriptInterface public void printPdf(String name){
+  runOnUiThread(()->{
+   try{
+    if(name==null||!name.matches("Lohnausweis-[0-9]+\\.pdf"))throw new IllegalArgumentException("Dateiname");
+    File file=new File(new File(getFilesDir(),"pdf_exports"),name);
+    if(!file.isFile())throw new java.io.IOException("PDF fehlt");
+    PrintManager manager=(PrintManager)getSystemService(PRINT_SERVICE);
+    manager.print("Lohnausweis",new android.print.PrintDocumentAdapter(){
+     @Override public void onLayout(android.print.PrintAttributes oldAttributes,android.print.PrintAttributes newAttributes,android.os.CancellationSignal signal,LayoutResultCallback callback,Bundle extras){
+      if(signal.isCanceled()){callback.onLayoutCancelled();return;}
+      callback.onLayoutFinished(new android.print.PrintDocumentInfo.Builder("Lohnausweis.pdf").setContentType(android.print.PrintDocumentInfo.CONTENT_TYPE_DOCUMENT).setPageCount(1).build(),!newAttributes.equals(oldAttributes));
+     }
+     @Override public void onWrite(android.print.PageRange[] pages,android.os.ParcelFileDescriptor destination,android.os.CancellationSignal signal,WriteResultCallback callback){
+      boolean selected=false;for(android.print.PageRange range:pages)if(range.getStart()==0)selected=true;
+      if(signal.isCanceled()){callback.onWriteCancelled();return;}
+      if(!selected){callback.onWriteFinished(new android.print.PageRange[0]);return;}
+      try(java.io.InputStream input=new java.io.FileInputStream(file);java.io.OutputStream output=new FileOutputStream(destination.getFileDescriptor())){
+       byte[] buffer=new byte[16384];int count;
+       while((count=input.read(buffer))!=-1){if(signal.isCanceled()){callback.onWriteCancelled();return;}output.write(buffer,0,count);}
+       output.flush();
+      }catch(Exception ex){callback.onWriteFailed("PDF konnte nicht übertragen werden");return;}
+      if(signal.isCanceled())callback.onWriteCancelled();else callback.onWriteFinished(new android.print.PageRange[]{new android.print.PageRange(0,0)});
+     }
+    },new android.print.PrintAttributes.Builder().setMediaSize(android.print.PrintAttributes.MediaSize.ISO_A4).build());
+   }catch(Exception ex){android.widget.Toast.makeText(MainActivity.this,"PDF-Druck fehlgeschlagen",android.widget.Toast.LENGTH_LONG).show();}
+  });
+ }
  @JavascriptInterface public void openPdf(String name){
   runOnUiThread(()->{
    try{
