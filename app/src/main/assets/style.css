@@ -658,3 +658,19 @@ button.icon-leading-button>svg.leading-svg,button>svg.leading-svg{width:18px;hei
 .annual-payroll-dialog .wage-certificate-footer>button{min-height:44px;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
 .annual-payroll-dialog .wage-certificate-footer #wage-certificate-export{background:#d7e9fb;color:#243b53;font-weight:700}
 @media screen and (orientation:landscape){body:not(.reference-dashboard) main .help-manual .actions.help-tabs>button{min-height:44px;gap:8px;padding:9px 12px}body:not(.reference-dashboard) main button.icon-leading-button{min-height:44px;gap:8px}}
+
+/* Help drill-down and bounded annual payroll dialog */
+.help-manual #help-overview[hidden],.help-manual #help-detail[hidden],#premium-payroll-result [hidden]{display:none!important}
+.help-area-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:20px}
+.help-area-grid>button{display:grid;grid-template-columns:28px 1fr;align-items:center;text-align:left;gap:8px 12px;min-height:100px;padding:20px;background:#f0f6fc;border:1px solid #d7e4ef;border-radius:14px;color:#243b53;font-weight:600}
+.help-area-grid>button>svg{width:24px;height:24px;grid-row:span 2}
+.help-area-grid>button>small{grid-column:2;font-weight:400;color:#607990}
+#help-detail>.actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:16px 0}
+#help-heading{flex:1;margin:0}
+#dialog.annual-payroll-dialog{height:88vh;max-height:88vh;display:flex;flex-direction:column;overflow:hidden}
+.annual-payroll-dialog .dialog-toolbar{flex-shrink:0}
+.annual-payroll-dialog .dialog-content{flex:1;min-height:0;overflow-y:auto}
+.annual-payroll-dialog #premium-payroll-year{display:grid;grid-template-columns:auto minmax(100px,1fr) auto minmax(180px,2fr) auto;align-items:center;gap:12px}
+.annual-payroll-dialog .annual-view-tabs{position:sticky;top:0;background:white;z-index:4;padding:8px 0}
+.annual-payroll-dialog .annual-view-tabs .active{background:#d6e8f9}
+.annual-payroll-dialog #premium-payroll-result article{max-width:none;min-height:0;width:100%;box-sizing:border-box}
