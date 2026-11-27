@@ -66,6 +66,24 @@ public class MainActivity extends Activity {
    }
   });
  }
+ @JavascriptInterface public String fillWageCertificate(String json){
+  File file=null;
+  try {
+   if(json==null||json.length()>32000)throw new IllegalArgumentException("Formulardaten ungültig");
+   org.json.JSONObject input=new org.json.JSONObject(json);
+   java.util.Map<String,String> values=new java.util.LinkedHashMap<>();
+   java.util.Iterator<String> keys=input.keys();
+   while(keys.hasNext()){String key=keys.next();String value=input.getString(key);if(key.length()>100||value.length()>2000||values.size()>=43)throw new IllegalArgumentException("Formularfeld ungültig");values.put(key,value);}
+   if(values.isEmpty())throw new IllegalArgumentException("Formulardaten fehlen");
+   File dir=new File(getFilesDir(),"pdf_exports");
+   if(!dir.isDirectory()&&!dir.mkdirs())throw new java.io.IOException("Exportordner fehlt");
+   try(java.io.InputStream template=getAssets().open("wage-certificate-original.pdf")){
+    file=File.createTempFile("Lohnausweis-",".pdf",dir);
+    try(FileOutputStream output=new FileOutputStream(file)){WageCertificatePdf.fill(MainActivity.this,template,output,values);output.getFD().sync();}
+   }
+   return new org.json.JSONObject().put("ok",true).put("name",file.getName()).toString();
+  }catch(Exception ex){if(file!=null)file.delete();return "{\"ok\":false,\"error\":\"PDF-Erstellung fehlgeschlagen. Vorlage und Formularfelder prüfen.\"}";}
+ }
  @JavascriptInterface public String savePdf(String base64){
   try {
    if(base64==null||base64.length()>14000000)throw new IllegalArgumentException("PDF zu gross");
