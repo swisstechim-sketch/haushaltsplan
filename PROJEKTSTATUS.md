@@ -10,7 +10,7 @@ Status: OFFEN / TEILWEISE / PROGRAMMIERT / CI BESTANDEN / LIVE ABGENOMMEN. Keine
 | Sozialversicherungen / Quellensteuer / Arbeitgeberanteile | TEILWEISE | Tarife, Grundlagen, BU-Arbeitgeberpflicht und Grenzfälle fachlich prüfen |
 | L-GAV Arbeitszeit, Ferien, Krankheit, Unfall, Überstunden | TEILWEISE | Fachliche Validierung und fehlende Berechnungen |
 | Lohnbuchungen mit Gegenkonten | TEILWEISE | Aufteilung und Abstimmung |
-| ESTV Formular 11 | TEILWEISE | Kontrollentwurf vorhanden; amtliches Original fehlt |
+| ESTV Formular 11 | TEILWEISE | Original-PDF offline im Repository und native Befüllung implementiert; Felder, Rechtstexte und fachliche Ausstellung am Gerät noch prüfen |
 | Doppelte Buchhaltung, Rechnungen, Kreditoren, Debitoren | TEILWEISE | Abschlussprüfung |
 | MWST, Bilanz, Erfolgsrechnung, Jahresabschluss | TEILWEISE | Fachprüfung und Abschlusslogik |
 | QR-Rechnungen, Mahnungen, Gutschriften | TEILWEISE | Abschlussprüfung |
@@ -19,7 +19,7 @@ Status: OFFEN / TEILWEISE / PROGRAMMIERT / CI BESTANDEN / LIVE ABGENOMMEN. Keine
 | ADR/RevPAR, Hotelstatistik | TEILWEISE | Fachprüfung |
 | PDF-Vorlagen, Berichte, lokale Ausgabe | TEILWEISE | Editor vervollständigen und prüfen |
 | Tablet-Querformat, SVG-Abgleich, Icons, Formulare, Filter | TEILWEISE | Alle Seiten prüfen |
-| Offline-Hilfe | TEILWEISE | Vollständigkeit prüfen |
+| Offline-Hilfe | PROGRAMMIERT | 27 Themen mit dreistufigen Anleitungen, Tabs, Suche, zwei Accordion-Spalten; CI- und LDPlayer-Test ausstehend |
 | SQLite, Migration, Backup/Restore | TEILWEISE | Persistenz und Wiederherstellung abschliessend testen |
 | Regression, signierte APK, LDPlayer | TEILWEISE | Build 519 erfolgreich; neuere Änderungen separat prüfen |
 
@@ -114,3 +114,14 @@ Bei jeder Änderung diese Datei im Repository-Hauptverzeichnis aktualisieren: Co
 - 27.11.2026 – Amtliches Formular 11: Original-PDF im Assets-Ordner vorhanden; PDFBox-Befüllung, Android-Bridge, lokale Speicherung, Vorschau mit Zoom, Teilen und A4-Druck implementiert. Feldzuordnung für 43 erfasste Felder, Pflichtfeldprüfung, Spesen 13.1.1 und Rundungsregression ergänzt. Emulator-Roundtrip-Test 5b7875e prüft Originalfelder und gespeicherte Werte. #587 Build und Emulator scheiterten vor Testausführung an D8 Java heap space; ab75df8 erhöht Heap auf 3072 MB und begrenzt Worker auf zwei. Aktuelle CI-Sicht: #595 in_progress, #594 in_progress, #593 in_progress, #592 in_progress, #591 in_progress. Vollständige Feldvalidierung, fachliche Prüfung, separate 13.-Monatslohn-Buchung und Geräteabnahme offen. Keine Tests deaktiviert, keine historischen Runs neu gestartet, kein Merge.
 
 - 27.11.2026 – Build #595 (ab75df8) beendet: Build-Job fehlgeschlagen, Emulator-Job erfolgreich, Release übersprungen. Vollständiger Joblog 140354255336: fünf Versuche von :app:checkDebugAarMetadata scheiterten jeweils mit HTTP 429 (Too Many Requests) von repo.maven.apache.org bei pdfbox-android 2.0.27.0, kotlin-stdlib 1.8.22 und kotlinx-coroutines-android 1.6.4. Kein Speicherfehler in diesem Build. Bestehende JavaScript-, Lohn- und UI-Regressionstests erfolgreich. Commits 8311bb0 (zusätzlicher Maven-Central-Endpunkt) und ca1f6ab (HTTP-Timeout für CI) eingespielt; neuer Build-Nachweis noch offen. Keine Testabschaltung, keine historischen Runs neu gestartet, kein Merge.
+
+
+## 27.11.2026 – GitHub-Fortsetzung: Jahreslohn-Dialog, Hilfe und SVG-Buttons
+- Verbindung und Berechtigung zum Repository bestätigt; aktiver Branch `fix/form-select-consistency-20261126`, PR #2 offen, kein Merge. Vorherige drei UI-Commits 8349e64, 3e87757 und e4a36bd hatten jeweils erfolgreich abgeschlossene GitHub-Actions-Runs.
+- **0a681b2**: persistente Aktionsleiste beim Formular 11 mit «Angaben prüfen» und «Lohnausweis PDF erstellen»; nach erfolgreichem Export springt die Ansicht zu PDF-Aktionen. SVGs für nicht bereits dekorierte Textbuttons werden dynamisch links eingefügt, ohne deren Handler zu ersetzen. SVGs sind für Symbol-/Navigationsbuttons mit bestehendem Icon ausgeschlossen.
+- **0494d90**: 27 tatsächlich vorhandene Hilfethemen erhalten jeweils drei konkrete Schritte; bestehende modulbezogene Navigation, die Suche über alle Artikel und die zwei Accordion-Spalten bleiben erhalten. Hinweise zu Datensicherung und fachlich ungeprüften Lohnvorgängen bleiben deutlich.
+- **7aff4c5**: Tablet-Landschafts-CSS für horizontal wischbare Hilfekategorie-Tabs, lesbare zweispaltige Akkordeons, 18-px-SVGs, mindestens 44-px-Touchflächen, 8-px-Icon-Abstand sowie 94-%-Jahreslohn-Dialog mit fixiertem Kopf und sticky Aktionsleiste. Original-Header, Logo und Seitennavigation unverändert.
+- **426759f**: vorhandene UI-Regressionssuite prüft alle 27 Hilfe-Guides, SVG-Einfügung ohne Duplikate, Sticky-Aktionsleiste und PDF-Aktionsanbindung.
+- **Statische Prüfung nach Commit 426759f**: vollständige app.js wurde als JavaScript geparst (OK); 27 Hilfe-Themen und je drei Schritte aus Repository-Quelltext verifiziert. Keine Behauptung, dass damit ein Android-Laufzeit- oder LDPlayer-Test ersetzt wäre.
+- **CI**: Runs 45959518429, 45959552777, 45959622721 und 45959655663 beim letzten Abruf noch `in_progress`; Abschluss von Build, Android-Emulator-Tests und ggf. Release für neuesten Commit ausstehend. Keine historischen Jobs neu gestartet und kein Merge ausgeführt.
+- **Offen**: CI-Nachweis zum neuesten Commit, tatsächliche Ansicht des Dialogs/Scrollens und der Buttons im LDPlayer, gesamte App durchgehen (Icons, Dialoge), Formular 11 fachlich testen, separate 13.-Monatslohn-Auszahlung und übrige Lohn-/Finanzarbeiten laut obiger Tabelle. Status nur `PROGRAMMIERT`, nicht `CI BESTANDEN` oder `LIVE ABGENOMMEN`.
