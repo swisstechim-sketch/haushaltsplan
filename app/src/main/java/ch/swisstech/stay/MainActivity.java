@@ -157,24 +157,36 @@ public class MainActivity extends Activity {
     }
     android.widget.LinearLayout layout=new android.widget.LinearLayout(MainActivity.this);
     layout.setOrientation(android.widget.LinearLayout.VERTICAL);
+    layout.setBackgroundColor(0xfff1f5f9);
+    int pad=(int)(12*getResources().getDisplayMetrics().density);
+    layout.setPadding(pad,pad,pad,pad);
     android.widget.HorizontalScrollView horizontal=new android.widget.HorizontalScrollView(MainActivity.this);
+    horizontal.setFillViewport(true);
     android.widget.ScrollView vertical=new android.widget.ScrollView(MainActivity.this);
+    vertical.setFillViewport(true);
     android.widget.ImageView image=new android.widget.ImageView(MainActivity.this);
-    image.setImageBitmap(bitmap);image.setScaleType(android.widget.ImageView.ScaleType.FIT_XY);
-    int base=Math.min(getResources().getDisplayMetrics().widthPixels-100,1000);
-    final float[] zoom={1f};
-    Runnable resize=()->{int w=Math.round(base*zoom[0]);image.setLayoutParams(new android.widget.FrameLayout.LayoutParams(w,Math.round(w*(float)bitmap.getHeight()/bitmap.getWidth())));};
-    vertical.addView(image);horizontal.addView(vertical);
+    image.setImageBitmap(bitmap);image.setScaleType(android.widget.ImageView.ScaleType.FIT_CENTER);
+    final int[] base={1};final float[] zoom={1f};
+    android.widget.FrameLayout holder=new android.widget.FrameLayout(MainActivity.this);
+    android.widget.TextView percent=new android.widget.TextView(MainActivity.this);
+    Runnable resize=()->{int w=Math.max(1,Math.round(base[0]*zoom[0]));android.widget.FrameLayout.LayoutParams lp=new android.widget.FrameLayout.LayoutParams(w,Math.max(1,Math.round(w*(float)bitmap.getHeight()/bitmap.getWidth())),android.view.Gravity.TOP|android.view.Gravity.CENTER_HORIZONTAL);image.setLayoutParams(lp);percent.setText(Math.round(zoom[0]*100)+" %");};
+    holder.addView(image);vertical.addView(holder);horizontal.addView(vertical);
+    android.app.Dialog dialog=new android.app.Dialog(MainActivity.this);
     android.widget.LinearLayout controls=new android.widget.LinearLayout(MainActivity.this);
-    for(String label:new String[]{"−","100 %","+"}){
-     android.widget.Button button=new android.widget.Button(MainActivity.this);button.setText(label);
-     button.setOnClickListener(v->{zoom[0]=label.equals("100 %")?1f:Math.max(0.75f,Math.min(3f,zoom[0]+(label.equals("+")?0.25f:-0.25f)));resize.run();});
+    controls.setGravity(android.view.Gravity.CENTER_VERTICAL);
+    android.widget.TextView title=new android.widget.TextView(MainActivity.this);title.setText("Lohnausweis – PDF");title.setTextSize(20);title.setTextColor(0xff243b53);controls.addView(title,new android.widget.LinearLayout.LayoutParams(0,-2,1));
+    for(String label:new String[]{"−","Ganze Seite","+","Schliessen"}){
+     android.widget.Button button=new android.widget.Button(MainActivity.this);button.setText(label);button.setAllCaps(false);button.setTextColor(0xff243b53);button.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xffe0edf9));
+     button.setOnClickListener(v->{if(label.equals("Schliessen")){dialog.dismiss();return;}zoom[0]=label.equals("Ganze Seite")?1f:Math.max(0.75f,Math.min(3f,zoom[0]+(label.equals("+")?0.25f:-0.25f)));resize.run();});
      controls.addView(button);
     }
-    layout.addView(controls);layout.addView(horizontal,new android.widget.LinearLayout.LayoutParams(-1,0,1));resize.run();
-    android.app.AlertDialog dialog=new android.app.AlertDialog.Builder(MainActivity.this).setTitle("Lohnausweis – PDF").setView(layout).setPositiveButton("Schliessen",null).create();
+    percent.setTextColor(0xff243b53);controls.addView(percent);
+    layout.addView(controls);layout.addView(horizontal,new android.widget.LinearLayout.LayoutParams(-1,0,1));
+    dialog.setContentView(layout);
     dialog.setOnDismissListener(d->{image.setImageDrawable(null);bitmap.recycle();});
     dialog.show();dialog.getWindow().setLayout(-1,-1);
+    horizontal.post(()->{if(!dialog.isShowing())return;base[0]=Math.max(1,Math.min(horizontal.getWidth(),Math.round(horizontal.getHeight()*(float)bitmap.getWidth()/bitmap.getHeight())));resize.run();});
+
    }catch(Exception ex){android.widget.Toast.makeText(MainActivity.this,"PDF-Vorschau fehlgeschlagen",android.widget.Toast.LENGTH_LONG).show();}
   });
  }
