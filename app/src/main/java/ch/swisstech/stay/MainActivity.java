@@ -97,6 +97,21 @@ public class MainActivity extends Activity {
    return file.getName();
   }catch(Exception ex){return "";}
  }
+ @JavascriptInterface public void openPdf(String name){
+  runOnUiThread(()->{
+   try{
+    if(name==null||!name.matches("Lohnausweis-[0-9]+\\.pdf"))throw new IllegalArgumentException("Dateiname");
+    File file=new File(new File(getFilesDir(),"pdf_exports"),name);
+    if(!file.isFile())throw new java.io.IOException("PDF fehlt");
+    Uri uri=FileProvider.getUriForFile(MainActivity.this,getPackageName()+".fileprovider",file);
+    Intent intent=new Intent(Intent.ACTION_VIEW);
+    intent.setDataAndType(uri,"application/pdf");
+    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+    intent.setClipData(ClipData.newRawUri(name,uri));
+    startActivity(Intent.createChooser(intent,"Lohnausweis öffnen"));
+   }catch(Exception ex){android.widget.Toast.makeText(MainActivity.this,"PDF kann nicht geöffnet werden. PDF-App prüfen.",android.widget.Toast.LENGTH_LONG).show();}
+  });
+ }
  @JavascriptInterface public void sharePdf(String name,String recipient){
   runOnUiThread(()->{
    try{
