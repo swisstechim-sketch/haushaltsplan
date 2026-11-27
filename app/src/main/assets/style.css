@@ -692,3 +692,17 @@ button.icon-leading-button>svg.leading-svg,button>svg.leading-svg{width:18px;hei
 .annual-payroll-dialog #wage-certificate-11 label{align-self:start}
 .annual-payroll-dialog .wage-certificate-footer{flex:none;position:static!important;margin:0;padding:8px 0;box-shadow:none;background:white}
 .annual-payroll-dialog #wage-certificate-feedback{grid-column:1/-1;margin:0}
+
+/* Annual dialog: compact fixed chrome and usable scroll viewport. */
+#dialog.annual-payroll-dialog .dialog-content{gap:4px!important;padding:8px 16px!important}
+#dialog.annual-payroll-dialog #premium-payroll-year{grid-template-columns:auto minmax(80px,120px) auto minmax(160px,1fr) auto;gap:8px!important}
+#dialog.annual-payroll-dialog #wage-certificate-11{gap:6px!important;overflow:hidden}
+#dialog.annual-payroll-dialog .annual-kpis>.card{padding:5px 10px!important;min-height:0!important}
+#dialog.annual-payroll-dialog .annual-kpis h3{font-size:17px;margin:2px 0!important}
+#dialog.annual-payroll-dialog .annual-status{font-size:12px!important;padding:4px 8px!important;margin:0!important}
+#dialog.annual-payroll-dialog .annual-single-tabs>button{min-height:36px!important;padding:6px 10px!important}
+#dialog.annual-payroll-dialog .annual-tab-panel{min-height:0!important;flex:1 1 0!important;overflow:auto!important;align-content:start!important;align-items:start!important;grid-auto-rows:max-content!important}
+#dialog.annual-payroll-dialog .annual-tab-panel label{margin:0!important;padding:0!important;gap:3px!important}
+#dialog.annual-payroll-dialog .annual-tab-panel input,#dialog.annual-payroll-dialog .annual-tab-panel select{min-height:38px!important}
+#dialog.annual-payroll-dialog .wage-certificate-footer{padding:4px 0!important;margin:0!important}
+#dialog.annual-payroll-dialog .wage-certificate-footer>button{min-height:38px!important}
