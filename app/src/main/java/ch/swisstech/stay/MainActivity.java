@@ -103,13 +103,39 @@ public class MainActivity extends Activity {
     if(name==null||!name.matches("Lohnausweis-[0-9]+\\.pdf"))throw new IllegalArgumentException("Dateiname");
     File file=new File(new File(getFilesDir(),"pdf_exports"),name);
     if(!file.isFile())throw new java.io.IOException("PDF fehlt");
-    Uri uri=FileProvider.getUriForFile(MainActivity.this,getPackageName()+".fileprovider",file);
-    Intent intent=new Intent(Intent.ACTION_VIEW);
-    intent.setDataAndType(uri,"application/pdf");
-    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-    intent.setClipData(ClipData.newRawUri(name,uri));
-    startActivity(Intent.createChooser(intent,"Lohnausweis öffnen"));
-   }catch(Exception ex){android.widget.Toast.makeText(MainActivity.this,"PDF kann nicht geöffnet werden. PDF-App prüfen.",android.widget.Toast.LENGTH_LONG).show();}
+    android.graphics.Bitmap bitmap;
+    try(android.os.ParcelFileDescriptor fd=android.os.ParcelFileDescriptor.open(file,android.os.ParcelFileDescriptor.MODE_READ_ONLY);
+        android.graphics.pdf.PdfRenderer renderer=new android.graphics.pdf.PdfRenderer(fd)){
+     if(renderer.getPageCount()!=1)throw new java.io.IOException("Unerwartete Seitenzahl");
+     try(android.graphics.pdf.PdfRenderer.Page page=renderer.openPage(0)){
+      int width=1800,height=Math.round(width*(float)page.getHeight()/page.getWidth());
+      if(height>3600)throw new java.io.IOException("Seitenformat");
+      bitmap=android.graphics.Bitmap.createBitmap(width,height,android.graphics.Bitmap.Config.ARGB_8888);
+      bitmap.eraseColor(android.graphics.Color.WHITE);
+      page.render(bitmap,null,null,android.graphics.pdf.PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
+     }
+    }
+    android.widget.LinearLayout layout=new android.widget.LinearLayout(MainActivity.this);
+    layout.setOrientation(android.widget.LinearLayout.VERTICAL);
+    android.widget.HorizontalScrollView horizontal=new android.widget.HorizontalScrollView(MainActivity.this);
+    android.widget.ScrollView vertical=new android.widget.ScrollView(MainActivity.this);
+    android.widget.ImageView image=new android.widget.ImageView(MainActivity.this);
+    image.setImageBitmap(bitmap);image.setScaleType(android.widget.ImageView.ScaleType.FIT_XY);
+    int base=Math.min(getResources().getDisplayMetrics().widthPixels-100,1000);
+    final float[] zoom={1f};
+    Runnable resize=()->{int w=Math.round(base*zoom[0]);image.setLayoutParams(new android.widget.FrameLayout.LayoutParams(w,Math.round(w*(float)bitmap.getHeight()/bitmap.getWidth())));};
+    vertical.addView(image);horizontal.addView(vertical);
+    android.widget.LinearLayout controls=new android.widget.LinearLayout(MainActivity.this);
+    for(String label:new String[]{"−","100 %","+"}){
+     android.widget.Button button=new android.widget.Button(MainActivity.this);button.setText(label);
+     button.setOnClickListener(v->{zoom[0]=label.equals("100 %")?1f:Math.max(0.75f,Math.min(3f,zoom[0]+(label.equals("+")?0.25f:-0.25f)));resize.run();});
+     controls.addView(button);
+    }
+    layout.addView(controls);layout.addView(horizontal,new android.widget.LinearLayout.LayoutParams(-1,0,1));resize.run();
+    android.app.AlertDialog dialog=new android.app.AlertDialog.Builder(MainActivity.this).setTitle("Lohnausweis – PDF").setView(layout).setPositiveButton("Schliessen",null).create();
+    dialog.setOnDismissListener(d->{image.setImageDrawable(null);bitmap.recycle();});
+    dialog.show();dialog.getWindow().setLayout(-1,-1);
+   }catch(Exception ex){android.widget.Toast.makeText(MainActivity.this,"PDF-Vorschau fehlgeschlagen",android.widget.Toast.LENGTH_LONG).show();}
   });
  }
  @JavascriptInterface public void sharePdf(String name,String recipient){
