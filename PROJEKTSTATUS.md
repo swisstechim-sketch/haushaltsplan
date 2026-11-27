@@ -19,9 +19,9 @@ Status: OFFEN / TEILWEISE / PROGRAMMIERT / CI BESTANDEN / LIVE ABGENOMMEN. Keine
 | ADR/RevPAR, Hotelstatistik | TEILWEISE | Fachprüfung |
 | PDF-Vorlagen, Berichte, lokale Ausgabe | TEILWEISE | Editor vervollständigen und prüfen |
 | Tablet-Querformat, SVG-Abgleich, Icons, Formulare, Filter | TEILWEISE | Alle Seiten prüfen |
-| Offline-Hilfe | PROGRAMMIERT | 27 Themen mit dreistufigen Anleitungen, Tabs, Suche, zwei Accordion-Spalten; CI- und LDPlayer-Test ausstehend |
+| Offline-Hilfe | PROGRAMMIERT | Bereichsübersicht mit Drill-down; Design vom Nutzer akzeptiert; 27 Themen mit drei Schritten und ergänzenden Erläuterungen (16746f4); neueste CI offen |
 | SQLite, Migration, Backup/Restore | TEILWEISE | Persistenz und Wiederherstellung abschliessend testen |
-| Regression, signierte APK, LDPlayer | TEILWEISE | Build 519 erfolgreich; neuere Änderungen separat prüfen |
+| Regression, signierte APK, LDPlayer | TEILWEISE | Build 616 erfolgreich; 617–619 bei Prüfung laufend; gezielte Button- und Live-Tests offen |
 
 ## Arbeitsregel
 Bei jeder Änderung diese Datei im Repository-Hauptverzeichnis aktualisieren: Commit, Testnachweis, verbleibende Aufgaben. Keine neuen Module, keine ungefragten Merges. Live-Abnahme nur mit eindeutig zugeordnetem APK-Build und bestätigtem Test. Bestehende Daten schützen. Finanz- und Lohnfunktionen erst nach fachlicher Validierung produktiv freigeben.
@@ -125,3 +125,9 @@ Bei jeder Änderung diese Datei im Repository-Hauptverzeichnis aktualisieren: Co
 - **Statische Prüfung nach Commit 426759f**: vollständige app.js wurde als JavaScript geparst (OK); 27 Hilfe-Themen und je drei Schritte aus Repository-Quelltext verifiziert. Keine Behauptung, dass damit ein Android-Laufzeit- oder LDPlayer-Test ersetzt wäre.
 - **CI**: Runs 45959518429, 45959552777, 45959622721 und 45959655663 beim letzten Abruf noch `in_progress`; Abschluss von Build, Android-Emulator-Tests und ggf. Release für neuesten Commit ausstehend. Keine historischen Jobs neu gestartet und kein Merge ausgeführt.
 - **Offen**: CI-Nachweis zum neuesten Commit, tatsächliche Ansicht des Dialogs/Scrollens und der Buttons im LDPlayer, gesamte App durchgehen (Icons, Dialoge), Formular 11 fachlich testen, separate 13.-Monatslohn-Auszahlung und übrige Lohn-/Finanzarbeiten laut obiger Tabelle. Status nur `PROGRAMMIERT`, nicht `CI BESTANDEN` oder `LIVE ABGENOMMEN`.
+
+
+## 27.11.2026 – Aktueller Arbeitsstand
+- 997b8a4: lesbare Button-Beschriftungen und SVG-Abstände; 2329029 und 16746f4: ergänzende Hilfe-Inhalte für alle 27 Themen. Hilfe-Design vom Nutzer akzeptiert, neue Texte noch nicht live abgenommen.
+- CI #615 und #616 erfolgreich; #617–619 beim Abruf laufend. Keine weiteren Funktionsänderungen bis zur Prüfung dieser Builds. Keine Tests deaktiviert, kein Merge.
+- Priorität: tatsächliche Jahreslohn-Button-Tests, danach separate 13.-Monatslohn-Auszahlung mit fachlicher Prüfung. Übrige offene Aufgaben gemäss Tabelle.
