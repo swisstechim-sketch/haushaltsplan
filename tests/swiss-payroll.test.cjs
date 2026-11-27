@@ -99,7 +99,7 @@ assert.throws(()=>r.ahv({birthDate:'1950-01-01',ahvRetired:'Ja'},'2026-11-26',10
  let approved=false,closed=0,saved=0;
  const ctx=vm.createContext({db,get:(k,id)=>db[k].find(r=>r.id===id)||{},confirm:()=>approved,atomicChange:fn=>{fn();saved++},close:()=>closed++,render:()=>{}});
  for(const name of ['premiumDeletePayrollDraft','premiumDefaultFixedAccount']){
-  const start=app.indexOf('function '+name+'('),end=app.indexOf('\\nfunction ',start+1);
+  const start=app.indexOf('function '+name+'('),end=app.indexOf('\nfunction ',start+1);
   assert.ok(start>=0&&end>start);vm.runInContext(app.slice(start,end),ctx);
  }
  const del=()=>vm.runInContext("premiumDeletePayrollDraft('a')",ctx);
