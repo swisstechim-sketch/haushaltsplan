@@ -38,12 +38,12 @@
     "13.2.1": "DezZahlNull_13_2_1",
     "13.2.2": "DezZahlNull_13_2_2",
     "13.2.3": "DezZahlNull_13_2_3",
-    "13.3": "DezZahlNull_13_3"
+    "13.3": "DezZahlNull_13_3",
+    "13.1.1": "DezZahlNull_13_1_1",
+    "13.1.1flag": "OptionKreuzOhneRahmen_13_1_1"
   },
   "manualFields": [
     "OptionKreuzOhneRahmen_B",
-    "OptionKreuzOhneRahmen_13_1_1",
-    "DezZahlNull_13_1_1",
     "TextLinks_14_2",
     "TextLinks_15_2",
     "TextLinks_I"
