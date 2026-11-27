@@ -183,3 +183,22 @@ assert.throws(()=>r.ahv({birthDate:'1950-01-01',ahvRetired:'Ja'},'2026-11-26',10
  const q=vm.runInContext("premiumWageCertificate('e','2026')",ctx);
  assert.equal(q.gross,500000);assert.equal(q.net,470000);assert.equal(q.social,30000);assert.equal(q.posted,1);assert.equal(q.unposted,1);assert.equal(q.unclassified,0);
 }
+
+
+ // Exercise the actual wage certificate UI calculation, including rounding boundaries.
+{
+ const app=fs.readFileSync('app/src/main/assets/app.js','utf8');
+ const anchor=app.indexOf("const original=root.querySelector('#wage-certificate-original')");
+ const start=app.indexOf('function calc(){',anchor),end=app.indexOf("f('8').readOnly",start);
+ assert.ok(anchor>=0&&start>anchor&&end>start);
+ const fields=Object.fromEntries(['1','2.1','2.2','2.3','3','4','5','6','7','8','9','10.1','10.2','11'].map(k=>[k,{value:'0'}]));
+ const ctx=vm.createContext({f:k=>fields[k]});
+ vm.runInContext(app.slice(start,end),ctx);
+ const calc=()=>vm.runInContext('calc()',ctx);
+ fields['1'].value='1000.49';fields['2.1'].value='0.49';fields['3'].value='0.50';fields['9'].value='100.50';fields['10.1'].value='20.49';
+ calc();assert.equal(fields['8'].value,1001);assert.equal(fields['11'].value,880);
+ fields['9'].value='2000';calc();assert.equal(fields['11'].value,'');
+ fields['9'].value='';calc();assert.equal(fields['8'].value,'');assert.equal(fields['11'].value,'');
+ fields['9'].value='-1';calc();assert.equal(fields['8'].value,'');
+ fields['9'].value='NaN';calc();assert.equal(fields['11'].value,'');
+}
