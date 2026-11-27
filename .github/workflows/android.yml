@@ -9,6 +9,7 @@ on:
   push:
     paths:
       - 'app/**'
+      - 'mockups/app-logo.svg'
       - 'tests/**'
       - '*.gradle'
       - 'gradle.properties'
@@ -19,6 +20,8 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
+      - name: Install SVG launcher renderer
+        run: sudo apt-get update && sudo apt-get install -y librsvg2-bin fonts-liberation
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -42,14 +45,34 @@ jobs:
           gradle-version: '8.9'
       - name: JavaScript syntax
         run: node --check app/src/main/assets/app.js
+      - name: Reminder eligibility regression tests
+        run: node tests/reminders.test.cjs
+      - name: Housekeeping regression tests
+        run: node tests/housekeeping.test.cjs
       - name: Finance regression tests
         run: node tests/finance.test.cjs
+      - name: Tablet and UI regression tests
+        run: node tests/ui-regression.test.cjs
+      - name: PDF report regression tests
+        run: node tests/reports.test.cjs
+      - name: Reservation pricing regression tests
+        run: node tests/pricing.test.cjs
       - name: Backup regression tests
         run: node tests/backup.test.cjs
       - name: Storage regression tests
         run: node tests/storage.test.cjs
       - name: Build and unit tests
-        run: gradle --no-daemon --stacktrace :app:assembleDebug :app:testDebugUnitTest
+        run: |
+          set -o pipefail
+          for attempt in 1 2 3; do
+            if gradle --no-daemon --stacktrace :app:assembleDebug :app:testDebugUnitTest 2>&1 | tee "$RUNNER_TEMP/gradle-build.log"; then
+              exit 0
+            fi
+            if [ "$attempt" -eq 3 ] || ! grep -Eq '429|Too Many Requests' "$RUNNER_TEMP/gradle-build.log"; then
+              exit 1
+            fi
+            sleep "$((attempt * 60))"
+          done
       - name: Compile native Android tests
         run: gradle --no-daemon --stacktrace :app:assembleDebugAndroidTest
       - name: Verify APK
@@ -75,6 +98,8 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
+      - name: Install SVG launcher renderer
+        run: sudo apt-get update && sudo apt-get install -y librsvg2-bin fonts-liberation
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -111,6 +136,8 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+      - name: Install SVG launcher renderer
+        run: sudo apt-get update && sudo apt-get install -y librsvg2-bin fonts-liberation
       - uses: actions/setup-java@v4
         with:
           distribution: temurin

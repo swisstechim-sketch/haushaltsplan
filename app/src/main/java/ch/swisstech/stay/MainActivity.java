@@ -6,11 +6,17 @@ import android.webkit.WebViewClient;
 import android.webkit.JavascriptInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.ClipData;
+import android.net.Uri;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.charset.StandardCharsets;
+import androidx.core.content.FileProvider;
 import android.print.PrintManager;
 public class MainActivity extends Activity {
  private WebView web;
  private StayDatabase database;
- @Override public void onCreate(Bundle b){super.onCreate(b); database=new StayDatabase(this); web=new WebView(this); web.getSettings().setJavaScriptEnabled(true); web.getSettings().setDomStorageEnabled(true); web.getSettings().setAllowFileAccess(false); web.getSettings().setAllowContentAccess(false); web.addJavascriptInterface(new Bridge(),"Stay"); web.setWebViewClient(new WebViewClient(){@Override public boolean shouldOverrideUrlLoading(WebView v,String url){return true;}}); setContentView(web); web.loadUrl("file:///android_asset/index.html");}
+ @Override public void onCreate(Bundle b){super.onCreate(b); database=new StayDatabase(this); web=new WebView(this); web.getSettings().setJavaScriptEnabled(true); web.getSettings().setDomStorageEnabled(true); web.getSettings().setTextZoom(100); web.getSettings().setAllowFileAccess(false); web.getSettings().setAllowContentAccess(false); web.addJavascriptInterface(new Bridge(),"Stay"); web.setWebViewClient(new WebViewClient(){@Override public boolean shouldOverrideUrlLoading(WebView v,String url){return true;}}); setContentView(web); web.loadUrl("file:///android_asset/index.html");}
  @Override public void onBackPressed(){
   if(web==null){super.onBackPressed();return;}
   web.evaluateJavascript("typeof stayBack==='function' && stayBack()",value->{if("false".equals(value))super.onBackPressed();});
@@ -35,5 +41,69 @@ public class MainActivity extends Activity {
  @JavascriptInterface public boolean save(String data){return database.save(data);}
  @JavascriptInterface public void print(){runOnUiThread(()->((PrintManager)getSystemService(PRINT_SERVICE)).print("STAY Swiss",web.createPrintDocumentAdapter("STAY Swiss"),null));}
  @JavascriptInterface public void share(String data){runOnUiThread(()->{Intent i=new Intent(Intent.ACTION_SEND);i.setType("text/plain");i.putExtra(Intent.EXTRA_TEXT,data);startActivity(Intent.createChooser(i,"STAY Swiss"));});}
+ @JavascriptInterface public void shareCsv(String filename,String csv){
+  if(csv==null || csv.length()>5_000_000)return;
+  final String safeName=(filename==null?"":filename).replaceAll("[^a-zA-Z0-9._-]","_");
+  final String name=(safeName.isEmpty()?"stay-export.csv":safeName.endsWith(".csv")?safeName:safeName+".csv");
+  runOnUiThread(()->{
+   try {
+    File directory=new File(getCacheDir(),"exports");
+    if(!directory.exists()&&!directory.mkdirs())throw new java.io.IOException("Exportverzeichnis nicht verfügbar");
+    File attachment=new File(directory,name);
+    try(FileOutputStream stream=new FileOutputStream(attachment,false)){
+     stream.write(csv.getBytes(StandardCharsets.UTF_8));
+    }
+    Uri uri=FileProvider.getUriForFile(MainActivity.this,getPackageName()+".fileprovider",attachment);
+    Intent intent=new Intent(Intent.ACTION_SEND);
+    intent.setType("text/csv");
+    intent.putExtra(Intent.EXTRA_STREAM,uri);
+    intent.setClipData(ClipData.newRawUri(name,uri));
+    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+    startActivity(Intent.createChooser(intent,"CSV-Datei teilen"));
+   } catch(Exception ex){
+    android.widget.Toast.makeText(MainActivity.this,"CSV-Export fehlgeschlagen: "+ex.getMessage(),android.widget.Toast.LENGTH_LONG).show();
+   }
+  });
+ }
+ @JavascriptInterface public String countriesJson(){
+  org.json.JSONArray countries=new org.json.JSONArray();
+  String[] codes=java.util.Locale.getISOCountries();
+  java.util.Locale german=java.util.Locale.GERMAN;
+  java.util.ArrayList<String[]> list=new java.util.ArrayList<>();
+  for(String code:codes){
+   java.util.Locale locale=new java.util.Locale("",code);
+   String name=locale.getDisplayCountry(german);
+   if(name!=null&&!name.isEmpty())list.add(new String[]{code,name});
+  }
+  java.util.Collections.sort(list,(a,b)->a[1].compareToIgnoreCase(b[1]));
+  for(String[] entry:list){
+   org.json.JSONArray pair=new org.json.JSONArray();
+   pair.put(entry[0]);pair.put(entry[1]);countries.put(pair);
+  }
+  return countries.toString();
+ }
+ @JavascriptInterface public void openExternal(String url){
+  if(!"https://buymeacoffee.com/swisstech".equals(url))return;
+  runOnUiThread(()->{
+   try{Intent intent=new Intent(Intent.ACTION_VIEW,android.net.Uri.parse(url));startActivity(intent);}
+   catch(android.content.ActivityNotFoundException ex){android.widget.Toast.makeText(MainActivity.this,"Kein Browser verfügbar",android.widget.Toast.LENGTH_LONG).show();}
+  });
+ }
+ @JavascriptInterface public void email(String recipient, String subject, String body){
+  final String to=recipient==null?"":recipient.trim();
+  final String sub=subject==null?"":subject;
+  final String message=body==null?"":body;
+  runOnUiThread(()->{
+   Intent intent=new Intent(Intent.ACTION_SENDTO);
+   intent.setData(android.net.Uri.parse("mailto:"));
+   if(!to.isEmpty())intent.putExtra(Intent.EXTRA_EMAIL,new String[]{to});
+   intent.putExtra(Intent.EXTRA_SUBJECT,sub);
+   intent.putExtra(Intent.EXTRA_TEXT,message);
+   try{startActivity(Intent.createChooser(intent,"E-Mail vorbereiten"));}
+   catch(android.content.ActivityNotFoundException ex){
+    android.widget.Toast.makeText(MainActivity.this,"Keine E-Mail-App installiert",android.widget.Toast.LENGTH_LONG).show();
+   }
+  });
+ }
  }
 }

@@ -6,9 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import org.json.*;
 public final class StayDatabase extends SQLiteOpenHelper {
- private static final String[] TABLES={"guests","rooms","bookings","invoices","payments","services","tasks","logs","templates"};
+ private static final String[] TABLES={"guests","rooms","bookings","invoices","payments","services","tasks","logs","templates","lostItems","guestWishes","maintenance","handover"};
  public StayDatabase(Context c){this(c,"stay_swiss.db");}
- StayDatabase(Context c,String name){super(c,name,null,1);}
+ StayDatabase(Context c,String name){super(c,name,null,2);}
  @Override public void onConfigure(SQLiteDatabase db){db.setForeignKeyConstraintsEnabled(true);}
  @Override public void onCreate(SQLiteDatabase db){
  db.execSQL("CREATE TABLE hotel (id INTEGER PRIMARY KEY CHECK(id=1), payload TEXT NOT NULL)");
@@ -25,7 +25,7 @@ public final class StayDatabase extends SQLiteOpenHelper {
  }
  for(String pair:new String[]{"bookings guest","bookings room","invoices booking","payments invoice","services booking","tasks room"}){String[] p=pair.split(" ");db.execSQL("CREATE INDEX idx_"+p[0]+"_"+p[1]+" ON "+p[0]+"("+p[1]+")");}
  }
- @Override public void onUpgrade(SQLiteDatabase db,int oldVersion,int newVersion){throw new IllegalStateException("Unsupported database migration");}
+ @Override public void onUpgrade(SQLiteDatabase db,int oldVersion,int newVersion){if(oldVersion==1&&newVersion==2){for(String t:new String[]{"lostItems","guestWishes","maintenance","handover"})db.execSQL("CREATE TABLE "+t+" (id TEXT PRIMARY KEY NOT NULL, position INTEGER NOT NULL, payload TEXT NOT NULL)");}else throw new IllegalStateException("Unsupported database migration");}
  public synchronized String load() throws JSONException {
  SQLiteDatabase db=getReadableDatabase(); JSONObject out=new JSONObject();
  try(Cursor c=db.rawQuery("SELECT payload FROM hotel WHERE id=1",null)){if(!c.moveToFirst())return "";out.put("hotel",new JSONObject(c.getString(0)));}
@@ -40,7 +40,7 @@ public final class StayDatabase extends SQLiteOpenHelper {
  db.beginTransaction();
  try{
  for(int i=TABLES.length-1;i>=0;i--)db.delete(TABLES[i],null,null);
- for(String t:TABLES){JSONArray a=data.getJSONArray(t);for(int i=0;i<a.length();i++){JSONObject row=a.getJSONObject(i);ContentValues v=new ContentValues();v.put("id",row.getString("id"));v.put("position",i);v.put("payload",row.toString());
+ for(String t:TABLES){JSONArray a=data.optJSONArray(t);if(a==null){if(t.equals("lostItems")||t.equals("guestWishes")||t.equals("maintenance")||t.equals("handover"))a=new JSONArray();else throw new JSONException("Missing table "+t);}for(int i=0;i<a.length();i++){JSONObject row=a.getJSONObject(i);ContentValues v=new ContentValues();v.put("id",row.getString("id"));v.put("position",i);v.put("payload",row.toString());
  switch(t){case "bookings":v.put("guest",row.getString("guest"));v.put("room",row.getString("room"));break;case "invoices":case "services":v.put("booking",row.getString("booking"));break;case "payments":v.put("invoice",row.getString("invoice"));break;case "tasks":v.put("room",row.getString("room"));break;}
  db.insertOrThrow(t,null,v);}}
  ContentValues h=new ContentValues();h.put("id",1);h.put("payload",data.getJSONObject("hotel").toString());if(db.insertWithOnConflict("hotel",null,h,SQLiteDatabase.CONFLICT_REPLACE)<0)throw new IllegalStateException("Hotel write failed");

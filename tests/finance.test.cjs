@@ -5,7 +5,7 @@ const vm=require('node:vm');
 const src=fs.readFileSync('app/src/main/assets/app.js','utf8');
 const hotel={name:'Test Hotel',iban:'CH9300762011623852957',street:'Teststrasse',houseNumber:'1',postalCode:'8000',city:'Zürich',country:'CH'};
 const invoice={id:'i',number:'RE-2026-0001',total:108.10,issuer:hotel};
-const ctx=vm.createContext({get:()=>invoice,db:{hotel},paid:()=>10,credited:()=>8.10});
+const ctx=vm.createContext({get:()=>invoice,db:{hotel,invoices:[invoice]},paid:()=>10,credited:()=>8.10});
 for(const [name,next] of [['swissIban','qrPaymentData'],['qrPaymentData','qrDataView'],['invoiceTax','invoice']]){
  const start=src.indexOf('function '+name+'('),end=src.indexOf('function '+next+'(',start);
  assert.ok(start>=0&&end>start,name);
@@ -33,3 +33,20 @@ invoice.total=108.10;
 hotel.city='   ';
 assert.throws(()=>ctx.qrPaymentData('i'));
 console.log('Finance and QR payload checks passed');
+
+// Exercise actual payment and credit helpers, including a paid invoice refund.
+const ledger={invoices:[{id:'i',total:100,credits:[{amount:30}],refunds:[{amount:20}]}],payments:[{invoice:'i',amount:100},{invoice:'other',amount:50}]};
+const ledgerCtx=vm.createContext({db:ledger,get:(k,id)=>ledger[k].find(x=>x.id===id)||{},cents:n=>Math.round(Number(n)*100),chf:n=>n/100});
+const start=src.indexOf('const credited=id=>'),end=src.indexOf('function bindSvgAction',start);
+assert.ok(start>=0&&end>start);
+vm.runInContext(src.slice(start,end),ledgerCtx);
+assert.equal(vm.runInContext("paid('i')",ledgerCtx),80);
+assert.equal(vm.runInContext("credited('i')",ledgerCtx),30);
+assert.equal(vm.runInContext("100-paid('i')-credited('i')",ledgerCtx),-10);
+ledger.invoices[0].refunds.push({amount:10});
+assert.equal(vm.runInContext("100-paid('i')-credited('i')",ledgerCtx),0);
+assert.equal(vm.runInContext("paid('other')",ledgerCtx),50);
+console.log('Payment, credit and refund balance checks passed');
+
+assert.equal(ctx.qrReference('RE-2026-0001').length,27);
+assert.equal(ctx.qrReference('RE-2026-0001'),'000000000000000000202600013');

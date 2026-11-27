@@ -7,3 +7,483 @@ nav button{display:flex;flex-direction:column;align-items:center;justify-content
 @media(max-width:799px){nav button{flex:1;width:auto;max-width:20%}.actions button{flex:1 1 auto}#dialog{max-height:90vh;overflow-y:auto}.reference-dashboard>main>svg{max-width:100%}}@media print{.card{overflow:visible!important}}
 
 #recovery-warning{display:none}.storage-recovery #recovery-warning{display:block;position:relative;padding:12px;background:#fff2e0;color:#75451a;font-weight:bold;line-height:1.4}@media print{#recovery-warning{display:none!important}}
+
+
+/* Tablet-Querformat: eigenstaendiges Layout entsprechend mockups/tablet/querformat. */
+#app-header .tablet-page-identity,#app-header .header-profile,#app-header .header-tool{display:none}
+.mobile-brand{display:flex;align-items:center;gap:12px;min-width:0}
+.header-tools{margin-left:auto;display:flex;gap:8px;align-items:center}
+#app-header .header-tools button{margin-left:0;display:flex;align-items:center;justify-content:center;padding:10px}
+#app-header svg{width:22px;height:22px;fill:none;stroke:#416887;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.header-search span{display:none}
+#sidebar button{min-height:42px;display:flex;align-items:center;gap:10px;width:100%;font-weight:500;line-height:1.25}
+#sidebar .sidebar-group{font-size:10px;font-weight:700;letter-spacing:.05em;color:#8294a5;padding:15px 10px 7px}
+#sidebar .sidebar-brand{display:none}
+#sidebar .sidebar-icon{display:inline-flex;width:22px;justify-content:center;flex:none;font-size:19px}
+#sidebar .sidebar-icon svg{width:20px;height:20px;stroke:#527b9f;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.actions{margin-top:16px}
+.actions button,.tabs button{display:inline-flex;align-items:center;justify-content:center;gap:8px}
+@media(min-width:800px) and (orientation:landscape){
+ body:not(.reference-dashboard){display:grid;grid-template-columns:244px minmax(0,1fr);grid-template-rows:78px minmax(0,1fr);min-height:100vh}
+ body:not(.reference-dashboard) #app-header{grid-column:2;grid-row:1;position:sticky;top:0;height:78px;z-index:5;padding:0 22px 0 24px;border-bottom:1px solid #dce5ee;min-width:0}
+ body:not(.reference-dashboard) .mobile-brand{display:none}
+ body:not(.reference-dashboard) #app-header .tablet-page-identity{display:flex;flex-direction:column;justify-content:center;gap:3px;min-width:0}
+ body:not(.reference-dashboard) .tablet-page-identity small{margin:0;font-size:11px}
+ body:not(.reference-dashboard) .tablet-page-identity strong{font-size:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ body:not(.reference-dashboard) #app-header .header-tool{display:flex}
+ body:not(.reference-dashboard) #app-header .header-profile{display:flex;align-items:center;gap:10px;padding:8px 12px;background:#f3f6fa;border-radius:12px;white-space:nowrap}
+ body:not(.reference-dashboard) .header-profile strong{font-size:13px}
+ body:not(.reference-dashboard) .header-profile small{font-size:10px;margin:2px 0 0}
+ body:not(.reference-dashboard) .profile-avatar{width:34px;height:34px;border-radius:50%;background:#dceafa;color:#284a6b;display:grid;place-items:center;font-weight:700}
+ body:not(.reference-dashboard) .header-search{min-width:165px;max-width:290px;flex:1;background:#f3f6fa}
+ body:not(.reference-dashboard) .header-search span{display:inline;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#64788c;font-size:13px}
+ body:not(.reference-dashboard) .header-tools{gap:8px;min-width:0}
+ body:not(.reference-dashboard) .header-tool{width:42px;height:42px;padding:9px;background:#f3f6fa}
+ body:not(.reference-dashboard) #sidebar{display:flex;grid-column:1;grid-row:1 / 3;position:sticky;top:0;bottom:auto;width:244px;height:100vh;background:white;overflow-y:auto;flex-direction:column;gap:2px;padding:12px;z-index:6;border-right:1px solid #e4ebf2}
+ body:not(.reference-dashboard) #sidebar .sidebar-brand{display:flex;gap:12px;align-items:center;padding:8px 6px 20px}
+ body:not(.reference-dashboard) .sidebar-brand .brand{width:44px;height:44px;display:grid;place-items:center;flex:none;background:#dceafa;font-weight:700}
+ body:not(.reference-dashboard) .sidebar-brand strong{font-size:19px}
+ body:not(.reference-dashboard) .sidebar-brand small{font-size:10px}
+ body:not(.reference-dashboard) #sidebar button{min-height:42px;padding:9px 12px;background:white;border-radius:9px;text-align:left;font-size:13px}
+ body:not(.reference-dashboard) #sidebar button.active{background:#dceafa;font-weight:700}
+ body:not(.reference-dashboard) main{grid-column:2;grid-row:2;margin:0;max-width:none;width:100%;min-width:0;padding:24px 26px 40px}
+ body:not(.reference-dashboard) main h1{font-size:30px;margin:0 0 5px}
+ body:not(.reference-dashboard) nav{display:none}
+}
+@media(min-width:800px) and (max-width:1199px) and (orientation:landscape){
+ body:not(.reference-dashboard) #app-header{padding-left:16px;padding-right:14px}
+ body:not(.reference-dashboard) .header-profile{display:none!important}
+ body:not(.reference-dashboard) #app-header .header-tool:nth-of-type(4),body:not(.reference-dashboard) #app-header .header-tool:nth-of-type(5){display:none}
+ body:not(.reference-dashboard) .header-search{min-width:42px}
+}
+@media(min-width:800px) and (orientation:portrait){
+ #sidebar{display:flex;position:fixed;top:0;bottom:0;width:84px;flex-direction:column;padding:12px 6px;overflow-y:auto;background:white;z-index:5}
+ #sidebar button{font-size:10px;flex-direction:column;gap:3px;padding:8px 2px;min-height:60px;overflow-wrap:anywhere}
+ #sidebar .sidebar-icon{width:auto}
+ #sidebar .sidebar-group,#sidebar .sidebar-brand{display:none}
+ #app-header{margin-left:84px}
+ main{margin-left:84px;max-width:none}
+ nav{display:none}
+}
+
+/* WebView text autosizing must not enlarge tablet SVG mockup typography. */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+
+/* Consistent form actions and explicit preview closing controls. */
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:16px 0 0}
+.actions button{min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.card>.actions:last-child{padding-top:16px;border-top:1px solid #e4ebf2}
+.dialog-toolbar,.pdf-preview-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0 16px}
+.dialog-close{margin-left:auto}
+.pdf-preview-toolbar{background:#fff;border:1px solid #e4ebf2;border-radius:12px;padding:12px 16px;margin-bottom:16px}
+@media print{.dialog-toolbar,.pdf-preview-toolbar{display:none!important}}
+
+/* Reusable, first-party SVG action icon system (20x20). */
+.action-svg{width:20px;height:20px;flex:0 0 20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+button[data-action]{display:inline-flex;align-items:center;justify-content:center;gap:8px;vertical-align:middle}
+button[data-action]>span{line-height:1.25}
+#sidebar button[data-action]{justify-content:flex-start}
+@media(min-width:800px) and (orientation:landscape){#sidebar button[data-action]{min-height:42px}}
+#dialog .actions{padding-top:16px}
+#dialog .actions button{flex:0 1 auto}
+@media(max-width:799px){#dialog .actions button{flex:1 1 calc(50% - 12px)}}
+
+/* About and helpful instructions */
+.info-intro,.about-hero,.about-footer,.help-card{background:white;border:1px solid #e0e9f2;border-radius:16px;padding:22px}.info-intro{margin:0 0 16px}.info-kicker{color:#71879b;font-size:12px;font-weight:700;letter-spacing:.06em}.info-intro h2,.about-hero h2{font-size:25px;margin:8px 0 12px}.info-intro p,.about-hero p,.help-card p{font-size:15px;line-height:1.6;color:#425a70}.help-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}.help-card{display:flex;flex-direction:column;gap:8px}.help-card h2{font-size:17px;margin:0}.help-card p{margin:0 0 12px;flex:1}.help-card button{align-self:flex-start}.help-number{font-weight:bold;color:#527b9f;font-size:13px}.about-hero{display:flex;align-items:flex-start;gap:22px}.about-symbol{width:76px;height:76px;flex:0 0 76px;display:grid;place-items:center;background:#dceafa;color:#284a6b;border-radius:18px;font-weight:800;font-size:44px}.about-footer{margin-top:16px}.company-mark{display:flex;align-items:center;gap:14px}.company-symbol{width:48px;height:48px;display:grid;place-items:center;background:#243b53;border-radius:12px;color:white;font-weight:800;font-size:26px}.company-mark strong{font-size:22px}.company-mark small{font-size:12px}.about-footer p{font-size:13px;color:#71879b;margin-bottom:0}@media(max-width:700px){.about-hero{flex-direction:column}.help-grid{grid-template-columns:1fr}}
+
+.company-logo{display:block;width:min(100%,450px);height:auto;object-fit:contain;object-position:left center}.about-footer .company-mark{min-height:75px}
+
+/* PDF report centre; A4-sized document independent of tablet viewport. */
+.report-group{margin:20px 0 28px}.report-group>h2{font-size:19px;margin:0 0 12px}.document-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.document-choice{display:flex;flex-direction:column;align-items:flex-start;gap:12px;background:#fff;border:1px solid #e2eaf3;border-radius:13px;padding:17px}
+.document-choice>div{flex:1;min-width:0}.document-choice strong{display:block;font-size:15px}.document-choice small{font-size:12px;line-height:1.4}
+.document-status{font-size:11px;font-weight:700;color:#566a7d}.document-status.ready{color:#246c55}.document-status.pending{color:#866d35}
+.document-choice>button{min-width:130px}.report-a4{background:white;color:#243b53;max-width:210mm;min-height:297mm;margin:0 auto;padding:15mm 13mm 18mm;border:1px solid #dce4eb;box-shadow:0 10px 25px #1f314217;position:relative;font:11pt Arial,sans-serif}
+.report-topline{height:3mm;background:#284a6b;margin:-15mm -13mm 11mm}
+.report-brand{display:flex;align-items:center;gap:12px}.report-brand strong{font-size:22pt}.report-brand small{font-size:8pt;letter-spacing:.06em}
+.report-mark{width:42px;height:42px;border-radius:10px;display:grid;place-items:center;background:#dceafa;font-weight:800;color:#284a6b;font-size:26px}
+.report-hotel{margin-top:12mm;line-height:1.6;font-size:9pt;color:#516477}.report-hotel strong{font-size:11pt;color:#243b53}
+.report-a4>h1{margin:13mm 0 3mm;font-size:21pt}.report-meta{font-size:9pt;color:#657b90}
+.report-summary{background:#e8f2fb;color:#243b53;padding:4mm;border-radius:8px;margin:9mm 0;font-weight:700}
+.report-table-wrap{width:100%;overflow-x:auto}.report-table{border-collapse:collapse;width:100%;font-size:9pt}.report-table th{background:#dceafa;color:#243b53;font-weight:700;white-space:normal}.report-table th,.report-table td{padding:9px;text-align:left;border-bottom:1px solid #dae5ef;overflow-wrap:anywhere;white-space:normal}
+.report-table tr{break-inside:avoid}.report-empty{padding:20px;background:#f3f6fa;border-radius:8px}.report-notes{color:#6d7c8a;font-size:9pt;margin:10mm 0 15mm}.report-footer{font-size:8pt;color:#6a7b8a;border-top:1px solid #dae5ef;padding-top:4mm;margin-top:15mm}
+.pdf-preview-toolbar>.actions{margin:0}.pdf-preview-toolbar>.actions button{min-height:40px}
+@media(max-width:680px){.document-grid{grid-template-columns:1fr}.report-a4{padding:12mm 8mm;min-height:auto}.report-a4>h1{font-size:19pt}.pdf-preview-toolbar{flex-wrap:wrap}.pdf-preview-toolbar>.actions{width:100%}.pdf-preview-toolbar>.actions button{flex:1 1 auto}}
+@media print{
+ @page{size:A4;margin:0}
+ body.document-preview{display:block!important;background:white!important}
+ body.document-preview header,body.document-preview nav,body.document-preview aside,body.document-preview #overlay{display:none!important}
+ body.document-preview main{display:block!important;width:210mm!important;max-width:none!important;min-width:0!important;padding:0!important;margin:0!important}
+ .report-a4{border:none!important;box-shadow:none!important;margin:0!important;min-height:297mm!important;width:210mm!important;max-width:210mm!important;padding:15mm 13mm 18mm!important;box-sizing:border-box}
+ .report-topline{margin:-15mm -13mm 11mm}
+ .report-table-wrap{overflow:visible!important}
+ .report-table tr{break-inside:avoid}
+ .pdf-preview-toolbar{display:none!important}
+}
+
+/* Tablet reception list from original check-in/out mockup */
+.reception-entry{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 2px;border-bottom:1px solid #e4ebf2}
+.reception-entry:last-child{border-bottom:0}.reception-entry>div{flex:1;min-width:0}.reception-entry strong{display:block;font-size:15px}.reception-entry small{font-size:12px;margin-top:5px;line-height:1.4}
+#reception-results{margin-top:12px}.reception-entry button{flex:0 0 auto}
+@media(max-width:620px){.reception-entry{flex-direction:column;align-items:stretch}.reception-entry button{align-self:flex-start}}
+
+
+/* Unified vertical button rhythm. Controls never touch labels, sections or footers. */
+.card > .actions, .about-hero .actions, .info-intro .actions, .reception-top-actions,
+.reception-tabs, .reception-table-footer, .dialog-toolbar + .actions {
+  display:flex;align-items:center;gap:12px;margin:20px 0 18px;padding:0;flex-wrap:wrap;
+}
+.card > .actions:last-child{margin-bottom:0;padding-top:16px;border-top:1px solid #e4ebf2}
+.card > .actions:first-child{margin-top:0;margin-bottom:20px;padding:0;border-top:0}
+.actions button,.reception-top-actions button,.reception-tabs button{min-height:44px;margin:0}
+.about-hero .actions{flex-wrap:nowrap;width:100%;margin:22px 0 0;gap:12px}
+.about-hero .actions button{flex:1 1 0;min-width:0;max-width:none;white-space:nowrap;padding:10px 12px;font-size:14px}
+.about-hero .actions button span{white-space:nowrap}
+.about-footer{padding:22px 24px;margin-top:18px}
+.about-footer .company-mark{display:block;min-height:0}
+.about-footer .company-logo{display:block;width:min(100%,430px);max-height:125px;object-fit:contain;object-position:left center}
+.about-footer p{margin:14px 0 0}
+.reception-summary{margin:0 0 16px}
+.reception-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin:0 0 18px}
+.reception-heading h2{margin:5px 0 5px;font-size:27px}
+.reception-heading p{margin:0;color:#667e92}
+.reception-top-actions{margin:0;justify-content:flex-end;flex-wrap:nowrap}
+.reception-top-actions button{white-space:nowrap}
+.reception-tabs{margin:0 0 18px;border-bottom:1px solid #dce6ef;padding:0 0 14px;flex-wrap:nowrap}
+.reception-tabs button{flex:1 1 0}
+.reception-filters{margin:18px 0 18px}
+.reception-filters label{margin:0 0 8px}
+.reception-table-wrap{overflow-x:auto}
+.reception-table{width:100%;border-collapse:collapse;table-layout:auto;font-size:13px}
+.reception-table th{background:#eaf3fb;color:#294965;font-weight:700}
+.reception-table th,.reception-table td{padding:12px 10px;text-align:left;border-bottom:1px solid #e3eaf1;vertical-align:middle}
+.reception-table td strong{font-weight:600}
+.reception-action-heading,.reception-row-actions{text-align:right!important}
+.reception-row-actions{white-space:nowrap}
+.reception-row-actions button{min-height:38px;padding:7px 9px;margin:0 0 0 6px;gap:5px;font-size:12px}
+.reception-row-actions .action-svg{width:16px;height:16px;flex-basis:16px}
+.reception-status{background:#edf3f8;border-radius:7px;display:inline-block;padding:5px 8px}
+.reception-table-footer{margin:18px 0 0;justify-content:space-between}
+.reception-table-footer span{color:#667b90;font-size:13px}
+@media(min-width:800px) and (orientation:landscape){
+ .reception-heading{align-items:center}
+ .reception-summary .metrics{margin:0}
+}
+@media(max-width:799px){
+ .about-hero .actions{flex-wrap:nowrap}
+ .about-hero .actions button{flex:1 1 0;padding:10px 7px;font-size:12px}
+ .about-hero .actions .action-svg{width:16px;height:16px;flex-basis:16px}
+ .reception-heading{flex-direction:column}
+ .reception-top-actions{width:100%;justify-content:flex-start}
+ .reception-tabs{gap:6px}
+ .reception-tabs button{font-size:12px;padding:9px 6px}
+}
+
+/* Mockup-based modal layout: title, context, setting section, actions. */
+#overlay{padding:20px;background:rgba(27,47,67,.48)}
+#dialog{width:min(100%,640px);max-width:640px;max-height:min(90vh,850px);padding:0;overflow-y:auto;border-radius:22px;border:1px solid #dce6f0;box-shadow:0 22px 60px rgba(21,37,54,.22);background:#fff}
+.dialog-toolbar{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:24px 26px 18px;margin:0;border-bottom:1px solid #e1e9f1}
+.dialog-identity{min-width:0}.dialog-kicker{display:block;color:#6d8298;font-size:12px;font-weight:700;letter-spacing:.03em;margin-bottom:8px}
+.dialog-toolbar h2{font-size:24px;margin:0;color:#243b53;line-height:1.2}.dialog-toolbar .dialog-close{flex:0 0 auto;min-height:42px;margin:0}
+.dialog-content{padding:20px 26px 26px}.dialog-section-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#778ba0;margin:0 0 18px}
+.dialog-content form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px;align-items:start}
+.dialog-content form label{margin:12px 0 6px;grid-column:auto}
+.dialog-content form label+input,.dialog-content form label+select,.dialog-content form label+textarea{grid-column:auto}
+.dialog-content #editor{display:block}
+.dialog-content #editor label{display:block;margin:16px 0 6px}
+.dialog-content #editor input,.dialog-content #editor select,.dialog-content #editor textarea{display:block;width:100%;min-height:46px}
+.dialog-content #editor .actions{display:flex;justify-content:flex-end;gap:12px;margin:22px 0 0;padding:18px 0 0;border-top:1px solid #e4ebf2}
+.dialog-content .actions{margin-top:22px;display:flex;justify-content:flex-end;gap:12px;align-items:center}
+.dialog-content .actions button{min-height:44px;flex:0 1 auto}
+.dialog-content>button[data-action="delete"]{margin-top:16px;float:right}
+@media(max-width:699px){#overlay{padding:10px}#dialog{max-height:94vh;border-radius:17px}.dialog-toolbar{padding:18px 18px 14px}.dialog-toolbar h2{font-size:20px}.dialog-content{padding:16px 18px 22px}.dialog-content form{display:block}.dialog-content .actions{flex-wrap:wrap}.dialog-content .actions button{flex:1 1 calc(50% - 12px)}}
+
+/* Keep label and control together in all legacy single-column modal forms. */
+.dialog-content form{display:block}
+.dialog-content form label{display:block;margin:15px 0 6px}
+.dialog-content form input,.dialog-content form select,.dialog-content form textarea{display:block;width:100%}
+.dialog-content form>.actions{display:flex;flex-direction:row;align-items:center;justify-content:flex-end;margin-top:22px;padding-top:16px;border-top:1px solid #e4ebf2}
+.dialog-content form>button[type="submit"]{margin-top:16px}
+
+
+/* Tablet density scale: use compact typography/spacing instead of viewport zoom,
+   which would also distort touch targets and SVG mockups. Smartphone remains unchanged. */
+@media (min-width:800px) and (orientation:landscape) {
+ body:not(.reference-dashboard){font-family:Arial,sans-serif;font-size:13px;line-height:1.4;grid-template-columns:200px minmax(0,1fr);grid-template-rows:66px minmax(0,1fr)}
+ body:not(.reference-dashboard) #sidebar{width:200px;padding:9px;gap:1px}
+ body:not(.reference-dashboard) #sidebar .sidebar-brand{padding:5px 5px 12px;gap:9px}
+ body:not(.reference-dashboard) #sidebar .sidebar-brand .brand{width:35px;height:35px;font-size:20px;border-radius:9px}
+ body:not(.reference-dashboard) #sidebar .sidebar-brand strong{font-size:16px}
+ body:not(.reference-dashboard) #sidebar .sidebar-brand small{font-size:9px}
+ body:not(.reference-dashboard) #sidebar .sidebar-group{font-size:10px;padding:10px 8px 4px;line-height:1.2}
+ body:not(.reference-dashboard) #sidebar button{min-height:34px!important;padding:6px 9px;font-size:12px;gap:8px;border-radius:8px}
+ body:not(.reference-dashboard) #sidebar .sidebar-icon{width:19px}
+ body:not(.reference-dashboard) #sidebar .sidebar-icon svg{width:17px;height:17px}
+ body:not(.reference-dashboard) #app-header{height:66px;padding:0 16px}
+ body:not(.reference-dashboard) #app-header .tablet-page-identity{gap:0}
+ body:not(.reference-dashboard) #app-header .tablet-page-identity small{font-size:10px}
+ body:not(.reference-dashboard) #app-header .tablet-page-identity strong{font-size:17px}
+ body:not(.reference-dashboard) #app-header .header-search{min-width:125px;padding:7px 9px}
+ body:not(.reference-dashboard) #app-header .header-search span{font-size:12px}
+ body:not(.reference-dashboard) #app-header .header-tool{width:35px;height:35px;padding:8px;border-radius:9px}
+ body:not(.reference-dashboard) #app-header svg{width:18px;height:18px}
+ body:not(.reference-dashboard) #app-header .header-tools{gap:6px}
+ body:not(.reference-dashboard) #app-header .header-profile{padding:5px 8px;gap:6px}
+ body:not(.reference-dashboard) .header-profile strong{font-size:11px}
+ body:not(.reference-dashboard) .header-profile small{font-size:9px}
+ body:not(.reference-dashboard) .profile-avatar{width:28px;height:28px}
+ body:not(.reference-dashboard) main{padding:15px 18px 28px}
+ body:not(.reference-dashboard) main h1{font-size:24px;line-height:1.2;margin:0 0 5px}
+ body:not(.reference-dashboard) main h2{font-size:17px;line-height:1.3;margin:0 0 10px}
+ body:not(.reference-dashboard) main h3{font-size:14px}
+ body:not(.reference-dashboard) main small{font-size:10px}
+ body:not(.reference-dashboard) .card{padding:13px 15px;border-radius:12px;margin:10px 0}
+ body:not(.reference-dashboard) .entry{padding:8px 0}
+ body:not(.reference-dashboard) .metrics{gap:9px}
+ body:not(.reference-dashboard) .metrics strong{font-size:20px;margin-top:5px}
+ body:not(.reference-dashboard) .actions{gap:8px;margin-top:12px;margin-bottom:12px}
+ body:not(.reference-dashboard) .tabs{gap:8px;margin:10px 0}
+ body:not(.reference-dashboard) button{font-size:12px;line-height:1.25;min-height:36px;padding:8px 10px;border-radius:9px}
+ body:not(.reference-dashboard) .action-svg{width:16px;height:16px;flex-basis:16px}
+ body:not(.reference-dashboard) input,body:not(.reference-dashboard) select,body:not(.reference-dashboard) textarea{font-size:13px;min-height:36px;padding:8px 10px;border-radius:8px}
+ body:not(.reference-dashboard) label{font-size:11px;margin:9px 0 4px}
+ body:not(.reference-dashboard) .report-group{margin:14px 0 20px}
+ body:not(.reference-dashboard) .document-grid{gap:9px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+ body:not(.reference-dashboard) .document-choice{padding:12px;gap:8px}
+ body:not(.reference-dashboard) .document-choice strong{font-size:13px}
+ body:not(.reference-dashboard) .document-choice small{font-size:10px}
+ body:not(.reference-dashboard) .info-intro,body:not(.reference-dashboard) .about-hero,body:not(.reference-dashboard) .about-footer,body:not(.reference-dashboard) .help-card{padding:15px 17px;border-radius:12px}
+ body:not(.reference-dashboard) .info-intro h2,body:not(.reference-dashboard) .about-hero h2{font-size:21px}
+ body:not(.reference-dashboard) .info-intro p,body:not(.reference-dashboard) .about-hero p,body:not(.reference-dashboard) .help-card p{font-size:13px;line-height:1.45}
+ body:not(.reference-dashboard) .about-symbol{width:58px;height:58px;flex-basis:58px;font-size:31px}
+ body:not(.reference-dashboard) .help-grid{gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+ body:not(.reference-dashboard) .help-card h2{font-size:15px}
+ body:not(.reference-dashboard) .reception-heading h2{font-size:22px}
+ body:not(.reference-dashboard) .reception-table{font-size:11px}
+ body:not(.reference-dashboard) .reception-table th,body:not(.reference-dashboard) .reception-table td{padding:8px 7px}
+ body:not(.reference-dashboard) .reception-row-actions button{font-size:10px;min-height:32px;padding:5px 7px}
+ /* PDF A4 is an explicitly dimensioned document and must not inherit compact sizing. */
+ body.document-preview .report-a4{font-size:11pt}
+ #overlay{padding:16px}
+ #dialog{width:min(100%,520px);max-width:520px;max-height:86vh;border-radius:16px}
+ .dialog-toolbar{padding:16px 19px 12px;gap:10px}
+ .dialog-toolbar h2{font-size:19px}
+ .dialog-kicker{font-size:10px;margin-bottom:5px}
+ .dialog-content{padding:13px 19px 18px}
+ .dialog-section-title{font-size:10px;margin-bottom:10px}
+ .dialog-content #editor label,.dialog-content form label{font-size:11px;margin:10px 0 4px}
+ .dialog-content #editor input,.dialog-content #editor select,.dialog-content #editor textarea,.dialog-content form input,.dialog-content form select,.dialog-content form textarea{min-height:36px;padding:8px 10px;font-size:12px}
+ .dialog-content .actions,.dialog-content #editor .actions{margin-top:13px;padding-top:12px;gap:8px}
+ .dialog-content .actions button{min-height:36px}
+ .dialog-toolbar .dialog-close{min-height:34px}
+ .price-editor{margin-top:16px}
+ .price-fields{gap:9px}
+}
+@media (min-width:800px) and (orientation:portrait) {
+ body:not(.reference-dashboard){font-size:13px}
+ body:not(.reference-dashboard) main{padding:16px 18px 30px}
+ body:not(.reference-dashboard) main h1{font-size:23px}
+ body:not(.reference-dashboard) .card{padding:14px}
+ body:not(.reference-dashboard) .actions button{font-size:12px}
+ #dialog{width:min(100%,520px);max-width:520px}
+ .dialog-toolbar h2{font-size:20px}
+}
+
+
+/* Compact pricing sections for the hotel and room dialogs. */
+.price-editor{margin:18px 0 4px;border-top:1px solid #dce6f0;padding-top:14px}
+.price-editor>h3{margin:0 0 5px;color:#274765;font-size:16px}
+.price-editor>p,.tariff-section>p,.meal-price-settings>p{font-size:12px;line-height:1.5;color:#60758a;margin:5px 0 12px}
+.tariff-section{border:1px solid #dce6f0;border-radius:11px;background:#f9fbfe;margin:9px 0;overflow:hidden}
+.tariff-section>summary{padding:12px 14px;font-size:13px;font-weight:700;color:#294965;cursor:pointer;background:#f0f6fc}
+.tariff-section>summary:focus-visible{outline:2px solid #4b8cc5;outline-offset:-3px}
+.tariff-section>p{padding:0 14px;margin:12px 0}
+.tariff-section .price-fields{padding:12px 14px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.price-field{min-width:0}
+.price-field>label,.price-fields>div>label{display:block;margin:0 0 5px!important;font-size:11px}
+.tariff-section .price-field>input{width:100%;margin:0}
+.season-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:12px 14px}
+.season-group{min-width:0;padding:12px;background:white;border:1px solid #e2eaf3;border-radius:9px}
+.season-group>strong{display:block;font-size:12px;margin-bottom:10px}
+.meal-price-settings{padding-top:18px;margin-top:18px;border-top:1px solid #e2eaf3}
+.meal-price-settings>h2{font-size:16px;margin:0 0 6px}
+.meal-price-settings .price-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.meal-price-settings .price-fields>div{min-width:0;border:1px solid #e2eaf3;padding:11px;border-radius:10px;background:#f9fbfe}
+.meal-price-settings h3{font-size:12px;margin:0 0 9px}
+.meal-price-settings input{width:100%}
+.pricing-quote{background:#edf5fc;padding:12px;border-radius:10px;margin:15px 0 0;font-size:12px;line-height:1.4}
+.pricing-quote p{margin:6px 0}
+@media(max-width:620px){.tariff-section .price-fields,.season-list{grid-template-columns:1fr}.meal-price-settings .price-fields{grid-template-columns:1fr}}
+@media(min-width:800px) and (orientation:landscape){.price-editor>h3{font-size:14px}.tariff-section>summary{padding:9px 12px;font-size:12px}.tariff-section .price-fields,.season-list{gap:8px;padding:9px 12px}.season-group{padding:9px}.meal-price-settings .price-fields{gap:8px}}
+
+/* Room price check action and readable day-by-day tariff results. */
+.room-row-actions{display:flex;flex:0 0 auto!important;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.room-row-actions button{min-height:38px;white-space:nowrap}
+#tariff-preview-result{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.6 Arial,sans-serif;margin-top:16px;max-height:300px;overflow-y:auto}
+@media(max-width:799px){.room-row-actions{width:auto;gap:6px}.room-row-actions button{font-size:12px}}
+@media(min-width:800px) and (orientation:landscape){.room-row-actions button{min-height:34px;font-size:11px;padding:7px}}
+
+/* Kurtaxe / Gästetaxe stays visually separate from room and meal tariffs. */
+.tourist-tax-settings{border-top:1px solid #e0e9f1;margin-top:18px;padding-top:16px}
+.tourist-tax-settings>h2{font-size:16px;margin:0 0 7px}
+.tourist-tax-settings>p{font-size:12px;line-height:1.55;color:#60758a;max-width:740px}
+.tourist-tax-settings>select{max-width:420px}
+.tourist-tax-settings .price-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+.tourist-tax-settings .price-fields>div{min-width:0;border:1px solid #e1eaf4;background:#f9fbfe;padding:11px;border-radius:10px}
+.tourist-tax-settings .price-fields label{display:block;margin:0 0 6px}
+.tourist-tax-settings .price-fields input{width:100%}
+.tourist-tax-notice{font-size:11px!important;color:#697c8f!important}
+@media(max-width:620px){.tourist-tax-settings .price-fields{grid-template-columns:1fr}}
+@media(min-width:800px) and (orientation:landscape){.tourist-tax-settings>h2{font-size:14px}.tourist-tax-settings .price-fields{gap:9px}.tourist-tax-settings .price-fields>div{padding:9px}}
+
+/* Compact monthly Kurtaxe planning report. */
+#tax-report-month{max-width:220px;margin:4px 0 14px}.tourist-tax-report-total{display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:14px;border-top:1px solid #e1eaf1;padding-top:13px}.tourist-tax-report-total strong{font-size:17px}@media(min-width:800px) and (orientation:landscape){.tourist-tax-report-total{font-size:12px}.tourist-tax-report-total strong{font-size:15px}}
+
+/* Consistent form action spacing on tablet, including SVG-backed screens. */
+@media (min-width:800px) {
+ #dialog .dialog-content form .actions{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:8px;margin:12px 0 0;padding:10px 0 0}
+ #dialog .dialog-content form .actions>button{flex:0 1 auto;min-width:88px;min-height:36px;margin:0;font-size:12px;line-height:1.3;padding:8px 12px}
+ #dialog .dialog-content form>button{margin:12px 8px 0 0;min-height:36px;font-size:12px}
+ #dialog .dialog-content form label{font-size:11px;line-height:1.35;margin:9px 0 4px}
+ #dialog .dialog-content form input,#dialog .dialog-content form select,#dialog .dialog-content form textarea{box-sizing:border-box;max-width:100%;font-size:13px}
+ #dialog .dialog-content form textarea{min-height:72px}
+ #dialog .dialog-content p{font-size:13px;line-height:1.45;margin:6px 0 10px}
+}
+
+#sidebar .sidebar-section{flex-shrink:0;min-width:0}
+#sidebar .sidebar-section>summary{display:flex;align-items:center;justify-content:space-between;cursor:pointer;list-style:none;min-height:32px}
+#sidebar .sidebar-section>summary::-webkit-details-marker{display:none}
+#sidebar .sidebar-section>summary::after{content:'›';font-size:16px;line-height:1}
+#sidebar .sidebar-section[open]>summary::after{transform:rotate(90deg)}
+#sidebar .sidebar-section>summary:focus-visible{outline:2px solid #527b9f;outline-offset:-2px}
+@media(min-width:800px) and (orientation:landscape){body:not(.reference-dashboard) #sidebar .sidebar-section>summary{padding:6px 8px;min-height:30px}body:not(.reference-dashboard) #sidebar{scrollbar-width:none}body:not(.reference-dashboard) #sidebar::-webkit-scrollbar{display:none}}
+
+.more-menu-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.more-menu-item{display:flex;align-items:center;justify-content:flex-start;gap:9px;min-height:48px;text-align:left;background:#f3f7fb;color:#243b53;border-radius:10px;padding:10px;font-size:12px;white-space:normal;overflow-wrap:anywhere}.more-menu-item .sidebar-icon{display:inline-flex;flex:none;width:20px}.more-menu-item svg{width:20px;height:20px;stroke:#527b9f;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}@media(max-width:340px){.more-menu-grid{grid-template-columns:1fr}}
+
+.list-pagination{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:8px;margin:12px 0 0;padding:10px 0 0;border-top:1px solid #e1eaf1}.list-pagination small{margin-right:auto;color:#60758a;font-size:11px}.list-pagination button{min-height:36px;margin:0;padding:7px 12px;font-size:12px}
+
+.list-filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));align-items:end;gap:8px;margin:10px 0 14px}.list-filters label{display:flex;flex-direction:column;gap:4px;margin:0;font-size:11px;color:#60758a}.list-filters input,.list-filters select{width:100%;min-width:0;box-sizing:border-box;margin:0;min-height:38px;font-size:13px;border-radius:8px}.list-filters #filter{align-self:end}@media(max-width:799px){.list-filters{grid-template-columns:repeat(2,minmax(0,1fr))}.list-filters #filter{grid-column:1/-1}}@media(max-width:340px){.list-filters{grid-template-columns:1fr}}
+
+/* Consistent dialog footer: three actions on one line, equal heights. */
+#dialog .dialog-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:nowrap;margin:12px 0 0;padding:10px 0 0;border-top:1px solid #dce6ef}
+#dialog .dialog-actions>button{display:inline-flex;align-items:center;justify-content:center;flex:0 1 auto;min-width:0;height:38px;min-height:38px;margin:0;padding:0 12px;white-space:nowrap;font-size:12px}
+#dialog .dialog-actions>button.danger{margin-right:auto}
+@media(max-width:399px){#dialog .dialog-actions{gap:5px}#dialog .dialog-actions>button{padding:0 7px;font-size:11px}}
+
+/* Daily meal plan: mockups/pdf/verpflegungsplan.svg */
+.report-a4.meal-report{color:#243b53;font-family:Arial,sans-serif;padding:11mm 11.3mm 18mm;min-height:297mm;position:relative;box-sizing:border-box}
+.meal-report h2{font-size:22pt;margin:5mm 0 8mm}.meal-report h1{font-size:24pt;margin:0 0 3mm}.meal-report p{font-size:11pt;margin:3mm 0}.meal-report-summary{background:#edf4fa;border-radius:8px;padding:8mm 4mm;margin:7mm 0 9mm;font-size:15pt;font-weight:700}.meal-report table{width:100%;border-collapse:separate;border-spacing:0 2px;table-layout:fixed}.meal-report th{background:#284a6b;color:white;font-size:10pt;text-align:left;padding:3mm 2mm}.meal-report td{font-size:11pt;padding:3mm 2mm;overflow-wrap:anywhere;border:0}.meal-report tbody tr:nth-child(odd){background:#f7f9fb}.meal-report tbody tr:nth-child(even){background:#edf4fa}.meal-report th:nth-child(2){width:26%}.meal-report th:nth-child(3){width:21%}.meal-report th:nth-child(n+4){width:8%}.meal-report .meal-report-tariffs{font-weight:700;margin-top:8mm}.meal-report .report-footer{margin-top:12mm}@media print{.report-a4.meal-report{min-height:0;box-shadow:none}.meal-report tr{break-inside:avoid}.meal-report thead{display:table-header-group}.meal-report{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+
+.document-tabs{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;gap:8px;margin:14px 0 18px;padding:8px;background:#fff;border:1px solid #dce6ef;border-radius:12px}.document-tabs>button{display:inline-flex;align-items:center;justify-content:center;gap:7px;margin:0;min-height:38px;padding:8px 12px;background:#f0f4f8;color:#243b53;border:1px solid transparent;border-radius:8px;font-size:13px}.document-tabs>button.active{background:#cfe3f7;border-color:#b6d2ed;font-weight:700}.document-tabs>button span{font-size:11px;color:#526b82}.document-tabs>button:focus-visible{outline:2px solid #507eae;outline-offset:2px}@media(max-width:799px){.document-tabs{display:flex;flex-wrap:nowrap;gap:6px}.document-tabs>button{padding:8px 5px;font-size:12px}}
+
+.document-tabs::-webkit-scrollbar{display:none}.document-tabs>button{flex:0 0 auto;white-space:nowrap}@media(min-width:800px){.document-tabs>button{flex:1 0 auto;padding-inline:8px}}
+
+/* Report preview zoom is screen-only; printing always uses original A4 size. */
+@media screen{body.document-preview #main{overflow:auto}.pdf-preview-toolbar{position:sticky;top:0;z-index:5;background:#f3f6fa;padding:10px;display:flex;flex-wrap:wrap;align-items:center;gap:8px}.pdf-preview-toolbar .actions{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;gap:6px;margin:0}.pdf-preview-toolbar .actions::-webkit-scrollbar{display:none}.pdf-preview-toolbar .actions button{flex:0 0 auto;white-space:nowrap;margin:0;min-height:36px}.document-preview .report-a4{transform-origin:top left}}
+@media print{.document-preview .report-a4{zoom:1!important;transform:none!important}.pdf-preview-toolbar{display:none!important}}
+
+.invoice-report{box-sizing:border-box;padding:12mm 12.7mm 16mm;min-height:297mm;color:#243b53;font-family:Arial,sans-serif}.invoice-letterhead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;border-bottom:1px solid #dce5ee;padding-bottom:6mm}.invoice-brand{display:flex;align-items:center;gap:10px;white-space:nowrap}.invoice-brand strong{display:block;font-size:23pt}.invoice-brand small{display:block;font-size:9pt;color:#71869a;font-weight:700}.invoice-issuer{text-align:right;font-size:10pt;line-height:1.5;overflow-wrap:anywhere}.invoice-report h1{font-size:27pt;margin:8mm 0 5mm}.invoice-meta{display:grid;grid-template-columns:38mm 1fr;gap:2mm;margin:0 0 8mm;font-size:11pt}.invoice-meta dt{font-weight:700;color:#71869a;font-size:10pt}.invoice-meta dd{margin:0;overflow-wrap:anywhere}.invoice-report table{width:100%;border-collapse:separate;border-spacing:0 2px;table-layout:fixed}.invoice-report th{background:#284a6b;color:#fff;padding:3mm 2mm;font-size:10pt}.invoice-report td{padding:3mm 2mm;font-size:10pt;border:0;overflow-wrap:anywhere}.invoice-report th:first-child{width:35%}.invoice-report tbody tr:nth-child(odd){background:#f8fafc}.invoice-report tbody tr:nth-child(even){background:#edf4fa}.invoice-bottom{display:grid;grid-template-columns:40% 1fr;gap:4mm;margin-top:18mm;break-inside:avoid;font-size:10pt}.invoice-bottom p{overflow-wrap:anywhere}.invoice-totals{background:#edf4fa;border-radius:8px;padding:5mm}.invoice-totals>div{display:flex;justify-content:space-between;gap:8px;margin:0 0 3mm}.invoice-totals>div:last-child{font-size:14pt;border-top:1px solid #dce5ee;padding-top:3mm;margin:0}.invoice-report .report-footer{margin-top:18mm;border-top:1px solid #dce5ee;padding-top:5mm}.invoice-management{margin:12px 0}@media print{.invoice-report{min-height:0;print-color-adjust:exact;-webkit-print-color-adjust:exact}.invoice-report tr{break-inside:avoid}.invoice-report thead{display:table-header-group}.invoice-management{display:none!important}}
+
+.payment-letter{box-sizing:border-box;padding:12mm 12.7mm 16mm;min-height:297mm;color:#243b53;font-family:Arial,sans-serif}.payment-letter h1{font-size:27pt;margin:8mm 0 6mm}.letter-recipient{display:grid;grid-template-columns:1fr 1fr;gap:8mm;margin:8mm 0;font-size:11pt}.letter-recipient>div:last-child{text-align:right}.letter-recipient small,.letter-amount small{display:block;color:#71869a;font-size:10pt;margin-bottom:2mm}.letter-recipient strong{display:block;font-size:13pt}.letter-amount{display:grid;grid-template-columns:1fr 1fr;gap:5mm;background:#edf4fa;border-radius:8px;padding:5mm;margin:8mm 0}.letter-amount strong{display:block;font-size:18pt}.payment-letter table{width:100%;margin:8mm 0}.payment-letter th{background:#284a6b;color:#fff;padding:3mm}.payment-letter td{background:#f8fafc;padding:3mm}.payment-letter th:last-child,.payment-letter td:last-child{text-align:right}.payment-letter h3{margin-top:12mm}.payment-letter .report-footer{margin-top:20mm;border-top:1px solid #dce5ee;padding-top:5mm}@media print{.payment-letter{min-height:0;print-color-adjust:exact;-webkit-print-color-adjust:exact}.letter-amount,.letter-recipient{break-inside:avoid}}
+
+/* Compact editor: field groups stay together, notes and actions span the full width. */
+#dialog .compact-editor{display:block}#dialog .editor-fields{display:grid;grid-template-columns:minmax(0,1fr);gap:10px 14px}#dialog .editor-field{min-width:0}#dialog .editor-field label{display:block;margin:0 0 4px;font-size:12px}#dialog .editor-field input,#dialog .editor-field select,#dialog .editor-field textarea{width:100%;box-sizing:border-box;margin:0;min-width:0;font-size:13px}#dialog .editor-field.full-field{grid-column:1/-1}#dialog .compact-editor .dialog-actions{display:flex;flex-wrap:nowrap;justify-content:flex-end;gap:8px;margin-top:14px}#dialog .compact-editor .dialog-actions button{flex:0 1 auto;margin:0}#dialog .compact-editor .pricing-quote{margin-top:12px}@media(min-width:600px){#dialog .columns-2 .editor-fields,#dialog .columns-3 .editor-fields{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(min-width:800px){#dialog{width:min(94vw,980px);max-width:980px}#dialog .columns-3 .editor-fields{grid-template-columns:repeat(3,minmax(0,1fr))}#dialog .editor-field input,#dialog .editor-field select{min-height:36px}#dialog .editor-field textarea{min-height:64px}}@media(min-width:800px){#dialog:has(.columns-1){max-width:560px}#dialog:has(.columns-2){max-width:760px}}
+
+#dialog .special-editor{display:block}#dialog .special-fields{display:grid;grid-template-columns:minmax(0,1fr);gap:10px 14px;margin:8px 0}#dialog .special-editor>.actions{display:flex;flex-wrap:nowrap;justify-content:flex-end;gap:8px;margin-top:14px}#dialog .special-editor>.actions>button{flex:0 1 auto;margin:0;min-height:36px}#dialog .price-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}#dialog .price-field{min-width:0}#dialog .price-field input{width:100%;box-sizing:border-box}@media(min-width:600px){#dialog .special-fields{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(min-width:800px){#dialog .columns-3 .special-fields,#dialog .price-fields{grid-template-columns:repeat(3,minmax(0,1fr))}#dialog .season-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}#dialog .season-group{min-width:0}#dialog .pricing-quote{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px 12px}#dialog .pricing-quote>p{margin:0}#dialog .pricing-quote>strong:first-child{grid-column:1/-1}}
+
+/* Consistent compact dialog header and bounded widths for short forms. */
+#dialog .dialog-toolbar{position:sticky;top:0;z-index:3;background:#fff;align-items:center;padding:14px 20px;gap:10px}#dialog .dialog-toolbar h2{font-size:19px;line-height:1.25}#dialog .dialog-kicker{font-size:11px;margin-bottom:4px}#dialog .dialog-toolbar .dialog-close{min-height:34px;font-size:12px;padding:6px 12px}#dialog .dialog-content{padding:14px 20px 18px}#dialog .dialog-section-title{font-size:11px;margin-bottom:10px}#dialog .editor-field textarea{resize:vertical}#dialog .editor-field :focus-visible{outline:2px solid #8db6dc;outline-offset:1px}@media(min-width:800px){#dialog{max-width:640px}#dialog:has(.columns-3){max-width:980px}#dialog:has(.columns-2){max-width:760px}#dialog:has(.price-editor){max-width:980px}}@media(max-width:599px){#dialog .dialog-toolbar{padding:12px 14px}#dialog .dialog-content{padding:12px 14px 16px}#dialog .dialog-toolbar h2{font-size:17px}}
+
+#dialog .calendar-detail-value{background:#f3f6fa;border:1px solid #dce6ef;border-radius:8px;padding:9px 10px;min-height:36px;box-sizing:border-box;color:#243b53;font-size:13px;overflow-wrap:anywhere}#dialog .calendar-detail .editor-fields{gap:12px 14px}#dialog .calendar-detail .dialog-actions{border-top:1px solid #dce6ef;padding-top:12px}
+
+.calendar-workspace{display:grid;gap:14px}.calendar-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.calendar-heading h2{margin:0;font-size:23px}.calendar-heading p{margin:4px 0;color:#71869a}.calendar-heading .actions,.calendar-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0}.calendar-controls{background:#fff;border:1px solid #dce6ef;border-radius:12px;padding:10px}.calendar-controls button,.calendar-controls select{margin:0;min-height:36px;width:auto;font-size:12px}.calendar-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px}.calendar-legend span:before{content:'';display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;background:#fff;border:1px solid #dce6ef}.calendar-legend span:nth-child(2):before,.calendar-booked{background:#dceafa}.calendar-legend span:nth-child(3):before,.calendar-inhouse{background:#d9eee4}.calendar-legend span:nth-child(4):before,.calendar-blocked{background:#e1e5eb}.calendar-scroll{overflow:auto;max-height:65vh;border:1px solid #dce6ef;border-radius:12px;background:white;scrollbar-width:thin}.calendar-table{border-collapse:separate;border-spacing:0;width:100%;min-width:740px}.calendar-table th,.calendar-table td{padding:5px;border-bottom:1px solid #e3ebf3;border-right:1px solid #e3ebf3;min-width:92px;text-align:center}.calendar-table thead th{position:sticky;top:0;background:#edf4fa;z-index:2}.calendar-table th:first-child{position:sticky;left:0;background:#f5f8fb;z-index:1;min-width:110px}.calendar-table thead th:first-child{z-index:3}.calendar-table th.calendar-today{background:#cfe3f7}.calendar-table small{display:block;font-size:10px;color:#71869a}.calendar-table button{width:100%;min-height:36px;padding:6px;margin:0;font-size:11px;white-space:normal;background:transparent;color:#243b53;border:0}.calendar-free button{color:#526b82}.calendar-table button:focus-visible{outline:2px solid #507eae}.calendar-detail .dialog-actions{flex-wrap:wrap!important}@media(max-width:799px){.calendar-heading .actions{width:100%}.calendar-workspace .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.calendar-controls select{max-width:100%}}
+
+.app-brand-logo{display:block;width:44px;height:44px;object-fit:contain;flex-shrink:0}.tablet-page-identity{position:relative;padding-left:54px}.tablet-brand-logo{position:absolute;left:0;top:50%;transform:translateY(-50%)}@media(max-width:799px){.mobile-brand .app-brand-logo{width:40px;height:40px}}
+
+/* Dedicated PDF mockup layouts */
+.report-a4.annual-occupancy-report{width:297mm;min-height:210mm;padding:0;box-sizing:border-box}.annual-occupancy-report>svg{display:block;width:100%;height:auto}.qr-invoice-report .qr-sheet{margin-top:24px;padding-top:12px;border-top:1px solid #aab8c5}.qr-invoice-report .qr-blank{display:grid;place-items:center;text-align:center;min-height:100px;color:#526b82;background:#edf2f6}.qr-invoice-report .qr-strip{break-inside:avoid}.qr-invoice-report .report-summary h2{margin:8px 0 0}@page annualOccupancy{size:A4 landscape;margin:0}@media print{.report-a4.annual-occupancy-report{page:annualOccupancy;width:297mm;min-height:210mm;margin:0;box-shadow:none}.qr-invoice-report .qr-sheet{break-inside:avoid}}
+
+.hotel-profile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 18px;margin:12px 0 20px}.hotel-profile-field{min-width:0;display:flex;flex-direction:column;gap:5px}.hotel-profile-field label{margin:0}.hotel-profile-field input,.hotel-profile-field select{width:100%;min-width:0;box-sizing:border-box;margin:0}@media(max-width:560px){.hotel-profile-grid{grid-template-columns:minmax(0,1fr)}}
+
+.dashboard-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.dashboard-heading h2,.dashboard-heading p{margin:0 0 6px}.dashboard-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.dashboard-kpi{display:flex;flex-direction:column;gap:8px;min-width:0}.dashboard-kpi strong{font-size:clamp(18px,2vw,28px);color:#284a6b}.dashboard-kpi small{color:#72869a}.dashboard-lower{display:grid;grid-template-columns:1fr 1fr;gap:12px}.dashboard-table-wrap{overflow-x:auto}.dashboard-bars{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;align-items:end}.dashboard-bar{display:grid;gap:6px;text-align:center;font-size:12px}.dashboard-bar-track{height:110px;display:flex;align-items:end;background:#edf4fa;border-radius:6px;overflow:hidden}.dashboard-bar-track span{display:block;width:100%;background:#83b0d9;border-radius:5px 5px 0 0}@media(max-width:1050px){.dashboard-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.dashboard-lower{grid-template-columns:1fr}}
+
+.tariff-preview-grid{display:grid;grid-template-columns:minmax(90px,1fr) minmax(0,2fr);gap:10px 14px;align-items:center}.tariff-preview-grid label,.tariff-preview-grid input,.tariff-preview-grid select{margin:0;min-width:0}.tariff-preview-grid .actions{grid-column:1/-1}.qr-receipt p,.qr-right p{overflow-wrap:anywhere}@media(max-width:420px){.tariff-preview-grid{grid-template-columns:1fr;gap:6px}}
+
+#tariff-preview-form .tariff-meal-select{appearance:auto;-webkit-appearance:menulist;width:100%;box-sizing:border-box;background-color:#f3f6fa;color:#243b53;min-height:40px}#tariff-preview-form .actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+
+.calendar-table td.calendar-completed{background:#e5e9ee;color:#526477}.calendar-legend span{white-space:nowrap}.calendar-legend span:nth-child(4){background:#e5e9ee;color:#526477}
+
+.qr-code .qr-payment-image{display:block;width:100%;height:100%;object-fit:contain;image-rendering:pixelated}.qr-invoice-report .qr-code{width:46mm;height:46mm;position:relative;flex-shrink:0;background:#fff}@media print{.qr-payment-image{display:block!important;visibility:visible!important}.qr-code{break-inside:avoid;print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+
+/* Shared metric typography and responsive finance summary */
+.metric-content{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;min-width:0}.metric-label{min-width:0;overflow-wrap:anywhere}.metric-content .metric-value{margin:0;white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums}.metrics .metric-content{display:flex;flex-direction:column;align-items:flex-start;gap:6px}.metrics .metric-content .metric-value{text-align:left}.finance-summary-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}.finance-summary-grid>.card{margin:0}.finance-summary-grid .metric-value{margin-left:auto}@media(max-width:640px){.finance-summary-grid{grid-template-columns:1fr}}
+
+/* Keep table header actions separated from table content. */
+.table-section-heading{margin-bottom:12px;gap:12px;align-items:center}.table-section-heading h2{margin:0}.table-section-heading button{margin:0;flex-shrink:0}.dashboard-table-wrap{margin-top:0}
+
+/* Global button icon convention: icon first, label second, 8px spacing. */
+button[data-action]{display:inline-flex;flex-direction:row;align-items:center;justify-content:center;gap:8px;direction:ltr}button>svg,button>img,button>.action-svg{order:-1;flex-shrink:0;margin:0}button>span{order:0}button[data-action]{flex-direction:row;gap:8px}button[data-action]>.action-svg{order:-1;margin:0;flex-shrink:0}
+
+/* Compact aligned housekeeping filters, including older Android WebView. */
+.list-filters>label{display:flex;flex-direction:column;gap:6px;min-width:0;margin:0}.list-filters>label>input,.list-filters>label>select{width:100%;min-width:0;margin:0;box-sizing:border-box;min-height:40px}.list-filters.housekeeping-filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:16px 0;align-items:end}.housekeeping-entry{padding:12px 0;gap:12px}.housekeeping-entry small{margin-top:5px}.housekeeping-entry button{flex-shrink:0}@media(max-width:650px){.list-filters.housekeeping-filters{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:360px){.list-filters.housekeeping-filters{grid-template-columns:1fr}}
+
+.housekeeping-table-wrap{width:100%;min-width:0;margin:12px 0}.housekeeping-table{width:100%;border-collapse:collapse;table-layout:auto;font-size:13px}.housekeeping-table th,.housekeeping-table td{text-align:left;padding:10px 8px;border-bottom:1px solid #e0e8f0;overflow-wrap:anywhere;vertical-align:middle}.housekeeping-table th{background:#f0f5fa;color:#526b82;font-weight:600}.housekeeping-table th:last-child,.housekeeping-table td:last-child{text-align:right}.housekeeping-table button{white-space:nowrap;margin:0}.housekeeping-table td:last-child{width:1%}@media(max-width:1100px){.housekeeping-table,.housekeeping-table tbody,.housekeeping-table tr,.housekeeping-table td{display:block;width:100%;box-sizing:border-box}.housekeeping-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}.housekeeping-table tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px;padding:12px 0;border-bottom:1px solid #e0e8f0}.housekeeping-table td{border:0;padding:2px 0}.housekeeping-table td:before{content:attr(data-label);display:block;color:#526b82;font-size:11px;margin-bottom:4px}.housekeeping-table td:last-child{width:100%;text-align:right}.housekeeping-table td:last-child:before{display:none}}
+
+/* Shared dialog polish, compatible with legacy WebView */
+#dialog .dialog-toolbar .dialog-identity{flex:1;min-width:0;text-align:left}
+#dialog.search-dialog{width:calc(100% - 32px);max-width:620px}
+#dialog .global-search{display:flex;flex-direction:column;gap:10px}
+#dialog .global-search p{margin:0 0 4px;line-height:1.5}
+#dialog .global-search label{font-size:12px;font-weight:600;margin:0}
+#dialog .global-search input,#dialog .global-search select{width:100%;box-sizing:border-box;min-height:44px;margin:0}
+#dialog .global-search input[type=search]{padding-left:40px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23426784' stroke-width='2'%3E%3Ccircle cx='10' cy='10' r='6'/%3E%3Cpath d='m15 15 5 5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:12px center}
+#dialog .global-search #hits{min-height:72px;padding:16px 0 4px;border-top:1px solid #dce6ef;color:#426784;overflow-wrap:anywhere}
+#dialog .dialog-actions,#dialog .compact-editor .dialog-actions,#dialog .special-editor>.actions{flex-wrap:wrap;gap:10px}
+#dialog .dialog-content>button{margin-top:12px}
+#dialog .calendar-detail-value{white-space:pre-wrap}
+
+.housekeeping-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 0 14px}.housekeeping-summary>.card{margin:0;min-width:0}@media(min-width:760px){.housekeeping-summary{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+@media(min-width:1000px){.housekeeping-summary{grid-template-columns:repeat(5,minmax(0,1fr))}}
+
+.settings-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}.settings-tabs button{flex:1 1 130px}.settings-tabs button[aria-pressed=true]{background:#cde1f4;color:#243b53;font-weight:700}[data-settings-panel][hidden]{display:none!important}
+
+.editor-tabs{display:flex;gap:8px;flex-wrap:wrap;position:sticky;top:0;z-index:2;background:#fff;padding:8px 0 14px}.editor-tabs button{flex:1 1 auto;white-space:nowrap}.editor-tab-panel[hidden]{display:none!important}.editor-tab-panel{min-width:0;padding:8px 0}.tabbed-editor .dialog-actions{position:sticky;bottom:0;background:#fff;z-index:2;padding:12px 0;display:flex;gap:12px;flex-wrap:wrap}.tabbed-editor .pricing-quote{display:block}.tabbed-editor .pricing-quote .price-fields{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.tabbed-editor .pricing-quote .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}@media(max-width:650px){.tabbed-editor .pricing-quote .price-fields{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+#dialog .tabbed-editor [hidden]{display:none!important}#dialog .tabbed-editor .pricing-quote{display:block}#dialog .extra-meal-table{margin-top:14px;overflow-x:auto}#dialog .extra-meal-table table{width:100%;border-collapse:collapse}#dialog .extra-meal-table th,#dialog .extra-meal-table td{padding:8px;text-align:left;border-bottom:1px solid #dbe6f0}#dialog .extra-meal-table td:last-child button{margin:3px 6px 3px 0}#dialog .tabbed-editor .dialog-actions{gap:12px;background:#fff}#dialog .editor-tabs{gap:8px}
+
+/* Zimmerkalender: kompakte Reservationsdetails mit erreichbaren Bereichen. */
+#dialog .calendar-detail-tabs{flex-wrap:wrap;gap:8px;position:static}
+#dialog .calendar-detail-tabs button{min-height:38px;flex:1 1 105px}
+#dialog .calendar-detail [role="tabpanel"][hidden]{display:none!important}
+#dialog .calendar-detail [role="tabpanel"]{min-height:130px}
+#dialog .calendar-detail-actions{flex-wrap:wrap;justify-content:flex-end}
+#dialog .calendar-detail-actions>button{flex:0 1 auto}
+@media (min-width:800px) and (orientation:landscape){
+ #dialog .calendar-detail [role="tabpanel"]{min-height:96px}
+ #dialog .calendar-detail-tabs button{font-size:12px}
+}
+
+/* Invoice recipient block: readable in preview and A4 print. */
+.invoice-report .invoice-address-block{display:flex;flex-direction:column;gap:3px;margin:22px 0 18px;max-width:100%;overflow-wrap:anywhere;color:#263444;line-height:1.45}
+.invoice-report .invoice-address-block>span{font-size:11px;color:#536579;letter-spacing:.04em;text-transform:uppercase}
+.invoice-report .invoice-address-block>strong{font-size:15px;font-weight:650}
+.invoice-report .invoice-address-block>div{white-space:pre-line;font-size:13px}
+@media print{.invoice-report .invoice-address-block{break-inside:avoid;color:#222}}
+
+@media (min-width:800px) and (orientation:landscape){.tabs>button.page-back-icon{flex:0 0 54px;width:54px;min-width:54px;padding:0;justify-content:center;gap:0}.tabs>button.page-back-icon>span{display:none}.tabs>button.page-back-icon>.action-svg{width:22px;height:22px;flex:none}}
+
+/* Settings cards: keep each label and input together. */
+.meal-price-settings .price-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.meal-price-settings .price-fields>div{min-width:0;display:flex;flex-direction:column;gap:8px}
+.meal-price-settings>h3{margin:24px 0 12px}
+.reminder-card-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.reminder-stage{min-width:0;padding:16px;border:1px solid #dbe5ef;border-radius:14px;background:#f5f8fb}
+.reminder-stage h3{margin:0 0 16px}
+.reminder-stage-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.reminder-stage-fields .hotel-profile-field{min-width:0;display:flex;flex-direction:column;gap:8px}
+.reminder-stage-text{grid-column:1/-1}
+.reminder-stage input,.reminder-stage textarea{width:100%;box-sizing:border-box;min-width:0}
+.reminder-contact{margin-top:20px}
+@media(max-width:799px){.meal-price-settings .price-fields,.reminder-card-grid{grid-template-columns:1fr}}
+@media(max-width:420px){.reminder-stage-fields{grid-template-columns:1fr}}

@@ -22,4 +22,21 @@ android { namespace 'ch.swisstech.stay'; compileSdk 35
  compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
 }
 
-dependencies { implementation 'com.google.zxing:core:3.5.3'; androidTestImplementation 'androidx.test:runner:1.6.2'; androidTestImplementation 'androidx.test.ext:junit:1.2.1' }
+dependencies { implementation 'androidx.core:core:1.15.0'; implementation 'com.google.zxing:core:3.5.3'; androidTestImplementation 'androidx.test:runner:1.6.2'; androidTestImplementation 'androidx.test.ext:junit:1.2.1' }
+
+def launcherDir = layout.buildDirectory.dir('generated/stayLauncher/res')
+android.sourceSets.main.res.srcDir(launcherDir)
+tasks.register('generateStayLauncher') {
+ inputs.file(rootProject.file('mockups/app-logo.svg'))
+ outputs.dir(launcherDir)
+ doLast {
+  [mdpi:48, hdpi:72, xhdpi:96, xxhdpi:144, xxxhdpi:192].each { density, size ->
+   def target = new File(launcherDir.get().asFile, "mipmap-${density}/stay_launcher.png")
+   target.parentFile.mkdirs()
+   project.exec {
+    commandLine 'rsvg-convert', '-w', size.toString(), '-h', size.toString(), '-o', target.absolutePath, rootProject.file('mockups/app-logo.svg').absolutePath
+   }
+  }
+ }
+}
+tasks.named('preBuild').configure { dependsOn('generateStayLauncher') }
