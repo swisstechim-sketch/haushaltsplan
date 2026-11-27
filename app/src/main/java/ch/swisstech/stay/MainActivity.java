@@ -124,6 +124,19 @@ public class MainActivity extends Activity {
    }catch(Exception ex){android.widget.Toast.makeText(MainActivity.this,"PDF-Druck fehlgeschlagen",android.widget.Toast.LENGTH_LONG).show();}
   });
  }
+ @JavascriptInterface public void openOriginalWageCertificate(){
+  runOnUiThread(()->{
+   try{
+    File dir=new File(getFilesDir(),"pdf_exports");
+    if(!dir.isDirectory()&&!dir.mkdirs())throw new java.io.IOException("Exportordner fehlt");
+    File file=File.createTempFile("Lohnausweis-",".pdf",dir);
+    try(java.io.InputStream input=getAssets().open("wage-certificate-original.pdf");FileOutputStream output=new FileOutputStream(file)){
+     byte[] buffer=new byte[8192];int count;while((count=input.read(buffer))!=-1)output.write(buffer,0,count);
+    }catch(Exception ex){file.delete();throw ex;}
+    openPdf(file.getName());
+   }catch(Exception ex){android.widget.Toast.makeText(MainActivity.this,"Original-PDF konnte nicht geöffnet werden",android.widget.Toast.LENGTH_LONG).show();}
+  });
+ }
  @JavascriptInterface public void openPdf(String name){
   runOnUiThread(()->{
    try{
