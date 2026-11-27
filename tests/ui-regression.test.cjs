@@ -280,3 +280,61 @@ assert.ok(dashboardBranch.includes("btn('Tagesabschluss','documentPreview','tage
   assert.equal(ctx.close(true),true);
   assert.equal(asked,2);
  }
+
+
+// Offline help: every existing topic has its own real three-step guide.
+{
+ const guideBegin=src.indexOf('const HELP_GUIDES=');
+ const guideEnd=src.indexOf(';\nfunction helpPage()',guideBegin);
+ assert.ok(guideBegin>=0&&guideEnd>guideBegin,'help guide registry exists');
+ const guides=JSON.parse(src.slice(guideBegin+'const HELP_GUIDES='.length,guideEnd));
+ const sectionBegin=src.indexOf('const HELP_SECTIONS=');
+ const sectionEnd=src.indexOf(';\n\n/* Report centre',sectionBegin);
+ assert.ok(sectionBegin>=0&&sectionEnd>sectionBegin);
+ const sections=JSON.parse(src.slice(sectionBegin+'const HELP_SECTIONS='.length,sectionEnd));
+ const extraBegin=src.indexOf('const HELP_EXTRA=');
+ const extraEnd=src.indexOf(';\nconst HELP_GUIDES=',extraBegin);
+ assert.ok(extraBegin>=0&&extraEnd>extraBegin);
+ const extras=JSON.parse(src.slice(extraBegin+'const HELP_EXTRA='.length,extraEnd));
+ assert.equal(sections.length+extras.length,27);
+ for(const [topic] of sections.concat(extras)){
+  assert.ok(Array.isArray(guides[topic]),'missing help topic: '+topic);
+  assert.equal(guides[topic].length,3,'three steps required for '+topic);
+  assert.ok(guides[topic].every(step=>step.trim().length>12));
+ }
+ assert.match(src,/class="help-steps"/);
+ assert.match(src,/id="help-columns"/);
+ assert.match(src,/id="help-open-all"/);
+ assert.match(src,/id="help-close-all"/);
+ assert.match(css,/\.help-manual \.help-tabs>button\{[^}]*min-height:44px/);
+ assert.match(css,/\.help-manual #help-columns details\.card\{/);
+}
+// SVG decorator inserts once, always before the text, and does not replace handlers.
+{
+ const start=src.indexOf('function helpIcon(kind)');
+ const end=src.indexOf('\nfunction bindHelpCenter()',start);
+ assert.ok(start>=0&&end>start);
+ const ctx=vm.createContext({});
+ vm.runInContext(src.slice(start,end),ctx);
+ const pdf=ctx.helpIcon('pdf');
+ assert.match(pdf,/^<svg class="leading-svg" width="18" height="18"/);
+ assert.match(pdf,/aria-hidden="true"/);
+ let inserts=0,added='';
+ const button={
+   matches:()=>true,querySelectorAll:()=>[],querySelector:()=>inserts?{}:null,
+   closest:()=>false,textContent:'PDF drucken',dataset:{},classList:{add:v=>{added=v}},
+   insertAdjacentHTML:(where,markup)=>{assert.equal(where,'afterbegin');assert.match(markup,/leading-svg/);inserts++}
+ };
+ ctx.decorateTextButtons(button);
+ ctx.decorateTextButtons(button);
+ assert.equal(inserts,1,'no duplicate SVG icons');
+ assert.equal(added,'icon-leading-button');
+ assert.match(css,/button\.icon-leading-button\{[^}]*gap:8px;min-height:44px/);
+}
+// Annual payroll export retains validated original controls and sticky footer.
+assert.match(src,/className='wage-certificate-footer'/);
+assert.match(src,/id="wage-review"/);
+assert.match(src,/footer\.appendChild\(exportAction\)/);
+assert.match(src,/showTab\(4\);feedback\.textContent='PDF lokal gespeichert:/);
+assert.match(css,/\.annual-payroll-dialog \.wage-certificate-footer\{[^}]*position:sticky;bottom:0/);
+console.log('Offline help, leading SVGs and annual payroll action regression checks: OK');
