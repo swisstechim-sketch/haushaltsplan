@@ -335,6 +335,10 @@ assert.ok(dashboardBranch.includes("btn('Tagesabschluss','documentPreview','tage
 assert.match(src,/className='wage-certificate-footer'/);
 assert.match(src,/id="wage-review"/);
 assert.match(src,/footer\.appendChild\(exportAction\)/);
-assert.match(src,/showTab\(4\);feedback\.textContent='PDF lokal gespeichert:/);
-assert.match(css,/\.annual-payroll-dialog \.wage-certificate-footer\{[^}]*position:sticky;bottom:0/);
+assert.match(src,/const groups=\['Übersicht','Personaldaten','Lohn','Abzüge','Spesen','PDF'\]/);
+assert.match(src,/showTab\(5\);feedback\.textContent='PDF lokal gespeichert:/);
+assert.match(src,/panels\[5\]\.appendChild\(p\)/);
+assert.match(src,/Stay\.openOriginalWageCertificate\(\)/);
+assert.match(css,/\.annual-payroll-dialog \.wage-certificate-footer\{[^}]*position:static!important/);
+assert.match(css,/\.annual-payroll-dialog \.annual-tab-panel\[hidden\]\{display:none!important\}/);
 console.log('Offline help, leading SVGs and annual payroll action regression checks: OK');
