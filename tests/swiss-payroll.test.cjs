@@ -173,3 +173,13 @@ assert.throws(()=>r.ahv({birthDate:'1950-01-01',ahvRetired:'Ja'},'2026-11-26',10
  db.payrollDrafts.push(replacement);assert.throws(()=>vm.runInContext('premiumPayrollReplacementDraft(original)',ctx),/bereits vorhanden/);
  assert.throws(()=>vm.runInContext("premiumPayrollReplacementDraft({...original,payrollKind:'separate13'})",ctx),/Reguläre/);
 }
+
+// Wage certificate must exclude unposted and reversed payrolls.
+{
+ const app=fs.readFileSync('app/src/main/assets/app.js','utf8');
+ const db={payrollDrafts:[{id:'p',employee:'e',date:'2026-01-31',gross:5000,insuranceSnapshot:[{kind:'Abzug',amount:30000,contributionType:'AHV/IV/EO/ALV/NBU'}]},{id:'d',employee:'e',date:'2026-02-28',gross:9000},{id:'r',employee:'e',date:'2026-03-31',gross:8000}],journal:[{source:'payroll:p'},{source:'payroll:r'},{source:'payroll-correction:r'}]};
+ const ctx=vm.createContext({db,get:()=>({id:'e'}),cents:v=>Math.round(Number(v)*100),premiumPayrollYear:()=>({count:2}),premiumPayrollAmounts:x=>({gross:x.gross*100,allowances:0,net:x.gross*100-30000})});
+ for(const name of ['premiumActivePayrollRows','premiumWageCertificate']){const start=app.indexOf('function '+name+'('),end=app.indexOf('\nfunction ',start+1);assert.ok(start>=0&&end>start);vm.runInContext(app.slice(start,end),ctx);}
+ const q=vm.runInContext("premiumWageCertificate('e','2026')",ctx);
+ assert.equal(q.gross,500000);assert.equal(q.net,470000);assert.equal(q.social,30000);assert.equal(q.posted,1);assert.equal(q.unposted,1);assert.equal(q.unclassified,0);
+}
