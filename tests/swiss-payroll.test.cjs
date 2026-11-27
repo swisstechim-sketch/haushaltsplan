@@ -158,3 +158,18 @@ assert.throws(()=>r.ahv({birthDate:'1950-01-01',ahvRetired:'Ja'},'2026-11-26',10
  assert.equal(db.payrollDrafts.length,3);
  db.journal.pop();assert.equal(year().count,2);assert.equal(year().totals.gross,1010000);
 }
+
+// Replacement draft preserves the original and requires explicit review.
+{
+ const app=fs.readFileSync('app/src/main/assets/app.js','utf8'),start=app.indexOf('function premiumPayrollReplacementDraft('),end=app.indexOf('\nfunction ',start+1);
+ assert.ok(start>=0&&end>start);
+ const original={id:'original',name:'LOHN-2026-11-0001',employee:'e',date:'2026-11-01',gross:5000,insuranceSnapshot:[{amount:100}]};
+ const db={payrollDrafts:[original]};
+ const ctx=vm.createContext({db,uid:()=> 'replacement',nextPayrollReference:()=> 'LOHN-2026-11-0002',original});
+ vm.runInContext(app.slice(start,end),ctx);
+ const replacement=vm.runInContext('premiumPayrollReplacementDraft(original)',ctx);
+ assert.equal(replacement.replacesPayrollId,'original');assert.equal(replacement.replacementNeedsReview,true);assert.equal(replacement.id,'replacement');assert.equal(replacement.name,'LOHN-2026-11-0002');
+ replacement.insuranceSnapshot[0].amount=200;assert.equal(original.insuranceSnapshot[0].amount,100);
+ db.payrollDrafts.push(replacement);assert.throws(()=>vm.runInContext('premiumPayrollReplacementDraft(original)',ctx),/bereits vorhanden/);
+ assert.throws(()=>vm.runInContext("premiumPayrollReplacementDraft({...original,payrollKind:'separate13'})",ctx),/Reguläre/);
+}
