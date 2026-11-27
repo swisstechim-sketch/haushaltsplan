@@ -706,3 +706,12 @@ button.icon-leading-button>svg.leading-svg,button>svg.leading-svg{width:18px;hei
 #dialog.annual-payroll-dialog .annual-tab-panel input,#dialog.annual-payroll-dialog .annual-tab-panel select{min-height:38px!important}
 #dialog.annual-payroll-dialog .wage-certificate-footer{padding:4px 0!important;margin:0!important}
 #dialog.annual-payroll-dialog .wage-certificate-footer>button{min-height:38px!important}
+
+/* Readable text actions, including buttons with pre-existing inline SVG. */
+#dialog.annual-payroll-dialog button:not([aria-label]),#dialog.annual-payroll-dialog button.icon-leading-button{display:inline-flex;align-items:center;justify-content:center;gap:8px!important;min-width:max-content;max-width:none;white-space:nowrap!important;text-overflow:clip!important;overflow:visible!important;flex-shrink:0}
+#dialog.annual-payroll-dialog button>svg{flex:0 0 18px;width:18px;height:18px;margin:0!important}
+#dialog.annual-payroll-dialog .annual-single-tabs{overflow-x:auto!important}
+#dialog.annual-payroll-dialog .wage-certificate-footer{flex-wrap:wrap!important}
+#dialog.annual-payroll-dialog .annual-tab-panel:last-of-type>p{grid-column:1/-1}
+button.icon-leading-button{gap:8px!important;white-space:normal;overflow-wrap:normal;text-overflow:clip;height:auto}
+button.icon-leading-button>svg{flex-shrink:0}
