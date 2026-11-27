@@ -130,6 +130,9 @@ assert.throws(()=>r.ahv({birthDate:'1950-01-01',ahvRetired:'Ja'},'2026-11-26',10
  const db={hotel:{financeLockedThrough:''},payrollDrafts:[{id:'p',employee:'e',date:'2026-11-01'}],accounts:[{id:'a',number:'5000',status:'Aktiv'},{id:'b',number:'2000',status:'Aktiv'}],journal:[{source:'payroll:p',debit:'a',credit:'b',amount:5000,name:'Lohn'}]};
  let paid=0;
  let net=500000;const ctx=vm.createContext({db,get:(k,id)=>db[k].find(r=>r.id===id)||{},cents:v=>Math.round(Number(v)*100),premiumPayrollAmounts:()=>({net}),premiumPayrollPaymentState:()=>({booked:true,paid,net})});
+ const historyStart=app.indexOf('function premiumActivePayrollRows('),historyEnd=app.indexOf('\nfunction ',historyStart+1);
+ assert.ok(historyStart>=0&&historyEnd>historyStart);
+ vm.runInContext(app.slice(historyStart,historyEnd),ctx);
  vm.runInContext(app.slice(start,end),ctx);
  const plan=()=>JSON.parse(vm.runInContext("JSON.stringify(premiumPayrollCorrectionPlan('p'))",ctx));
  assert.deepEqual(plan().lines,[['2000','5000',500000,'Korrektur: Lohn']]);
