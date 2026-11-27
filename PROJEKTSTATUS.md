@@ -106,3 +106,5 @@ Bei jeder Änderung diese Datei im Repository-Hauptverzeichnis aktualisieren: Co
 - Build #568: fehlende Hilfsfunktion behoben, danach Assertion in swiss-payroll.test.cjs:139 fehlgeschlagen, weil beide Testwerte dieselbe Variable verwendeten. Commit 6addf31 trennt Journal-Nettobetrag vom veränderlichen berechneten Nettolohn; Assertion und Produktivcode unverändert. Emulator erfolgreich, Release übersprungen; neuer CI-Nachweis offen.
 
 - Build #569 (6addf31): Build, Emulator-Tests und Release erfolgreich abgeschlossen. Beide Regressionstest-Korrekturen bestätigt. Geräteabnahme und Ersatzabrechnung weiterhin offen.
+
+- ded4733: Gegenbuchung erzeugt atomar verknüpften Ersatzentwurf mit neuer Referenz; Buchung bis Bearbeitung gesperrt, Snapshots werden bei erster Bearbeitung neu berechnet. Regressionstest für Kopie und Duplikatschutz ergänzt. CI und Geräteprüfung offen; amtlicher Lohnausweis und fachliche Validierung weiterhin offen.
