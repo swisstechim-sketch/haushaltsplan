@@ -14,6 +14,10 @@ on:
       - '*.gradle'
       - 'gradle.properties'
       - '.github/workflows/android.yml'
+# Each revision retains its own test result; newer pushes must not cancel it.
+concurrency:
+  group: android-apk-${{ github.run_id }}
+  cancel-in-progress: false
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -51,8 +55,14 @@ jobs:
         run: node tests/housekeeping.test.cjs
       - name: Finance regression tests
         run: node tests/finance.test.cjs
+      - name: Swiss payroll statutory rule tests
+        run: node tests/swiss-payroll.test.cjs
+      - name: Swiss payroll engine syntax
+        run: node --check app/src/main/assets/swiss-payroll-rules.js
       - name: Tablet and UI regression tests
         run: node tests/ui-regression.test.cjs
+      - name: Master-data selection regression tests
+        run: node tests/master-data-select.test.cjs
       - name: PDF report regression tests
         run: node tests/reports.test.cjs
       - name: Reservation pricing regression tests
@@ -62,16 +72,18 @@ jobs:
       - name: Storage regression tests
         run: node tests/storage.test.cjs
       - name: Build and unit tests
+        env:
+          GRADLE_OPTS: -Dorg.gradle.internal.http.connectionTimeout=120000 -Dorg.gradle.internal.http.socketTimeout=120000
         run: |
           set -o pipefail
-          for attempt in 1 2 3; do
+          for attempt in 1 2 3 4 5; do
             if gradle --no-daemon --stacktrace :app:assembleDebug :app:testDebugUnitTest 2>&1 | tee "$RUNNER_TEMP/gradle-build.log"; then
               exit 0
             fi
-            if [ "$attempt" -eq 3 ] || ! grep -Eq '429|Too Many Requests' "$RUNNER_TEMP/gradle-build.log"; then
+            if [ "$attempt" -eq 5 ] || ! grep -Eq '429|Too Many Requests' "$RUNNER_TEMP/gradle-build.log"; then
               exit 1
             fi
-            sleep "$((attempt * 60))"
+            sleep "$((attempt * 120))"
           done
       - name: Compile native Android tests
         run: gradle --no-daemon --stacktrace :app:assembleDebugAndroidTest
@@ -120,7 +132,7 @@ jobs:
           target: default
           disable-animations: true
           script: |
-            gradle --no-daemon --stacktrace :app:connectedDebugAndroidTest || { adb logcat -d -s StayDatabase AndroidRuntime TestRunner; find app/build/outputs/androidTest-results -name '*.xml' -exec cat {} +; exit 1; }
+            bash -o pipefail -c 'for attempt in 1 2 3 4 5; do if gradle --no-daemon --stacktrace :app:connectedDebugAndroidTest 2>&1 | tee "$RUNNER_TEMP/emulator-gradle.log"; then exit 0; fi; if [ "$attempt" -eq 5 ] || ! grep -Eq "429|Too Many Requests" "$RUNNER_TEMP/emulator-gradle.log"; then adb logcat -d -s StayDatabase AndroidRuntime TestRunner; find app/build/outputs/androidTest-results -name "*.xml" -exec cat {} +; exit 1; fi; sleep "$((attempt * 120))"; done'
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -162,7 +174,15 @@ jobs:
           trap 'rm -f "$STAY_KEYSTORE_PATH"' EXIT
           printf '%s' "$STAY_KEYSTORE_BASE64" | base64 --decode > "$STAY_KEYSTORE_PATH"
           unset STAY_KEYSTORE_BASE64
-          gradle --no-daemon :app:assembleRelease
+          for attempt in 1 2 3 4 5; do
+            if gradle --no-daemon :app:assembleRelease 2>&1 | tee "$RUNNER_TEMP/gradle-release.log"; then
+              break
+            fi
+            if [ "$attempt" -eq 5 ] || ! grep -Eq '429|Too Many Requests' "$RUNNER_TEMP/gradle-release.log"; then
+              exit 1
+            fi
+            sleep "$((attempt * 120))"
+          done
           mkdir -p release
           cp app/build/outputs/apk/release/app-release.apk release/STAY-Swiss-1.0.0.apk
           "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose release/STAY-Swiss-1.0.0.apk

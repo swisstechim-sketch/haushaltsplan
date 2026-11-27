@@ -2,7 +2,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const js=fs.readFileSync('app/src/main/assets/app.js','utf8');
 const css=fs.readFileSync('app/src/main/assets/style.css','utf8');
-const first=js.indexOf('const DOCUMENT_TYPES='),last=js.indexOf('function helpPage()',first);
+const first=js.indexOf('const PAGE_LIST_REPORTS='),last=js.indexOf('function helpPage()',first);
 assert.ok(first>=0&&last>first,'report definitions found');
 const today='2026-11-25';
 const sample={
@@ -27,8 +27,8 @@ const ctx=vm.createContext({
 const overrideStart=js.indexOf('function extraMealOverrides('),overrideEnd=js.indexOf('function bookingQuote(',overrideStart);assert.ok(overrideStart>=0&&overrideEnd>overrideStart);vm.runInContext(js.slice(overrideStart,overrideEnd),ctx);
 vm.runInContext(js.slice(first,last),ctx);
 const names=vm.runInContext('DOCUMENT_TYPES',ctx);
-assert.equal(names.length,43,'all 43 PDF mockups are listed');
-assert.equal(names.filter(x=>x.available).length,43,'43 reports have data-driven renderers');
+assert.equal(names.length,61,'all 61 PDF reports are listed');
+assert.equal(names.filter(x=>x.available).length,61,'61 reports have data-driven renderers');
 sample.bookings[0].priceSnapshot={touristTax:15.2,touristTaxDetails:{enabled:true,adults:2,children:0,adultRate:3.8,childRate:0,amount:15.2}};
 assert.equal(ctx.touristTaxMonthRows('2026-11').length,1,'monthly tourist tax includes saved room nights');
 assert.equal(ctx.touristTaxMonthRows('2026-11')[0].total,15.2,'monthly tax uses saved nightly rates');
@@ -123,3 +123,29 @@ assert.deepEqual(Array.from(ctx.mealDayCounts({...extraMealBooking,meal:'Vollpen
 assert.deepEqual(Array.from(ctx.mealDayCounts({...extraMealBooking,extraBreakfast:undefined,extraLunch:undefined,extraDinner:undefined},'2026-11-26')),[0,0,0]);
 
 assert.deepEqual(Array.from(ctx.mealDayCounts({...extraMealBooking,extraMealDays:'2026-11-26;0;4;1'},'2026-11-26')),[0,4,1]);
+
+const pageReports=vm.runInContext('PAGE_LIST_REPORTS',ctx);
+assert.equal(Object.keys(pageReports).length,18);
+assert.equal(new Set(names.map(x=>x.id)).size,names.length);
+const schemaStart=js.indexOf('const schemas=');
+const schemaEnd=js.indexOf('};',schemaStart)+1;
+// Extract the actual schema object without executing application startup.
+const schemaSource=js.slice(schemaStart,schemaEnd+1);
+for(const key of ['ROOM_CATEGORIES','HOUSEKEEPING_TASKS']){
+ const start=js.indexOf('const '+key+'=');assert.ok(start>=0,key);
+ vm.runInContext(js.slice(start,js.indexOf(';',start)+1),ctx);
+}
+vm.runInContext(schemaSource,ctx);
+for(const [key,spec] of Object.entries(pageReports)){
+ assert.ok(names.some(x=>x.id===spec.id&&x.available),key);
+ const fields=vm.runInContext('schemas',ctx)[key][1];
+ const field=fields.find(f=>spec.fields.includes(f[0])&&f[2]==='text');
+ const record={id:'report-test',date:today};if(field)record[field[0]]='Testwert';
+ sample[key]=[record];
+ const report=ctx.reportBuild(spec.id,today);
+ assert.ok(report.columns.length>0,key);
+ assert.equal(report.rows.length,1,key);
+ assert.equal(report.rows[0].length,report.columns.length,key);
+ if(field)assert.ok(report.rows[0].includes('Testwert'),key);
+ sample[key]=[];assert.equal(ctx.reportBuild(spec.id,today).rows.length,0,key);
+}

@@ -42,14 +42,33 @@ public class StayDatabaseTest {
    assertTrue(db.save(data.toString()));
    android.database.sqlite.SQLiteDatabase raw=db.getWritableDatabase();
    for(String k:new String[]{"lostItems","guestWishes","maintenance","handover"})raw.execSQL("DROP TABLE "+k);
+   raw.execSQL("DROP TABLE extra_state");
    raw.setVersion(1);
    db.close();
    db=new StayDatabase(c,name);
    JSONObject upgraded=new JSONObject(db.load());
-   assertEquals(2,db.getReadableDatabase().getVersion());
+   assertEquals(3,db.getReadableDatabase().getVersion());
    assertEquals("Existing Hotel",upgraded.getJSONObject("hotel").getString("name"));
    for(String k:new String[]{"guests","rooms","bookings","invoices","payments"})assertEquals(data.getJSONArray(k).toString(),upgraded.getJSONArray(k).toString());
    for(String k:new String[]{"lostItems","guestWishes","maintenance","handover"})assertEquals(0,upgraded.getJSONArray(k).length());
+  } finally {db.close();c.deleteDatabase(name);}
+ }
+ @Test public void additionalModulesSurviveRestart() throws Exception {
+  Context c=InstrumentationRegistry.getInstrumentation().getTargetContext();
+  String name="stay_test_extra.db";c.deleteDatabase(name);
+  StayDatabase db=new StayDatabase(c,name);
+  try {
+   JSONObject data=new JSONObject().put("hotel",new JSONObject().put("name","Test Hotel"));
+   for(String k:new String[]{"guests","rooms","bookings","invoices","payments","services","tasks","logs","templates"})data.put(k,new JSONArray());
+   JSONArray accounts=new JSONArray();
+   for(int i=0;i<45;i++)accounts.put(new JSONObject().put("id","a"+i).put("number",String.valueOf(1000+i)));
+   data.put("accounts",accounts);
+   for(String k:new String[]{"journal","employees","payrollDrafts","masterData","stockItems"})data.put(k,new JSONArray().put(new JSONObject().put("id",k)));
+   assertTrue(db.save(data.toString()));
+   db.close();db=new StayDatabase(c,name);
+   JSONObject restored=new JSONObject(db.load());
+   for(String k:new String[]{"accounts","journal","employees","payrollDrafts","masterData","stockItems"})assertEquals(data.getJSONArray(k).toString(),restored.getJSONArray(k).toString());
+   assertEquals(45,restored.getJSONArray("accounts").length());
   } finally {db.close();c.deleteDatabase(name);}
  }
 }

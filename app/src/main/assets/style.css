@@ -427,7 +427,7 @@ button[data-action]{display:inline-flex;flex-direction:row;align-items:center;ju
 /* Compact aligned housekeeping filters, including older Android WebView. */
 .list-filters>label{display:flex;flex-direction:column;gap:6px;min-width:0;margin:0}.list-filters>label>input,.list-filters>label>select{width:100%;min-width:0;margin:0;box-sizing:border-box;min-height:40px}.list-filters.housekeeping-filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:16px 0;align-items:end}.housekeeping-entry{padding:12px 0;gap:12px}.housekeeping-entry small{margin-top:5px}.housekeeping-entry button{flex-shrink:0}@media(max-width:650px){.list-filters.housekeeping-filters{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:360px){.list-filters.housekeeping-filters{grid-template-columns:1fr}}
 
-.housekeeping-table-wrap{width:100%;min-width:0;margin:12px 0}.housekeeping-table{width:100%;border-collapse:collapse;table-layout:auto;font-size:13px}.housekeeping-table th,.housekeeping-table td{text-align:left;padding:10px 8px;border-bottom:1px solid #e0e8f0;overflow-wrap:anywhere;vertical-align:middle}.housekeeping-table th{background:#f0f5fa;color:#526b82;font-weight:600}.housekeeping-table th:last-child,.housekeeping-table td:last-child{text-align:right}.housekeeping-table button{white-space:nowrap;margin:0}.housekeeping-table td:last-child{width:1%}@media(max-width:1100px){.housekeeping-table,.housekeeping-table tbody,.housekeeping-table tr,.housekeeping-table td{display:block;width:100%;box-sizing:border-box}.housekeeping-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}.housekeeping-table tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px;padding:12px 0;border-bottom:1px solid #e0e8f0}.housekeeping-table td{border:0;padding:2px 0}.housekeeping-table td:before{content:attr(data-label);display:block;color:#526b82;font-size:11px;margin-bottom:4px}.housekeeping-table td:last-child{width:100%;text-align:right}.housekeeping-table td:last-child:before{display:none}}
+.housekeeping-table-wrap{width:100%;min-width:0;margin:12px 0}.housekeeping-table{width:100%;border-collapse:collapse;table-layout:auto;font-size:13px}.housekeeping-table th,.housekeeping-table td{text-align:left;padding:10px 8px;border-bottom:1px solid #e0e8f0;overflow-wrap:anywhere;vertical-align:middle}.housekeeping-table th{background:#f0f5fa;color:#526b82;font-weight:600}.housekeeping-table th:last-child,.housekeeping-table td:last-child{text-align:right}.housekeeping-table button{white-space:nowrap;margin:0}.housekeeping-table td:last-child{width:1%}@media(max-width:700px){.housekeeping-table,.housekeeping-table tbody,.housekeeping-table tr,.housekeeping-table td{display:block;width:100%;box-sizing:border-box}.housekeeping-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}.housekeeping-table tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px;padding:12px 0;border-bottom:1px solid #e0e8f0}.housekeeping-table td{border:0;padding:2px 0}.housekeeping-table td:before{content:attr(data-label);display:block;color:#526b82;font-size:11px;margin-bottom:4px}.housekeeping-table td:last-child{width:100%;text-align:right}.housekeeping-table td:last-child:before{display:none}}
 
 /* Shared dialog polish, compatible with legacy WebView */
 #dialog .dialog-toolbar .dialog-identity{flex:1;min-width:0;text-align:left}
@@ -487,3 +487,231 @@ button[data-action]{display:inline-flex;flex-direction:row;align-items:center;ju
 .reminder-contact{margin-top:20px}
 @media(max-width:799px){.meal-price-settings .price-fields,.reminder-card-grid{grid-template-columns:1fr}}
 @media(max-width:420px){.reminder-stage-fields{grid-template-columns:1fr}}
+
+/* Compact tablet navigation */
+@media(min-width:800px) and (orientation:landscape){body:not(.reference-dashboard) #sidebar .sidebar-section>summary{font-size:10px;min-height:28px;padding:5px 7px;letter-spacing:0}body:not(.reference-dashboard) #sidebar .sidebar-section button{min-height:34px;padding:6px 8px;font-size:12px}body:not(.reference-dashboard) #sidebar .sidebar-brand{padding-bottom:8px}}
+
+/* Compact content density for landscape tablets; printed reports retain their layout. */
+@media screen and (min-width:800px) and (orientation:landscape){
+ body:not(.reference-dashboard) main{font-size:12px;line-height:1.45;padding:14px 18px 20px}
+ body:not(.reference-dashboard) main h1{font-size:20px;margin:0 0 5px}
+ body:not(.reference-dashboard) main h2{font-size:15px;margin:5px 0 9px}
+ body:not(.reference-dashboard) main h3{font-size:13px;margin:8px 0}
+ body:not(.reference-dashboard) main .card{padding:14px;margin:8px 0;border-radius:12px}
+ body:not(.reference-dashboard) main .tabs,body:not(.reference-dashboard) main .actions{gap:8px;margin:9px 0}
+ body:not(.reference-dashboard) main button,body:not(.reference-dashboard) #dialog button{font-size:12px;min-height:36px;padding:7px 10px}
+ body:not(.reference-dashboard) main input,body:not(.reference-dashboard) main select,body:not(.reference-dashboard) #dialog input,body:not(.reference-dashboard) #dialog select{font-size:12px;min-height:36px;padding:7px 10px}
+ body:not(.reference-dashboard) main label,body:not(.reference-dashboard) #dialog label{font-size:11px;margin:7px 0 4px}
+ body:not(.reference-dashboard) main .list-filters{gap:8px;margin:10px 0}
+ body:not(.reference-dashboard) main .list-filters>label>input,body:not(.reference-dashboard) main .list-filters>label>select{min-height:36px;margin:0}
+ body:not(.reference-dashboard) main .entry{padding:8px 0;gap:8px}
+ body:not(.reference-dashboard) main td,body:not(.reference-dashboard) main th{padding:7px 8px}
+ body:not(.reference-dashboard) main .metrics strong{font-size:20px}
+ body:not(.reference-dashboard) #dialog .dialog-content{font-size:12px;padding:14px}
+ #tariff-preview-form{display:block}#tariff-preview-form>.actions{margin-top:10px}
+}
+
+/* Compact catering dashboard on landscape tablets. */
+@media screen and (min-width:800px) and (orientation:landscape){
+main .meal-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:100%}
+main .meal-toolbar{display:flex;flex-wrap:wrap;gap:8px;margin:0}
+main .meal-metrics>*{min-width:0;width:auto}
+}
+
+/* Second-pass landscape content density; leave navigation and print untouched. */
+@media screen and (min-width:800px) and (orientation:landscape){
+body:not(.reference-dashboard) main h1{font-size:18px}
+body:not(.reference-dashboard) main h2{font-size:14px}
+body:not(.reference-dashboard) main .card{padding:12px;margin:6px 0}
+body:not(.reference-dashboard) main button{font-size:12px;min-height:32px;padding:5px 8px;white-space:nowrap}
+body:not(.reference-dashboard) main .actions{gap:6px;margin:6px 0}
+body:not(.reference-dashboard) main .actions button svg{width:16px;height:16px}
+body:not(.reference-dashboard) main input,body:not(.reference-dashboard) main select{min-height:34px;padding:5px 8px}
+body:not(.reference-dashboard) main .entry{padding:6px 0;gap:6px;min-height:0}
+body:not(.reference-dashboard) main .list-filters{gap:6px;margin:8px 0}
+}
+
+/* Compact tablet content: housekeeping and master data */
+@media screen and (min-width:800px) and (orientation:landscape){
+main .housekeeping-filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:6px;align-items:end;margin:6px 0}
+main .housekeeping-filters label{margin:0;font-size:11px;min-width:0}
+main .housekeeping-filters select,main .housekeeping-filters input{width:100%;min-width:0;min-height:32px;margin:3px 0 0;padding:4px 6px}
+main .housekeeping-table th,main .housekeeping-table td{padding:6px 8px;font-size:12px}
+main .master-type-tabs{display:flex;flex-wrap:wrap;gap:5px;margin:0}
+main .master-type-tabs button{min-height:32px;padding:5px 7px;font-size:11px}
+#dialog .editor-tabs{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0}
+#dialog .editor-tabs button{min-height:32px;padding:5px 8px;font-size:11px}
+#dialog .editor-tabs svg{width:16px;height:16px}
+}
+
+/* LDPlayer feedback: compact premium dialog content, preserve form behaviour. */
+#dialog .dialog-content{min-width:0;overflow-x:hidden}
+#dialog .editor-fields,#dialog .special-fields{gap:10px 14px}
+#dialog .pricing-quote{background:#f7f9fc;border:1px solid #dce6ef;border-radius:12px;padding:14px;min-width:0}
+#dialog .pricing-quote h3,#dialog .pricing-quote h4{margin:0 0 10px;color:#243b53;font-size:15px}
+#dialog .pricing-quote .price-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 12px}
+#dialog .pricing-quote .price-fields>*{min-width:0}
+#dialog .pricing-quote .actions{gap:8px;flex-wrap:wrap;margin:12px 0 0;padding-top:10px;border-top:1px solid #e1e8ef}
+#dialog .editor-tabs button{border-radius:8px;min-height:36px}
+#dialog .dialog-actions>button.danger,#dialog .special-editor>.actions>button.danger{margin-right:auto}
+#dialog .extra-meal-table{border:1px solid #e1e8ef;border-radius:9px;background:#fff;padding:8px}
+@media(min-width:800px){#dialog .pricing-quote .price-fields{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:420px){#dialog .pricing-quote .price-fields{grid-template-columns:minmax(0,1fr)}#dialog .pricing-quote{padding:10px}}
+
+/* LDPlayer: single-line controls and responsive profile layout. */
+@media screen {
+main button,#dialog button{white-space:nowrap;overflow-wrap:normal;word-break:normal}
+main button>span,#dialog button>span{white-space:nowrap}
+main .actions,#dialog .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+main .actions>button,#dialog .actions>button{flex-shrink:0;min-height:44px}
+main .master-type-tabs,main .settings-tabs,#dialog .editor-tabs{display:flex;flex-wrap:nowrap;overflow-x:auto;max-width:100%;min-width:0;gap:8px;scrollbar-width:none}
+main .master-type-tabs::-webkit-scrollbar,main .settings-tabs::-webkit-scrollbar,#dialog .editor-tabs::-webkit-scrollbar{display:none}
+main .master-type-tabs>button,main .settings-tabs>button,#dialog .editor-tabs>button{flex:0 0 auto;min-height:44px}
+main .master-type-tabs>button.active{background:#cce1f5;font-weight:700}
+main .hotel-profile-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+main .advanced-list-filters{grid-column:1/-1}
+main .about-premium-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:12px 0}
+main .about-premium-grid>.card{margin:0;min-width:0}
+main .about-premium-grid h3{margin:0 0 6px}
+main .about-footer .company-logo{width:100%;max-width:320px;height:auto}
+main .about-footer{text-align:center}
+main .about-footer .company-mark{display:flex;justify-content:center}
+}
+@media screen and (min-width:800px) and (orientation:landscape){main .hotel-profile-grid{grid-template-columns:repeat(3,minmax(0,1fr))}main .list-filters:not(.housekeeping-filters){grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media screen and (max-width:560px){main .hotel-profile-grid,main .about-premium-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* Consistent icon alignment throughout modal controls. */
+@media screen {
+#dialog button:has(>svg.action-svg){display:inline-flex;align-items:center;justify-content:center;gap:8px;vertical-align:middle;line-height:1.25;white-space:nowrap}
+#dialog button>svg.action-svg{display:block;width:18px;height:18px;min-width:18px;min-height:18px;flex:0 0 18px;margin:0;align-self:center;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#dialog button>span{line-height:1.25;white-space:nowrap}
+#dialog .editor-tabs>button,#dialog .calendar-detail-tabs>button{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:8px 12px;min-height:44px;flex:0 0 auto}
+#dialog .dialog-actions>button,#dialog .dialog-toolbar .dialog-close{gap:8px;min-height:44px}
+}
+
+/* Offline help centre */
+.help-tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:12px 0}.help-tabs::-webkit-scrollbar{display:none}.help-tabs button,.help-topic summary{display:flex;align-items:center;gap:8px;min-height:44px}.help-tabs button{flex:0 0 auto;white-space:nowrap}.help-tabs button.active{background:#cce0f4}.help-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}.help-topic{border:1px solid #d9e5ef;border-radius:12px;margin:8px 0;background:white}.help-topic[hidden],#help-empty[hidden]{display:none!important}.help-topic summary{cursor:pointer;padding:10px 12px;list-style:none}.help-topic summary::-webkit-details-marker{display:none}.help-topic summary:after{content:'›';margin-left:auto;font-size:20px}.help-topic[open] summary:after{transform:rotate(90deg)}.help-topic .action-svg,.help-tabs .action-svg{width:18px;height:18px;flex:0 0 18px;fill:none;stroke:currentColor;stroke-width:1.8}.help-content{padding:12px;border-top:1px solid #d9e5ef}.help-content p{margin:0 0 12px}@media(max-width:600px){.help-columns{grid-template-columns:1fr}}
+
+@media screen and (min-width:701px){.housekeeping-table th,.housekeeping-table td{padding:8px 6px;overflow-wrap:normal}.housekeeping-table td:last-child button{display:inline-flex;align-items:center;gap:8px;white-space:nowrap}}
+
+.payroll-position-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}.payroll-position>.editor-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:12px}.payroll-position>.editor-fields>.editor-field:first-child{grid-column:1/-1}.payroll-position summary{font-weight:600}@media(max-width:600px){.payroll-position-columns,.payroll-position>.editor-fields{grid-template-columns:1fr}}
+
+.operation-status{display:inline-block;border-radius:6px;padding:4px 7px;background:#e7eef5;color:#334d65;font-size:12px}.operation-status.done{background:#e4f3e9;color:#245c39}.operation-status.urgent{background:#fbe8e8;color:#912b2b}.operation-status.pending{background:#fff1d6;color:#795015}
+
+.finance-numbers th:nth-child(n+3),.finance-numbers td:nth-child(n+3){text-align:right;font-variant-numeric:tabular-nums}.finance-summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0}@media(max-width:600px){.finance-summary-grid{grid-template-columns:1fr}}
+
+.stay-time-overlay{position:fixed;inset:0;z-index:2147483000;background:rgba(20,34,48,.55);display:flex;align-items:center;justify-content:center;padding:12px;box-sizing:border-box}.stay-time-dialog{background:#fff;color:#243b53;border-radius:18px;padding:20px;width:420px;max-width:100%;max-height:calc(100vh - 24px);overflow:auto;box-sizing:border-box;box-shadow:0 12px 40px #0003}.stay-time-dialog h2{margin:0 0 8px}.stay-time-fields{display:flex;align-items:center;gap:12px}.stay-time-fields label{flex:1;min-width:0}.stay-time-fields input{width:100%;text-align:center;font-size:28px;background:#e4effa;min-height:48px}.stay-time-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.stay-time-actions button{flex:1;min-height:44px;white-space:nowrap}.stay-time-error{color:#912b2b}input[data-stay-time]{cursor:pointer}
+
+/* Tablet landscape: keep header and workspace in separate scroll regions. */
+@media screen and (min-width:800px) and (orientation:landscape){body:not(.reference-dashboard){height:100vh;overflow:hidden}body:not(.reference-dashboard) #app-header{position:relative;top:auto}body:not(.reference-dashboard) main{min-height:0;overflow-y:auto;overflow-x:hidden;scroll-padding-top:12px;scrollbar-width:none}body:not(.reference-dashboard) main::-webkit-scrollbar{display:none}body:not(.reference-dashboard) main .tabs button,body:not(.reference-dashboard) main .actions button,body:not(.reference-dashboard) #dialog .actions button,body:not(.reference-dashboard) #dialog .editor-tabs button{min-height:44px;gap:8px;align-items:center}body:not(.reference-dashboard) main .actions button svg,body:not(.reference-dashboard) #dialog button svg.action-svg{width:18px;height:18px;flex:none}body:not(.reference-dashboard) main .help-columns{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Stammdaten only: compact single-row category navigation. */
+@media screen and (orientation:landscape){body:not(.reference-dashboard) main .actions.master-type-tabs{display:flex;flex-wrap:nowrap;gap:4px;margin:4px 0;overflow-x:auto;scrollbar-width:none}body:not(.reference-dashboard) main .actions.master-type-tabs::-webkit-scrollbar{display:none}body:not(.reference-dashboard) main .actions.master-type-tabs>button{flex:0 0 auto;min-height:34px;padding:5px 6px;font-size:10px;gap:4px;white-space:nowrap;border-radius:7px}body:not(.reference-dashboard) main .actions.master-type-tabs>button svg{width:13px;height:13px;flex:0 0 13px;margin:0}}
+
+/* Reservationen only: six equal KPI cards in one row. */
+@media screen and (orientation:landscape){body:not(.reference-dashboard) main .metrics.reservation-metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}body:not(.reference-dashboard) main .reservation-metrics>.card{min-width:0;margin:0;padding:10px}body:not(.reference-dashboard) main .reservation-metrics .metric-label{font-size:clamp(10px,1.1vw,14px);overflow-wrap:anywhere}}
+
+/* Compact content action buttons across tablet pages; leave navigation and category tabs intact. */
+@media screen and (orientation:landscape){body:not(.reference-dashboard) main .actions:not(.master-type-tabs):not(.settings-tabs)>button{display:inline-flex;align-items:center;justify-content:center;align-self:center;box-sizing:border-box;height:auto;min-height:34px;padding:6px 10px;line-height:1.25;gap:7px}body:not(.reference-dashboard) main .actions:not(.master-type-tabs):not(.settings-tabs)>button>svg.action-svg{width:16px;height:16px;flex:0 0 16px;margin:0}}
+
+/* Adaptive compact statistics for one to three cards only. */
+@media screen and (orientation:landscape){body:not(.reference-dashboard) main .metrics:not(.reservation-metrics):has(>.card:only-child){grid-template-columns:minmax(0,1fr)}body:not(.reference-dashboard) main .metrics:not(.reservation-metrics):has(>.card:nth-child(2):last-child){grid-template-columns:repeat(2,minmax(0,1fr))}body:not(.reference-dashboard) main .metrics:not(.reservation-metrics):has(>.card:nth-child(3):last-child){grid-template-columns:repeat(3,minmax(0,1fr))}body:not(.reference-dashboard) main .metrics:not(.reservation-metrics):has(>.card:last-child:nth-child(-n+3))>.card{margin:0;min-width:0;padding:12px}body:not(.reference-dashboard) main .metrics:not(.reservation-metrics):has(>.card:last-child:nth-child(-n+2)) .metric-content{flex-direction:row;align-items:center;justify-content:space-between;gap:12px}body:not(.reference-dashboard) main .metrics:not(.reservation-metrics):has(>.card:last-child:nth-child(-n+2)) .metric-value{margin:0}}
+
+.help-manual-layout{display:grid;grid-template-columns:minmax(180px,32%) minmax(0,1fr);gap:16px;margin-top:16px}.help-manual-nav,.help-manual-reading{border:1px solid #dce6ef;border-radius:14px;padding:14px;min-width:0}.help-manual-nav{display:flex;flex-direction:column;gap:5px}.help-manual-nav button{text-align:left;justify-content:flex-start;min-height:34px;padding:7px 10px;width:100%}.help-manual-nav button.active{background:#cde1f3;font-weight:700}.help-manual-topics{display:flex;flex-direction:column;gap:5px;border-top:1px solid #dce6ef;padding-top:10px;margin-top:8px}.help-manual-reading article p{line-height:1.7;white-space:pre-line}.help-manual-pager{display:flex;justify-content:space-between;gap:8px;margin-top:24px}.help-manual [hidden]{display:none!important}.help-intro{margin-bottom:16px}
+
+/* Compact PDF centre, scoped to this page only */
+.report-centre{display:grid;gap:16px}.report-centre-toolbar,.report-centre-nav,.report-centre-list{background:#fff;border:1px solid #dce5ef;border-radius:16px}.report-centre-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px}.report-centre-toolbar small,.report-centre-row small{display:block;color:#687f96;font-size:.85em;margin-top:4px}.report-centre-body{display:grid;grid-template-columns:minmax(180px,230px) minmax(0,1fr);gap:16px;align-items:start}.report-centre-nav{display:grid;gap:5px;padding:10px}.report-centre-nav button{display:flex;justify-content:space-between;align-items:center;text-align:left;gap:8px;padding:10px 12px;min-height:40px;border:0;border-radius:9px;background:transparent;color:#263e55;white-space:normal}.report-centre-nav button.active{background:#dbe9f8;font-weight:700}.report-centre-nav small{color:#526b82}.report-centre-list{padding:0 16px;min-width:0}.report-centre-heading,.report-centre-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0}.report-centre-heading h2{margin:0;font-size:1.1rem}.report-centre-heading span{color:#687f96;font-size:.85em}.report-centre-row{border-top:1px solid #e5ebf2}.report-centre-row>div{min-width:0;overflow-wrap:anywhere}.report-centre-row button,.report-centre-toolbar button{flex-shrink:0;min-height:36px;padding:8px 12px;white-space:nowrap}.report-centre-row strong{font-size:.95rem}@media(max-width:700px){.report-centre-body{grid-template-columns:1fr}.report-centre-nav{grid-template-columns:repeat(2,minmax(0,1fr))}.report-centre-row{gap:8px}.report-centre-toolbar{flex-wrap:wrap}}
+
+
+/* 27.11.2026: Tablet-first guided help, leading icons and payroll form. */
+button.icon-leading-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;white-space:nowrap}
+button.icon-leading-button>svg.leading-svg,button>svg.leading-svg{width:18px;height:18px;flex:0 0 18px;margin:0}
+.help-manual{min-width:0}.help-manual>h2{margin-bottom:4px}.help-manual>p{color:#5b6f82}
+.help-manual .help-tabs{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;gap:8px;padding:6px 0 10px;align-items:center}
+.help-manual .help-tabs::-webkit-scrollbar{display:none}
+.help-manual .help-tabs>button{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;gap:8px;white-space:nowrap;min-height:44px;padding:9px 12px;background:#edf3f9;border:1px solid #d8e4ef;border-radius:10px;color:#2c455f}
+.help-manual .help-tabs>button.active{background:#d6e8f9;border-color:#adcce7;font-weight:700}
+.help-manual #help-columns{min-width:0}
+.help-manual #help-columns>div{min-width:0;display:flex;flex-direction:column;gap:12px}
+.help-manual #help-columns details.card{padding:0;margin:0;min-width:0;border:1px solid #dce6ef;border-radius:12px;box-shadow:none;overflow:hidden;background:#fff}
+.help-manual #help-columns summary{min-height:48px;padding:12px 15px;cursor:pointer;display:flex;align-items:center;gap:8px;list-style:none;color:#2a4259;font-weight:700}
+.help-manual #help-columns summary::-webkit-details-marker{display:none}
+.help-manual #help-columns summary::after{content:'+';margin-left:auto;font-size:19px;color:#607990}
+.help-manual #help-columns details[open] summary{background:#eff6fd;border-bottom:1px solid #dce6ef}
+.help-manual #help-columns details[open] summary::after{content:'–'}
+.help-manual #help-columns details>p{padding:10px 16px 0;margin:0;line-height:1.5;color:#445d73}
+.help-manual .help-steps{margin:10px 14px 16px 19px;padding-left:23px;line-height:1.55;color:#243b53}
+.help-manual .help-steps li{padding:0 0 7px 3px}
+.help-manual #help-columns details>button{margin:0 16px 16px;min-height:44px}
+.annual-payroll-dialog .dialog-toolbar{position:sticky;top:0;z-index:5;background:#fff}
+.annual-payroll-dialog .dialog-content{padding:16px 22px 12px;min-width:0}
+.annual-payroll-dialog #wage-certificate-11{min-height:0;max-width:none;margin:0;padding:20px 0 0;border:none;box-shadow:none;font:inherit;overflow:visible}
+.annual-payroll-dialog #wage-certificate-11>div.actions{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;gap:8px;margin:12px 0}
+.annual-payroll-dialog #wage-certificate-11>div.actions::-webkit-scrollbar{display:none}
+.annual-payroll-dialog #wage-certificate-11>div.actions>button{min-height:44px;flex:0 0 auto;white-space:nowrap;display:inline-flex;align-items:center;gap:8px}
+.annual-payroll-dialog #wage-certificate-11>div.actions>button.active{background:#d6e8f9;border-color:#adcce7}
+.annual-payroll-dialog #wage-certificate-11 label{font-size:13px;line-height:1.4;min-width:0;margin:0;font-weight:600}
+.annual-payroll-dialog #wage-certificate-11 label>span{min-height:36px;display:flex;align-items:end}
+.annual-payroll-dialog #wage-certificate-11 input,.annual-payroll-dialog #wage-certificate-11 select{min-width:0;width:100%;min-height:48px;font-size:15px}
+.annual-payroll-dialog #wage-certificate-11 [data-la="8"],.annual-payroll-dialog #wage-certificate-11 [data-la="11"]{background:#edf4fc}
+.annual-payroll-dialog .wage-certificate-footer{position:sticky;bottom:0;z-index:6;display:flex;align-items:center;justify-content:flex-end;gap:12px;flex-wrap:nowrap;background:rgba(255,255,255,.98);border-top:1px solid #dae6f0;box-shadow:0 -8px 20px rgba(36,59,83,.07);padding:12px 18px;margin:18px -22px -12px}
+.annual-payroll-dialog .wage-certificate-footer>button{min-height:44px;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.annual-payroll-dialog .wage-certificate-footer #wage-certificate-export{background:#d7e9fb;color:#243b53;font-weight:700}
+@media screen and (orientation:landscape){body:not(.reference-dashboard) main .help-manual .actions.help-tabs>button{min-height:44px;gap:8px;padding:9px 12px}body:not(.reference-dashboard) main button.icon-leading-button{min-height:44px;gap:8px}}
+
+/* Help drill-down and bounded annual payroll dialog */
+.help-manual #help-overview[hidden],.help-manual #help-detail[hidden],#premium-payroll-result [hidden]{display:none!important}
+.help-area-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:20px}
+.help-area-grid>button{display:grid;grid-template-columns:28px 1fr;align-items:center;text-align:left;gap:8px 12px;min-height:100px;padding:20px;background:#f0f6fc;border:1px solid #d7e4ef;border-radius:14px;color:#243b53;font-weight:600}
+.help-area-grid>button>svg{width:24px;height:24px;grid-row:span 2}
+.help-area-grid>button>small{grid-column:2;font-weight:400;color:#607990}
+#help-detail>.actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:16px 0}
+#help-heading{flex:1;margin:0}
+#dialog.annual-payroll-dialog{height:88vh;max-height:88vh;display:flex;flex-direction:column;overflow:hidden}
+.annual-payroll-dialog .dialog-toolbar{flex-shrink:0}
+.annual-payroll-dialog .dialog-content{flex:1;min-height:0;overflow-y:auto}
+.annual-payroll-dialog #premium-payroll-year{display:grid;grid-template-columns:auto minmax(100px,1fr) auto minmax(180px,2fr) auto;align-items:center;gap:12px}
+.annual-payroll-dialog .annual-view-tabs{position:sticky;top:0;background:white;z-index:4;padding:8px 0}
+.annual-payroll-dialog .annual-view-tabs .active{background:#d6e8f9}
+.annual-payroll-dialog #premium-payroll-result article{max-width:none;min-height:0;width:100%;box-sizing:border-box}
+
+/* Compact annual workspace: only selected panel scrolls. */
+#dialog.annual-payroll-dialog .dialog-content{display:flex;flex-direction:column;overflow:hidden;gap:8px;padding:12px 20px}
+.annual-payroll-dialog #premium-payroll-year{flex:none;margin:0;gap:10px;padding:0}
+.annual-payroll-dialog #premium-payroll-result{flex:1;min-height:0;display:flex;flex-direction:column;margin:0;padding:0}
+.annual-payroll-dialog #wage-certificate-11{display:flex;flex-direction:column;flex:1;min-height:0;height:100%;gap:8px;padding:0;margin:0}
+.annual-payroll-dialog #wage-certificate-11>.annual-kpis{flex:none;margin:0!important;gap:10px!important}
+.annual-payroll-dialog .annual-kpis>.card{min-height:0;padding:8px 12px;margin:0}
+.annual-payroll-dialog .annual-kpis h3{margin:4px 0;font-size:19px}
+.annual-payroll-dialog .annual-status{flex:none;font-size:12px;line-height:1.35;margin:0;padding:6px 10px;background:#fff7e8;border-radius:8px}
+.annual-payroll-dialog #wage-certificate-11>.annual-single-tabs{flex:none;justify-content:flex-start;margin:0!important;padding:0;gap:8px}
+.annual-payroll-dialog .annual-tab-panel{flex:1;min-height:0;overflow:auto;align-content:start;grid-auto-rows:max-content;padding:8px 2px;row-gap:12px!important}
+.annual-payroll-dialog .annual-tab-panel[hidden]{display:none!important}
+.annual-payroll-dialog .annual-tab-panel>article{grid-column:1/-1}
+.annual-payroll-dialog #wage-certificate-11 label>span{min-height:0}
+.annual-payroll-dialog #wage-certificate-11 label{align-self:start}
+.annual-payroll-dialog .wage-certificate-footer{flex:none;position:static!important;margin:0;padding:8px 0;box-shadow:none;background:white}
+.annual-payroll-dialog #wage-certificate-feedback{grid-column:1/-1;margin:0}
+
+/* Annual dialog: compact fixed chrome and usable scroll viewport. */
+#dialog.annual-payroll-dialog .dialog-content{gap:4px!important;padding:8px 16px!important}
+#dialog.annual-payroll-dialog #premium-payroll-year{grid-template-columns:auto minmax(80px,120px) auto minmax(160px,1fr) auto;gap:8px!important}
+#dialog.annual-payroll-dialog #wage-certificate-11{gap:6px!important;overflow:hidden}
+#dialog.annual-payroll-dialog .annual-kpis>.card{padding:5px 10px!important;min-height:0!important}
+#dialog.annual-payroll-dialog .annual-kpis h3{font-size:17px;margin:2px 0!important}
+#dialog.annual-payroll-dialog .annual-status{font-size:12px!important;padding:4px 8px!important;margin:0!important}
+#dialog.annual-payroll-dialog .annual-single-tabs>button{min-height:36px!important;padding:6px 10px!important}
+#dialog.annual-payroll-dialog .annual-tab-panel{min-height:0!important;flex:1 1 0!important;overflow:auto!important;align-content:start!important;align-items:start!important;grid-auto-rows:max-content!important}
+#dialog.annual-payroll-dialog .annual-tab-panel label{margin:0!important;padding:0!important;gap:3px!important}
+#dialog.annual-payroll-dialog .annual-tab-panel input,#dialog.annual-payroll-dialog .annual-tab-panel select{min-height:38px!important}
+#dialog.annual-payroll-dialog .wage-certificate-footer{padding:4px 0!important;margin:0!important}
+#dialog.annual-payroll-dialog .wage-certificate-footer>button{min-height:38px!important}
+
+/* Readable text actions, including buttons with pre-existing inline SVG. */
+#dialog.annual-payroll-dialog button:not([aria-label]),#dialog.annual-payroll-dialog button.icon-leading-button{display:inline-flex;align-items:center;justify-content:center;gap:8px!important;min-width:max-content;max-width:none;white-space:nowrap!important;text-overflow:clip!important;overflow:visible!important;flex-shrink:0}
+#dialog.annual-payroll-dialog button>svg{flex:0 0 18px;width:18px;height:18px;margin:0!important}
+#dialog.annual-payroll-dialog .annual-single-tabs{overflow-x:auto!important}
+#dialog.annual-payroll-dialog .wage-certificate-footer{flex-wrap:wrap!important}
+#dialog.annual-payroll-dialog .annual-tab-panel:last-of-type>p{grid-column:1/-1}
+button.icon-leading-button{gap:8px!important;white-space:normal;overflow-wrap:normal;text-overflow:clip;height:auto}
+button.icon-leading-button>svg{flex-shrink:0}

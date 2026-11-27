@@ -3,6 +3,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.webkit.WebChromeClient;
 import android.webkit.JavascriptInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,7 +17,7 @@ import android.print.PrintManager;
 public class MainActivity extends Activity {
  private WebView web;
  private StayDatabase database;
- @Override public void onCreate(Bundle b){super.onCreate(b); database=new StayDatabase(this); web=new WebView(this); web.getSettings().setJavaScriptEnabled(true); web.getSettings().setDomStorageEnabled(true); web.getSettings().setTextZoom(100); web.getSettings().setAllowFileAccess(false); web.getSettings().setAllowContentAccess(false); web.addJavascriptInterface(new Bridge(),"Stay"); web.setWebViewClient(new WebViewClient(){@Override public boolean shouldOverrideUrlLoading(WebView v,String url){return true;}}); setContentView(web); web.loadUrl("file:///android_asset/index.html");}
+ @Override public void onCreate(Bundle b){super.onCreate(b); database=new StayDatabase(this); web=new WebView(this); web.getSettings().setJavaScriptEnabled(true); web.getSettings().setDomStorageEnabled(true); web.getSettings().setTextZoom(100); web.getSettings().setAllowFileAccess(false); web.getSettings().setAllowContentAccess(false); web.addJavascriptInterface(new Bridge(),"Stay"); web.setWebChromeClient(new WebChromeClient()); web.setWebViewClient(new WebViewClient(){@Override public boolean shouldOverrideUrlLoading(WebView v,String url){return true;}}); setContentView(web); web.loadUrl("file:///android_asset/index.html");}
  @Override public void onBackPressed(){
   if(web==null){super.onBackPressed();return;}
   web.evaluateJavascript("typeof stayBack==='function' && stayBack()",value->{if("false".equals(value))super.onBackPressed();});
@@ -63,6 +64,148 @@ public class MainActivity extends Activity {
    } catch(Exception ex){
     android.widget.Toast.makeText(MainActivity.this,"CSV-Export fehlgeschlagen: "+ex.getMessage(),android.widget.Toast.LENGTH_LONG).show();
    }
+  });
+ }
+ @JavascriptInterface public String fillWageCertificate(String json){
+  File file=null;
+  try {
+   if(json==null||json.length()>32000)throw new IllegalArgumentException("Formulardaten ungültig");
+   org.json.JSONObject input=new org.json.JSONObject(json);
+   java.util.Map<String,String> values=new java.util.LinkedHashMap<>();
+   java.util.Iterator<String> keys=input.keys();
+   while(keys.hasNext()){String key=keys.next();String value=input.getString(key);if(key.length()>100||value.length()>2000||values.size()>=43)throw new IllegalArgumentException("Formularfeld ungültig");values.put(key,value);}
+   if(values.isEmpty())throw new IllegalArgumentException("Formulardaten fehlen");
+   File dir=new File(getFilesDir(),"pdf_exports");
+   if(!dir.isDirectory()&&!dir.mkdirs())throw new java.io.IOException("Exportordner fehlt");
+   try(java.io.InputStream template=getAssets().open("wage-certificate-original.pdf")){
+    file=File.createTempFile("Lohnausweis-",".pdf",dir);
+    try(FileOutputStream output=new FileOutputStream(file)){WageCertificatePdf.fill(MainActivity.this,template,output,values);output.getFD().sync();}
+   }
+   return new org.json.JSONObject().put("ok",true).put("name",file.getName()).toString();
+  }catch(Exception ex){if(file!=null)file.delete();return "{\"ok\":false,\"error\":\"PDF-Erstellung fehlgeschlagen. Vorlage und Formularfelder prüfen.\"}";}
+ }
+ @JavascriptInterface public String savePdf(String base64){
+  try {
+   if(base64==null||base64.length()>14000000)throw new IllegalArgumentException("PDF zu gross");
+   byte[] bytes=android.util.Base64.decode(base64,android.util.Base64.DEFAULT);
+   if(bytes.length<8||!new String(bytes,0,5,StandardCharsets.US_ASCII).equals("%PDF-"))throw new IllegalArgumentException("Keine PDF-Datei");
+   File dir=new File(getFilesDir(),"pdf_exports");
+   if(!dir.isDirectory()&&!dir.mkdirs())throw new java.io.IOException("Exportordner fehlt");
+   File file=File.createTempFile("Lohnausweis-",".pdf",dir);
+   try(FileOutputStream stream=new FileOutputStream(file)){stream.write(bytes);stream.getFD().sync();}
+   catch(Exception ex){file.delete();throw ex;}
+   return file.getName();
+  }catch(Exception ex){return "";}
+ }
+ @JavascriptInterface public void printPdf(String name){
+  runOnUiThread(()->{
+   try{
+    if(name==null||!name.matches("Lohnausweis-[0-9]+\\.pdf"))throw new IllegalArgumentException("Dateiname");
+    File file=new File(new File(getFilesDir(),"pdf_exports"),name);
+    if(!file.isFile())throw new java.io.IOException("PDF fehlt");
+    PrintManager manager=(PrintManager)getSystemService(PRINT_SERVICE);
+    manager.print("Lohnausweis",new android.print.PrintDocumentAdapter(){
+     @Override public void onLayout(android.print.PrintAttributes oldAttributes,android.print.PrintAttributes newAttributes,android.os.CancellationSignal signal,LayoutResultCallback callback,Bundle extras){
+      if(signal.isCanceled()){callback.onLayoutCancelled();return;}
+      callback.onLayoutFinished(new android.print.PrintDocumentInfo.Builder("Lohnausweis.pdf").setContentType(android.print.PrintDocumentInfo.CONTENT_TYPE_DOCUMENT).setPageCount(1).build(),!newAttributes.equals(oldAttributes));
+     }
+     @Override public void onWrite(android.print.PageRange[] pages,android.os.ParcelFileDescriptor destination,android.os.CancellationSignal signal,WriteResultCallback callback){
+      boolean selected=false;for(android.print.PageRange range:pages)if(range.getStart()==0)selected=true;
+      if(signal.isCanceled()){callback.onWriteCancelled();return;}
+      if(!selected){callback.onWriteFinished(new android.print.PageRange[0]);return;}
+      try(java.io.InputStream input=new java.io.FileInputStream(file);java.io.OutputStream output=new FileOutputStream(destination.getFileDescriptor())){
+       byte[] buffer=new byte[16384];int count;
+       while((count=input.read(buffer))!=-1){if(signal.isCanceled()){callback.onWriteCancelled();return;}output.write(buffer,0,count);}
+       output.flush();
+      }catch(Exception ex){callback.onWriteFailed("PDF konnte nicht übertragen werden");return;}
+      if(signal.isCanceled())callback.onWriteCancelled();else callback.onWriteFinished(new android.print.PageRange[]{new android.print.PageRange(0,0)});
+     }
+    },new android.print.PrintAttributes.Builder().setMediaSize(android.print.PrintAttributes.MediaSize.ISO_A4).build());
+   }catch(Exception ex){android.widget.Toast.makeText(MainActivity.this,"PDF-Druck fehlgeschlagen",android.widget.Toast.LENGTH_LONG).show();}
+  });
+ }
+ @JavascriptInterface public void openOriginalWageCertificate(){
+  runOnUiThread(()->{
+   try{
+    File dir=new File(getFilesDir(),"pdf_exports");
+    if(!dir.isDirectory()&&!dir.mkdirs())throw new java.io.IOException("Exportordner fehlt");
+    File file=File.createTempFile("Lohnausweis-",".pdf",dir);
+    try(java.io.InputStream input=getAssets().open("wage-certificate-original.pdf");FileOutputStream output=new FileOutputStream(file)){
+     byte[] buffer=new byte[8192];int count;while((count=input.read(buffer))!=-1)output.write(buffer,0,count);
+    }catch(Exception ex){file.delete();throw ex;}
+    openPdf(file.getName());
+   }catch(Exception ex){android.widget.Toast.makeText(MainActivity.this,"Original-PDF konnte nicht geöffnet werden",android.widget.Toast.LENGTH_LONG).show();}
+  });
+ }
+ @JavascriptInterface public void openPdf(String name){
+  runOnUiThread(()->{
+   try{
+    if(name==null||!name.matches("Lohnausweis-[0-9]+\\.pdf"))throw new IllegalArgumentException("Dateiname");
+    File file=new File(new File(getFilesDir(),"pdf_exports"),name);
+    if(!file.isFile())throw new java.io.IOException("PDF fehlt");
+    android.graphics.Bitmap bitmap;
+    try(android.os.ParcelFileDescriptor fd=android.os.ParcelFileDescriptor.open(file,android.os.ParcelFileDescriptor.MODE_READ_ONLY);
+        android.graphics.pdf.PdfRenderer renderer=new android.graphics.pdf.PdfRenderer(fd)){
+     if(renderer.getPageCount()!=1)throw new java.io.IOException("Unerwartete Seitenzahl");
+     try(android.graphics.pdf.PdfRenderer.Page page=renderer.openPage(0)){
+      int width=1800,height=Math.round(width*(float)page.getHeight()/page.getWidth());
+      if(height>3600)throw new java.io.IOException("Seitenformat");
+      bitmap=android.graphics.Bitmap.createBitmap(width,height,android.graphics.Bitmap.Config.ARGB_8888);
+      bitmap.eraseColor(android.graphics.Color.WHITE);
+      page.render(bitmap,null,null,android.graphics.pdf.PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
+     }
+    }
+    android.widget.LinearLayout layout=new android.widget.LinearLayout(MainActivity.this);
+    layout.setOrientation(android.widget.LinearLayout.VERTICAL);
+    layout.setBackgroundColor(0xfff1f5f9);
+    int pad=(int)(12*getResources().getDisplayMetrics().density);
+    layout.setPadding(pad,pad,pad,pad);
+    android.widget.HorizontalScrollView horizontal=new android.widget.HorizontalScrollView(MainActivity.this);
+    horizontal.setFillViewport(true);
+    android.widget.ScrollView vertical=new android.widget.ScrollView(MainActivity.this);
+    vertical.setFillViewport(true);
+    android.widget.ImageView image=new android.widget.ImageView(MainActivity.this);
+    image.setImageBitmap(bitmap);image.setScaleType(android.widget.ImageView.ScaleType.FIT_CENTER);
+    final int[] base={1};final float[] zoom={1f};
+    android.widget.FrameLayout holder=new android.widget.FrameLayout(MainActivity.this);
+    android.widget.TextView percent=new android.widget.TextView(MainActivity.this);
+    Runnable resize=()->{int w=Math.max(1,Math.round(base[0]*zoom[0]));android.widget.FrameLayout.LayoutParams lp=new android.widget.FrameLayout.LayoutParams(w,Math.max(1,Math.round(w*(float)bitmap.getHeight()/bitmap.getWidth())),android.view.Gravity.TOP|android.view.Gravity.CENTER_HORIZONTAL);image.setLayoutParams(lp);percent.setText(Math.round(zoom[0]*100)+" %");};
+    holder.addView(image);vertical.addView(holder);horizontal.addView(vertical);
+    android.app.Dialog dialog=new android.app.Dialog(MainActivity.this);
+    android.widget.LinearLayout controls=new android.widget.LinearLayout(MainActivity.this);
+    controls.setGravity(android.view.Gravity.CENTER_VERTICAL);
+    android.widget.TextView title=new android.widget.TextView(MainActivity.this);title.setText("Lohnausweis – PDF");title.setTextSize(20);title.setTextColor(0xff243b53);controls.addView(title,new android.widget.LinearLayout.LayoutParams(0,-2,1));
+    for(String label:new String[]{"−","Ganze Seite","+","Schliessen"}){
+     android.widget.Button button=new android.widget.Button(MainActivity.this);button.setText(label);button.setAllCaps(false);button.setTextColor(0xff243b53);button.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xffe0edf9));
+     button.setOnClickListener(v->{if(label.equals("Schliessen")){dialog.dismiss();return;}zoom[0]=label.equals("Ganze Seite")?1f:Math.max(0.75f,Math.min(3f,zoom[0]+(label.equals("+")?0.25f:-0.25f)));resize.run();});
+     controls.addView(button);
+    }
+    percent.setTextColor(0xff243b53);controls.addView(percent);
+    layout.addView(controls);layout.addView(horizontal,new android.widget.LinearLayout.LayoutParams(-1,0,1));
+    dialog.setContentView(layout);
+    dialog.setOnDismissListener(d->{image.setImageDrawable(null);bitmap.recycle();});
+    dialog.show();dialog.getWindow().setLayout(-1,-1);
+    horizontal.post(()->{if(!dialog.isShowing())return;base[0]=Math.max(1,Math.min(horizontal.getWidth(),Math.round(horizontal.getHeight()*(float)bitmap.getWidth()/bitmap.getHeight())));resize.run();});
+
+   }catch(Exception ex){android.widget.Toast.makeText(MainActivity.this,"PDF-Vorschau fehlgeschlagen",android.widget.Toast.LENGTH_LONG).show();}
+  });
+ }
+ @JavascriptInterface public void sharePdf(String name,String recipient){
+  runOnUiThread(()->{
+   try{
+    if(name==null||!name.matches("Lohnausweis-[0-9]+\\.pdf"))throw new IllegalArgumentException("Dateiname");
+    File file=new File(new File(getFilesDir(),"pdf_exports"),name);
+    if(!file.isFile())throw new java.io.IOException("PDF fehlt");
+    Uri uri=FileProvider.getUriForFile(MainActivity.this,getPackageName()+".fileprovider",file);
+    Intent i=new Intent(Intent.ACTION_SEND);
+    i.setType("application/pdf");
+    i.putExtra(Intent.EXTRA_STREAM,uri);
+    i.putExtra(Intent.EXTRA_SUBJECT,"Lohnausweis");
+    if(recipient!=null&&!recipient.trim().isEmpty())i.putExtra(Intent.EXTRA_EMAIL,new String[]{recipient.trim()});
+    i.setClipData(ClipData.newRawUri(name,uri));
+    i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+    startActivity(Intent.createChooser(i,"Lohnausweis teilen oder per E-Mail senden"));
+   }catch(Exception ex){android.widget.Toast.makeText(MainActivity.this,"PDF-Freigabe fehlgeschlagen",android.widget.Toast.LENGTH_LONG).show();}
   });
  }
  @JavascriptInterface public String countriesJson(){
